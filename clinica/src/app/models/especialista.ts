@@ -4,7 +4,7 @@ export interface EspecialistaModel {
     edad: number;
     dni: string;
     especialidad: string; 
-    mail: string;
+    email: string;
     password: string;
     imgPerfil: string;
     rol:string; 

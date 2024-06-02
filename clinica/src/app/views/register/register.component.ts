@@ -7,6 +7,7 @@ import { CommonInputsComponent } from '../../components/register/common-inputs/c
 import { PacienteInputsComponent } from '../../components/register/paciente-inputs/paciente-inputs.component';
 import { EspecialistaInputsComponent } from '../../components/register/especialista-inputs/especialista-inputs.component';
 import { EmailPasswordInputsComponent } from '../../components/register/email-password-inputs/email-password-inputs.component';
+import { onlyLettersValidator, positiveNumberValidator, dniValidator, imgFormatValidator } from '../../validators/form-validators';
 
 @Component({
   selector: 'app-register',
@@ -27,17 +28,17 @@ export class RegisterComponent {
       public router: Router) 
       {
         this.registerForm = this.fb.group({
-          nombre: ['', Validators.required],
-          apellido: ['', Validators.required],
-          edad: [0, [Validators.required, Validators.min(0)]],
-          dni: ['', Validators.required],
-          obraSocial: [''],
-          especialidad: [''],
+          nombre: ['', [Validators.required, onlyLettersValidator()]],
+          apellido: ['', [Validators.required, onlyLettersValidator()]],
+          edad: [0, [Validators.required, positiveNumberValidator()]],
+          dni: ['', [Validators.required, dniValidator()]],
+          obraSocial: ['', [onlyLettersValidator()]],
+          especialidad: ['', [onlyLettersValidator()]],
           email: ['', [Validators.required, Validators.email]],
           password: ['', [Validators.required, Validators.minLength(8)]],
-          imagenPerfil1: [''],
-          imagenPerfil2: [''],
-          imagenPerfil: ['']
+          imagenPerfil1: ['', imgFormatValidator()],
+          imagenPerfil2: ['', imgFormatValidator()],
+          imagenPerfil: ['', imgFormatValidator()] 
         });
     }
 
@@ -48,13 +49,13 @@ export class RegisterComponent {
     }
 
     receiveValues(values: any) {
-      this.registerForm.patchValue(values);
+      this.registerForm?.patchValue(values);
     }
 
     handleFileInput(event: Event, imageField: string) {
       const input = event.target as HTMLInputElement;
       if (input.files && input.files.length > 0) {
-        this.registerForm.patchValue({
+        this.registerForm?.patchValue({
           [imageField]: input.files[0].name
         });
       }
@@ -73,5 +74,32 @@ export class RegisterComponent {
       this.newUser.email = email;
       this.newUser.password = password;
       return this.newUser.email && this.newUser.password ? true : false;
+    }   
+
+    //Valido campos en comun y segmento por tipo de usuario
+    isFormValid(){
+      let retorno:boolean | undefined = false;
+
+      const isCommonValid = this.registerForm.get('nombre')?.valid && 
+                            this.registerForm.get('apellido')?.valid && 
+                            this.registerForm.get('dni')?.valid && 
+                            this.registerForm.get('edad')?.valid && 
+                            this.registerForm.get('email')?.valid && 
+                            this.registerForm.get('password')?.valid 
+      
+      if(isCommonValid){
+        if (this.view === 'paciente') {
+          retorno =
+                 this.registerForm.get('obraSocial')?.valid &&
+                 this.registerForm.get('imagenPerfil1')?.valid &&
+                 this.registerForm.get('imagenPerfil2')?.valid;
+        } else {
+          retorno =
+                 this.registerForm.get('especialidad')?.valid &&
+                 this.registerForm.get('imagenPerfil')?.valid;
+        }
+      }
+      
+      return retorno;
     }
 }

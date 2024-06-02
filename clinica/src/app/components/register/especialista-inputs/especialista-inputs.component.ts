@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 })
 export class EspecialistaInputsComponent {
 
+  imagenPerfilLoaded: boolean = false;
   especialidades: string[] = ['Cardiología', 'Neurología', 'Pediatría', 'Traumatología'];
 
   @Input() parentForm: FormGroup | any;
@@ -19,5 +20,12 @@ export class EspecialistaInputsComponent {
 
   onValueChange() {
     this.valuesEmitter.emit(this.parentForm.value);
+  }
+
+  checkLoaded(){
+    let img = this.parentForm.get('imagenPerfil')?.value;
+    if(img != ""){
+      this.imagenPerfilLoaded = true;
+    }
   }
 }

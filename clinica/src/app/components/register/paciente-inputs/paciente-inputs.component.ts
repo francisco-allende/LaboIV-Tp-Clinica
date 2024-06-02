@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 })
 export class PacienteInputsComponent {
 
+  imagenPerfilLoadedFirst: boolean = false;
+  imagenPerfilLoadedSecond: boolean = false;
+  
   @Input() parentForm: FormGroup | any;
   @Input() handleFileInput: (event: Event, imageField: string) => void = () => {};
 
@@ -17,5 +20,16 @@ export class PacienteInputsComponent {
 
   onValueChange() {
     this.valuesEmitter.emit(this.parentForm.value);
+  }
+
+  checkLoaded(val:string){
+    let img = this.parentForm.get(val)?.value;
+    if(img != ""){
+      if(img == "imagenPerfil1"){
+        this.imagenPerfilLoadedFirst = true;
+      }else{
+        this.imagenPerfilLoadedSecond = true;
+      }
+    }
   }
 }
