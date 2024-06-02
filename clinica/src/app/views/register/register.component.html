@@ -1,0 +1,47 @@
+<div class="container-fluid vh-100 m-0 p-0">
+    <div class="row justify-content-center align-items-top h-100 form-container">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Registre su usuario</h1>
+            <br>
+            <div class="btn-switch text-center" role="group">
+              <button type="button" class="btn btn-outline-primary" (click)="switchView('paciente')">Paciente</button>
+              <button type="button" class="btn btn-outline-primary" (click)="switchView('especialista')">Especialista</button>
+            </div>
+            <br><br>
+            <form [formGroup]="registerForm" (ngSubmit)="createUser()">
+                <div>
+                    <app-common-inputs [parentForm]="registerForm" (valuesEmitter)="receiveValues($event)">
+                    </app-common-inputs>
+
+                    @if(view === 'paciente'){
+                        <app-paciente-inputs [parentForm]="registerForm" [handleFileInput]="handleFileInput" (valuesEmitter)="receiveValues($event)">
+                        </app-paciente-inputs>
+                    }
+                     
+                    @if(view === 'especialista'){
+                        <app-especialista-inputs [parentForm]="registerForm" [handleFileInput]="handleFileInput" (valuesEmitter)="receiveValues($event)">
+                        </app-especialista-inputs>
+                    }
+       
+                    <app-email-password-inputs [parentForm]="registerForm" (valuesEmitter)="receiveValues($event)">
+                    </app-email-password-inputs>
+                </div>
+
+              <div class="login-btns">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid">Crear cuenta</button>
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn btn-success btn-block" (click)="router.navigateByUrl('/login')">Volver al login</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

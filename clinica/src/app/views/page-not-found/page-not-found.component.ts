@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagenotfound',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './page-not-found.component.css'
 })
 export class PageNotFoundComponent {
-
+  constructor(public ruta: Router){}
 }
