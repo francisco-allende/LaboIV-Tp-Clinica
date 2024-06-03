@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { EspecialidadesService } from '../../../services/especialidades.service';
 
 @Component({
   selector: 'app-especialista-inputs',
@@ -10,22 +11,20 @@ import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 })
 export class EspecialistaInputsComponent {
 
-  imagenPerfilLoaded: boolean = false;
-  especialidades: string[] = ['Cardiología', 'Neurología', 'Pediatría', 'Traumatología'];
+  especialidades: string[] = [];
 
   @Input() parentForm: FormGroup | any;
-  @Input() handleFileInput: (event: Event, imageField: string) => void = () => {};
-
   @Output() valuesEmitter = new EventEmitter<any>();
+
+  constructor(private especialidadService: EspecialidadesService) {}
+
+  ngOnInit(){
+    this.especialidadService.getAllEspecialidades().subscribe(data =>{
+      this.especialidades = data;
+    })
+  }
 
   onValueChange() {
     this.valuesEmitter.emit(this.parentForm.value);
-  }
-
-  checkLoaded(){
-    let img = this.parentForm.get('imagenPerfil')?.value;
-    if(img != ""){
-      this.imagenPerfilLoaded = true;
-    }
   }
 }

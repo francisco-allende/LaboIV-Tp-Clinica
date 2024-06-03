@@ -2,20 +2,4 @@
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Obra Social" formControlName="obraSocial" (change)="onValueChange()">
       </div>
-      <div class="form-group">
-        <input type="file" class="form-control" formControlName="imagenPerfil1" (change)="handleFileInput($event, 'imagenPerfil1'); onValueChange(); checkLoaded('imagenPerfil1')">
-        @if(imagenPerfilLoadedFirst && parentForm.controls['imagenPerfil1'].invalid && (parentForm.controls['imagenPerfil1'].dirty || parentForm.controls['imagenPerfil1'].touched)){
-          <div class="text-danger">
-              La imagen debe ser formato .jpg, .png o .jpeg
-          </div>
-        }
-      </div>
-      <div class="form-group">
-        <input type="file" class="form-control" formControlName="imagenPerfil2" (change)="handleFileInput($event, 'imagenPerfil2'); onValueChange(); checkLoaded('imagenPerfil2')">
-        @if(imagenPerfilLoadedSecond && parentForm.controls['imagenPerfil2'].invalid && (parentForm.controls['imagenPerfil2'].dirty || parentForm.controls['imagenPerfil2'].touched)){
-          <div class="text-danger">
-              La imagen debe ser formato .jpg, .png o .jpeg
-          </div>
-        }
-      </div>
 </form>

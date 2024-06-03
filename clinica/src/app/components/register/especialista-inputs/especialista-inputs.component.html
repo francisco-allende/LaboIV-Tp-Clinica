@@ -10,13 +10,5 @@
                 }
             </select>
         </div>
-        <div class="form-group">
-            <input type="file" class="form-control" formControlName="imagenPerfil" (change)="handleFileInput($event, 'imagenPerfil'); checkLoaded()">
-            @if(imagenPerfilLoaded && parentForm.controls['imagenPerfil'].invalid){
-                <div class="text-danger">
-                    La imagen debe ser formato .jpg, .png o .jpeg
-                </div>
-            }
-        </div>
     </div>
 </form>
