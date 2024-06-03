@@ -35,23 +35,23 @@ export class RegisterComponent {
       private toast: ToastrService,
       public router: Router) 
       {
-
-    }
+        this.registerForm = this.fb.group({
+          nombre: ['', [Validators.required, onlyLettersValidator()]],
+          apellido: ['', [Validators.required, onlyLettersValidator()]],
+          edad: [0, [Validators.required, positiveNumberValidator()]],
+          dni: ['', [Validators.required, dniValidator()]],
+          obraSocial: ['', [onlyLettersValidator()]],
+          especialidad: ['', [onlyLettersValidator()]],
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required, Validators.minLength(8)]],
+          imagenPerfil1: ['', imgFormatValidator()],
+          imagenPerfil2: ['', imgFormatValidator()],
+          imagenPerfil: ['', imgFormatValidator()] 
+        });
+      }
 
     ngOnInit(){
-      this.registerForm = this.fb.group({
-        nombre: ['', [Validators.required, onlyLettersValidator()]],
-        apellido: ['', [Validators.required, onlyLettersValidator()]],
-        edad: [0, [Validators.required, positiveNumberValidator()]],
-        dni: ['', [Validators.required, dniValidator()]],
-        obraSocial: ['', [onlyLettersValidator()]],
-        especialidad: ['', [onlyLettersValidator()]],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        imagenPerfil1: ['', imgFormatValidator()],
-        imagenPerfil2: ['', imgFormatValidator()],
-        imagenPerfil: ['', imgFormatValidator()] 
-      });
+
     }
 
     get fc() { return this.registerForm.controls; }
@@ -72,12 +72,6 @@ export class RegisterComponent {
           const input = event.target as HTMLInputElement;
           if (input.files && input.files.length > 0) {
             const imageUrl = await this.uploadFile(imageField, dni, input.files[0]);
-            
-            if (imageUrl) {
-              this.registerForm.patchValue({
-                [imageField]: imageUrl
-              });
-            }
           }else{
             this.toast.error("Ups! No se pudo subir la imagen. Intente con otra.");
           }
@@ -94,7 +88,7 @@ export class RegisterComponent {
       if (file) {
         const randomNumber = Math.floor(Math.random() * 1000000);
 
-        const filePath = `users/img_${formControlName}_${dni}_${randomNumber}`;
+        const filePath = `users/${dni}/img_${formControlName}_${dni}_${randomNumber}`;
         const fileRef = ref(this.storage, filePath);
         
         await uploadBytes(fileRef, file);

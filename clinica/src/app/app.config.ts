@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +27,6 @@ export const appConfig: ApplicationConfig = {
         "authDomain":"clinica-3c199.firebaseapp.com",
         "messagingSenderId":"843286763763"}
       )), 
-      provideStorage(() => getStorage())
+      provideStorage(() => getStorage()), provideAnimationsAsync()
     ]
 };

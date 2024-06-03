@@ -1,14 +1,15 @@
 <form [formGroup]="parentForm">
-    <div>
-        <div class="form-group">
-            <select class="form-control" formControlName="especialidad">
-                <option value="" disabled selected>Especialidades</option>
-                @for(especialidad of especialidades; track especialidad){
-                    <option [value]="especialidad">
-                        {{ especialidad }}
-                    </option>
-                }
-            </select>
-        </div>
+    <div class="form-group" style="display: flex; align-items: center;">
+      <select class="form-control" formControlName="especialidad" style="flex: 1;">
+        <option value="" disabled selected>Especialidades</option>
+        @for(especialidad of especialidades; track especialidad){
+        <option [value]="especialidad">
+          {{ especialidad }}
+        </option>
+        }
+      </select>
+      <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px;">+</button>
     </div>
 </form>
+
+    
