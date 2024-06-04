@@ -8,5 +8,6 @@ export interface EspecialistaModel {
     password: string;
     imgPerfil: string;
     rol:string; 
+    estado:string,
   }
   

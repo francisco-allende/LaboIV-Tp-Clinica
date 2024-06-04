@@ -4,20 +4,17 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveF
 import { LoginService } from '../../services/login.service';
 import { Router , ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserModel } from '../../models/user';
-import { EmailPasswordInputsComponent } from '../../components/register/email-password-inputs/email-password-inputs.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, EmailPasswordInputsComponent],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
   loginForm: FormGroup;
-  loginUser: UserModel = {email: '', password: '', rol: ''}; 
 
 
   constructor(private fb: FormBuilder,
@@ -35,17 +32,44 @@ export class LoginComponent {
     this.loginForm.patchValue(values);
   }
 
-  login() {
+  async login() {
     if(this.loginForm.valid){
-        this.loginUser.email = this.loginForm.controls['email'].value;
-        this.loginUser.password = this.loginForm.controls['password'].value;
-        this.loginService.addToLogger(this.loginUser.email);
-        this.loginService.login(this.loginUser);
-        this.toast.success(`Nos alegra verte ${this.loginUser.email}!`);
-        this.router.navigateByUrl('/');
+        let email:string = this.loginForm.controls['email'].value;
+        let password:string = this.loginForm.controls['password'].value;
+
+        if(await this.isEspecialistaAutorizadoOrOther(email)){
+          this.loginService.addToLogger(email);
+          this.loginService.login(email, password);
+        }
     }
   }
-            
+
+  async isEspecialistaAutorizadoOrOther(email:string):Promise<boolean>{
+      let retorno = true;
+      let user = await this.loginService.getUserByEmail(email);
+      if(user.rol == "especialista"){
+         retorno = user.estado == "autorizado" ? true : false;
+      }
+      if(!retorno){
+        this.toast.error("Siendo medico especialista, debe estar autorizado por un admin para entrar");
+      }
+
+      return retorno;
+  }
+
+  easyLogin(rol:string){
+    if(rol == "admin"){
+      this.loginForm.controls['email'].setValue('franallende2000@gmail.com');
+      this.loginForm.controls['password'].setValue('adminadmin');
+    }else if(rol == "especialista"){
+      this.loginForm.controls['email'].setValue('myEspecialista@gmail.com');
+      this.loginForm.controls['password'].setValue('pepepepe');
+    }else if(rol == "paciente"){
+      this.loginForm.controls['email'].setValue('yegevan303@jzexport.com');
+      this.loginForm.controls['password'].setValue('pepepepe');
+    }
+  }
+
   goToRegister=()=> this.router.navigateByUrl('/register');
 
 }

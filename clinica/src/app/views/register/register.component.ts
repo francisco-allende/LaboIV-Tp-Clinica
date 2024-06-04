@@ -1,31 +1,37 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UserModel } from '../../models/user';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
-import { CommonInputsComponent } from '../../components/register/common-inputs/common-buttons.component';
-import { PacienteInputsComponent } from '../../components/register/paciente-inputs/paciente-inputs.component';
-import { EspecialistaInputsComponent } from '../../components/register/especialista-inputs/especialista-inputs.component';
-import { EmailPasswordInputsComponent } from '../../components/register/email-password-inputs/email-password-inputs.component';
 import { onlyLettersValidator, positiveNumberValidator, dniValidator, imgFormatValidator } from '../../validators/form-validators';
 import { Storage, ref, uploadBytes, getDownloadURL, getStorage } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
+import { PacienteModel } from '../../models/paciente';
+import { EspecialistaModel } from '../../models/especialista';
+import { EspecialidadesService } from '../../services/especialidades.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddEspecialidadDialogComponent } from '../../components/register/add-especialidad-dialog/add-especialidad-dialog.component';
+import { AdminModel } from '../../models/admin';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonInputsComponent, PacienteInputsComponent, EspecialistaInputsComponent, EmailPasswordInputsComponent],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 
-    newUser: UserModel = { email: '', password: '', rol: '' }; 
+    newPaciente: PacienteModel | undefined;
+    newEspecialista: EspecialistaModel | undefined;
+    newAdmin: AdminModel | undefined;
     registerForm!:FormGroup;
-    view: 'paciente' | 'especialista' = 'paciente';
+    view: 'paciente' | 'especialista' | 'admin' = 'paciente';
     imagenPerfilLoaded:boolean = false;
     imagenPerfilLoadedFirst:boolean = false;
     imagenPerfilLoadedSecond:boolean = false;
+    imgPerfilAdminLoaded:boolean = false;
+    especialidades: string[] = [];
+    showModal: boolean = false;
 
     private storage:Storage = getStorage();
 
@@ -33,6 +39,8 @@ export class RegisterComponent {
       private fb: FormBuilder,
       public loginService: LoginService,
       private toast: ToastrService,
+      private especialidadService: EspecialidadesService,
+      public dialog: MatDialog,
       public router: Router) 
       {
         this.registerForm = this.fb.group({
@@ -46,17 +54,20 @@ export class RegisterComponent {
           password: ['', [Validators.required, Validators.minLength(8)]],
           imagenPerfil1: ['', imgFormatValidator()],
           imagenPerfil2: ['', imgFormatValidator()],
-          imagenPerfil: ['', imgFormatValidator()] 
+          imagenPerfil: ['', imgFormatValidator()], 
+          imgPerfilAdmin: ['', imgFormatValidator()] 
         });
       }
 
-    ngOnInit(){
-
-    }
+      ngOnInit(){
+        this.especialidadService.getAllEspecialidades().subscribe(data =>{
+          this.especialidades = data;
+        })
+      }
 
     get fc() { return this.registerForm.controls; }
 
-    switchView(view: 'paciente' | 'especialista') {
+    switchView(view: 'paciente' | 'especialista' | 'admin') {
       this.view = view;
     }
 
@@ -71,7 +82,7 @@ export class RegisterComponent {
         if(dni){
           const input = event.target as HTMLInputElement;
           if (input.files && input.files.length > 0) {
-            const imageUrl = await this.uploadFile(imageField, dni, input.files[0]);
+            await this.uploadFile(imageField, dni, input.files[0]);
           }else{
             this.toast.error("Ups! No se pudo subir la imagen. Intente con otra.");
           }
@@ -103,40 +114,89 @@ export class RegisterComponent {
     checkLoaded(formControlName: string){
       let img = this.registerForm?.get(formControlName)?.value;
       if(img != ""){
-        switch(formControlName){
-          case 'imagenPerfil':
-            this.imagenPerfilLoaded = true;
-            break;
-          
-          case 'imagenPerfil1':
-            this.imagenPerfilLoadedFirst = true;
-          break;
-
-          case 'imagenPerfil2':
-            this.imagenPerfilLoadedSecond = true;
-          break;
-
-          default:
-            break;
+        if (formControlName === 'imagenPerfil') {
+          this.imagenPerfilLoaded = true;
+        } else if (formControlName === 'imagenPerfil1') {
+          this.imagenPerfilLoadedFirst = true;
+        } else if (formControlName === 'imagenPerfil2') {
+          this.imagenPerfilLoadedSecond = true;
+        }else if (formControlName === 'imgPerfilAdminLoaded') {
+          this.imgPerfilAdminLoaded = true;
         }
       }
     }
 
 
     createUser(){
-      if (this.registerForm.valid) {
-        if(this.setNewUser()){
-          this.loginService.register(this.newUser);
-        }
+      if (this.isFormValid()) {
+          this.loginService.register(this.setNewUser());
       }
     }
 
-    setNewUser():boolean{
-      const { email, password } = this.registerForm.value;
-      this.newUser.email = email;
-      this.newUser.password = password;
-      return this.newUser.email && this.newUser.password ? true : false;
+    setNewUser(): any{
+      const { nombre , apellido, dni, edad, email, password } = this.registerForm.value;
+
+      if(this.view == "paciente"){
+        const { obraSocial, imagenPerfil1, imagenPerfil2 } = this.registerForm.value;
+        this.newPaciente = {
+          nombre: nombre,
+          apellido: apellido,
+          dni: dni,
+          edad: edad,
+          email: email,
+          password: password,
+          obraSocial: obraSocial,
+          imgPerfilFirst: imagenPerfil1,
+          imgPerfilSecond: imagenPerfil2,
+          rol: "paciente"
+        }
+        return this.newPaciente;
+
+      }else if(this.view == "especialista"){
+        const { especialidad, imagenPerfil } = this.registerForm.value;
+
+        this.newEspecialista = {
+          nombre: nombre,
+          apellido: apellido,
+          dni: dni,
+          edad: edad,
+          email: email,
+          password: password,
+          especialidad: especialidad,
+          imgPerfil: imagenPerfil,
+          estado: "pendiente",
+          rol: "especialista"
+        }
+        return this.newEspecialista;
+      }else if(this.view == "admin"){
+        const { imgPerfilAdmin } = this.registerForm.value;
+
+        this.newAdmin = {
+          nombre: nombre,
+          apellido: apellido,
+          dni: dni,
+          edad: edad,
+          email: email,
+          password: password,
+          imgPerfilAdmin: imgPerfilAdmin,
+          rol: "admin"
+        }
+        return this.newAdmin;
+      }
     }   
+
+    addEspecialidad(): void {
+      const dialogRef = this.dialog.open(AddEspecialidadDialogComponent);
+      try{
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.especialidadService.altaEspecialidad(result);
+          }
+        });
+      }catch(error){
+        console.log("No se pudo hacer el alta de especialdiad ", error);
+      }
+    }
 
     //Valido campos en comun y segmento por tipo de usuario
     isFormValid(){
@@ -155,10 +215,13 @@ export class RegisterComponent {
                  this.registerForm.get('obraSocial')?.valid &&
                  this.registerForm.get('imagenPerfil1')?.valid &&
                  this.registerForm.get('imagenPerfil2')?.valid;
-        } else {
+        } else if (this.view == 'especialista') {
           retorno =
                  this.registerForm.get('especialidad')?.valid &&
                  this.registerForm.get('imagenPerfil')?.valid;
+        } else if(this.view == 'admin'){
+          retorno =
+            this.registerForm.get('imgPerfilAdmin')?.valid
         }
       }
       

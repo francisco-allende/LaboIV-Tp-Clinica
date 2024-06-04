@@ -1,0 +1,26 @@
+.app-footer {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(109, 83, 183);
+}
+
+.footer-logo {
+    background: url('../../../assets/fondo-login.png');
+    background-repeat: no-repeat;
+    width: 12em;
+    height: 8em;
+    background-size: 50%;
+    background-position: center;
+}
+
+.footer-data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black; 
+}
+
+a{
+    text-decoration: none; 
+    color: black; 
+}

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { loggedGuard } from './guards/logged.guard';
+import { adminGuard } from './guards/admin.guard';
 
 
 export const routes: Routes = [
@@ -20,6 +21,10 @@ export const routes: Routes = [
     {
         path: 'register',
         loadComponent: () => import('./views/register/register.component').then((m) => m.RegisterComponent)
+    },
+    {
+        path: 'enviar_email',
+        loadComponent: () => import('./views/enviar-email/enviar-email.component').then((m) => m.EnviarEmailComponent)
     },
     {
         path: 'error',

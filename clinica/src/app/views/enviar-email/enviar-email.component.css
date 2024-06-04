@@ -10,29 +10,3 @@
     padding: 20px;
     margin: 1%;
 }
-
-.form-container{
-    margin-top: 5em;
-    justify-content: center;
-    width: 600px;
-}
-
-.form-container input {
-    margin-bottom: 1em;
-}
-
-.card-body{
-    padding: 2em;
-}
-
-.login-btns{
-    text-align: center;
-}
-
-h1{
-    margin-top: 1em;
-}
-
-button{
-    margin-top: 1em;
-}

@@ -1,0 +1,23 @@
+main{
+    height: 85vh;
+    background-color: rgb(241, 185, 145);
+}
+
+.card{
+    width: 18rem;
+    height: 14rem;
+}
+.row {
+    margin: 0 auto; 
+}
+
+
+@media (max-width: 1300px) {
+    main{
+        height: 100vh;
+    }
+    .card{
+        margin: 1em;
+        width: 14rem;
+    }
+}
