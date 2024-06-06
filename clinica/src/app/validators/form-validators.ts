@@ -33,4 +33,21 @@ export function imgFormatValidator(): ValidatorFn {
         return isValid ? null : { invalidWord: true };
       };        
 }
+
+export function confirmPasswordValidator(): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+        
+      const password = formGroup.get('password');
+      const repeatPassword = formGroup.get('repeatPassword');
+      const respuestaError = { noCoincide: 'La contraseña no coincide' };
+
+      if (password?.value !== repeatPassword?.value) {
+        formGroup.get('repeatPassword')?.setErrors(respuestaError);
+        return respuestaError;
+      } else {
+        formGroup.get('repeatPassword')?.setErrors(null);
+        return null;
+      }
+    };
+  }
   

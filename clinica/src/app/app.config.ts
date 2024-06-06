@@ -10,6 +10,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),

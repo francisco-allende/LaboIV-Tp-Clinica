@@ -6,7 +6,7 @@ import { adminGuard } from './guards/admin.guard';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: "home",
+        redirectTo: "login",
         pathMatch:"full"
     },
     {
@@ -25,6 +25,11 @@ export const routes: Routes = [
     {
         path: 'enviar_email',
         loadComponent: () => import('./views/enviar-email/enviar-email.component').then((m) => m.EnviarEmailComponent)
+    },
+    {
+        path: 'usuarios',
+        canActivate:[adminGuard],
+        loadComponent: () => import('./views/usuarios-container/usuarios-container.component').then((m) => m.UsuariosContainerComponent)
     },
     {
         path: 'error',

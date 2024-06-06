@@ -9,18 +9,26 @@
       </div>
 
     </div>
-  
-    <ul class="nav navbar-nav ml-auto">   
+
+      <!-- Menú centrado -->
+      <ul class="nav navbar-nav mx-auto">
         <li class="nav-item">
-          @if(currentUser){
-            <div class="d-flex align-items-center ml-3">
-              <div class="mr-3">
-                <small class="d-block">Email: {{ currentUser }}</small>
-              </div>
-            </div>
-          }
+          <a class="nav-link" href="#">Home</a>
         </li>
-      
+        <li class="nav-item">
+          <a class="nav-link" href="#">Turnos</a>
+        </li>
+        @if(currentRol == "admin"){
+          <li class="nav-item">
+            <a class="nav-link" (click)="router.navigateByUrl('usuarios')">Usuarios</a>
+          </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contactanos</a>
+        </li>
+      </ul>
+  
+    <ul class="nav navbar-nav ml-auto">         
         <li class="nav-item">
           <!-- Botones de usuario y logout -->
           @if(currentUser){

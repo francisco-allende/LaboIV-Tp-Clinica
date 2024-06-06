@@ -1,8 +1,9 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faPlusSquare, faPowerOff, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { LoginService } from '../../services/login.service';
+import { UsersService } from '../../services/users.service';
 
 
 @Component({
@@ -20,17 +21,17 @@ export class NavbarComponent {
   faArrowLeft = faArrowLeft;
   currentRoute: string = '';
 
-  currentUser:string = this.loginService.getLoggedUser() ;
-  @Output() sendCurrentUser:EventEmitter<string> = new EventEmitter<string>
+  currentUser:string | undefined | null = this.loginService.getLoggedUser() ;
+  currentRol:string = this.usersService.getUserRol();
+
 
   constructor(private loginService: LoginService, 
+              private usersService: UsersService,
               public router: Router) {}
 
   ngOnInit(){
     if(this.loginService.getLoggedUser() == ''){
       this.logOut();
-    }else{
-      this.sendCurrentUser.emit(this.currentUser);
     }
   }
 

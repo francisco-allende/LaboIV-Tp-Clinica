@@ -8,22 +8,41 @@
             <div class="btn-switch text-center" role="group">
               <button type="button" class="btn btn-outline-primary" (click)="switchView('paciente')">Paciente</button>
               <button type="button" class="btn btn-outline-primary" (click)="switchView('especialista')">Especialista</button>
-              <button type="button" class="btn btn-outline-primary" (click)="switchView('admin')">Admin</button>
             </div>
             <br><br>
             <form [formGroup]="registerForm" (ngSubmit)="createUser()">
                 <div>
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" >
+                      @if(registerForm.controls['nombre'].invalid && (registerForm.controls['nombre'].dirty || registerForm.controls['nombre'].touched)){
+                        <div class="text-danger">
+                            El nombre no puede contener números
+                        </div>
+                      }
                   </div>
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="Apellido" formControlName="apellido" >
+                      @if(registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty || registerForm.controls['apellido'].touched)){
+                        <div class="text-danger">
+                            El apellido no puede contener números
+                        </div>
+                      }
                   </div>
                   <div class="form-group">
                       <input type="number" class="form-control" placeholder="Edad" formControlName="edad" >
+                      @if(registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty || registerForm.controls['apellido'].touched)){
+                        <div class="text-danger">
+                            Edad inválida
+                        </div>
+                      }
                   </div>
                   <div class="form-group">
                       <input type="number" class="form-control" placeholder="DNI" formControlName="dni" >
+                      @if(registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty || registerForm.controls['apellido'].touched)){
+                        <div class="text-danger">
+                            El DNI debe contener 8 números
+                        </div>
+                      }
                   </div>
 
                     @if(view === 'paciente'){
@@ -59,8 +78,13 @@
                           </option>
                           }
                         </select>
-                        <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px;">+</button>
+                        <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px; margin-bottom: 1em;">+</button>
                       </div>
+                      @if(registerForm.controls['especialidad'].invalid && (registerForm.controls['especialidad'].dirty || registerForm.controls['especialidad'].touched)){
+                        <div class="text-danger">
+                            No pueden añadirse especialidades ya existentes
+                        </div>
+                      }
 
                         <div class="form-group">
                           <input type="file" class="form-control" formControlName="imagenPerfil" (change)="handleFileInput($event, 'imagenPerfil'); checkLoaded('imagenPerfil')">
@@ -72,17 +96,6 @@
                         </div>
                     }
        
-                    @if(view === 'admin'){
-                        <div class="form-group">
-                          <input type="file" class="form-control" formControlName="imgPerfilAdmin" (change)="handleFileInput($event, 'imgPerfilAdmin'); checkLoaded('imgPerfilAdmin')">
-                          @if(imgPerfilAdminLoaded && registerForm.controls['imgPerfilAdmin'].invalid){
-                              <div class="text-danger">
-                                  La imagen debe ser formato .jpg, .png o .jpeg
-                              </div>
-                          }
-                        </div>
-                    }
-
                     <div class="form-group">
                       <input type="email" class="form-control" placeholder="Email" formControlName="email">
                       @if(registerForm.controls['email'].invalid && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched)){
@@ -102,6 +115,14 @@
                       @if(registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)){
                           <div class="text-danger">
                               La contraseña debe contener al menos 8 caracteres.
+                          </div>
+                      }
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" placeholder="Repita la contraseña" formControlName="repeatPassword">
+                      @if(registerForm.controls['repeatPassword'].invalid && (registerForm.controls['repeatPassword'].dirty || registerForm.controls['repeatPassword'].touched)){
+                          <div class="text-danger">
+                              La contraseña no coincide
                           </div>
                       }
                     </div>

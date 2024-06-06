@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +10,5 @@ import { Router } from '@angular/router';
 })
 export class EnviarEmailComponent {
 
-  user: any = this.loginService.getLoggedUser();
-
-  constructor(private loginService:LoginService, public ruta: Router) {}
+  constructor(public ruta: Router) {}
 }

@@ -10,6 +10,14 @@ header{
   color: rgb(12, 16, 90);
 }
 
+a{
+  color: white;
+}
+a:hover{
+  cursor: pointer;
+  color: white;
+  opacity: 0.3;
+}
 
 .navbar-nav {
     display: flex; 

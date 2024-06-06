@@ -2,8 +2,10 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { PacienteModel } from '../../models/paciente';
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
+import { UsersService } from '../../services/users.service';
 import { Router , ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginComponent {
   constructor(private fb: FormBuilder,
               private router: Router,
               private toast: ToastrService,
-              private loginService: LoginService) 
+              private loginService: LoginService,
+              private userService: UsersService) 
               {
                 this.loginForm = this.fb.group({
                   email: ['', [Validators.required, Validators.email]],
@@ -36,26 +39,24 @@ export class LoginComponent {
     if(this.loginForm.valid){
         let email:string = this.loginForm.controls['email'].value;
         let password:string = this.loginForm.controls['password'].value;
-
         if(await this.isEspecialistaAutorizadoOrOther(email)){
-          this.loginService.addToLogger(email);
           this.loginService.login(email, password);
         }
     }
   }
 
   async isEspecialistaAutorizadoOrOther(email:string):Promise<boolean>{
-      let retorno = true;
-      let user = await this.loginService.getUserByEmail(email);
-      if(user.rol == "especialista"){
-         retorno = user.estado == "autorizado" ? true : false;
-      }
-      if(!retorno){
-        this.toast.error("Siendo medico especialista, debe estar autorizado por un admin para entrar");
-      }
+    let retorno = true;
+    let user = await this.userService.getUserByEmail(email);
+    if(user.rol == "especialista"){
+       retorno = user.estado == "autorizado" ? true : false;
+    }
+    if(!retorno){
+      this.toast.error("Siendo medico especialista, debe estar autorizado por un admin para entrar");
+    }
 
-      return retorno;
-  }
+    return retorno;
+}
 
   easyLogin(rol:string){
     if(rol == "admin"){

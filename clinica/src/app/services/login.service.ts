@@ -2,30 +2,44 @@ import { Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, Firestore, query, orderBy, limit, where, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification,  } from '@angular/fire/auth';
+import { Auth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, onAuthStateChanged, User  } from '@angular/fire/auth';
+import { browserLocalPersistence, browserSessionPersistence, setPersistence } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { EspecialistaModel } from '../models/especialista';
-import { PacienteModel } from '../models/paciente';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  loggedUser:string='';
-  userRol:string='';
+  loggedUser: BehaviorSubject<string | undefined | null> = new BehaviorSubject<string | undefined | null>(null);
 
   constructor(public firestore: Firestore,
-    public auth: Auth, 
-    public toast: ToastrService,
-    public router: Router) { }
+    private auth: Auth, 
+    private toast: ToastrService,
+    private router: Router) 
+    {
+      this.configureAuthPersistence();
+      onAuthStateChanged(this.auth, (user: User | null) => {
+        if (user) {
+          this.loggedUser.next(user.email);
+        } else {
+          this.loggedUser.next(null);
+        }
+      });
+    }
+  
+    async configureAuthPersistence(): Promise<void> {
+      try {
+        await setPersistence(this.auth, browserLocalPersistence);
+      } catch (error) {
+        console.error('Error setting persistence:', error);
+      }
+    }
 
-    setLoggedUser = (email:string) => this.loggedUser = email;
-    getLoggedUser = ():string => this.loggedUser;
-
-    setUserRol = (rol:string) => this.userRol = rol;
-    getUserRol = ():string => this.userRol;
+    setLoggedUser = (email:any) => this.loggedUser = email;
+    getLoggedUser = ():any => this.loggedUser;
 
     addToLogger(emailValue:string){
       try{
@@ -36,32 +50,24 @@ export class LoginService {
       }
     }
 
-    async getUserByEmail(email: string): Promise<any> {
-      try {
-        const col = collection(this.firestore, 'users');
-        const q = query(col, where('email', '==', email));
-        const querySnapshot = await getDocs(q);
-  
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          const userData = userDoc.data();
-          this.setUserRol(userData['rol']);
-          return { ...userData } as any;
-        } else {
-          return null;
-        }
-      } catch (error) {
-        console.error("Error al obtener el usuario via email: ", error);
-        return null;
-      }
-    }
+    
 
-    login(email:string, password:string){
+  isEmailVerificated() : boolean | undefined{
+    let u = getAuth()
+    return u.currentUser?.emailVerified
+  }
+
+    async login(email:string, password:string){
       signInWithEmailAndPassword(this.auth, email, password).then((res)=> {
         if(res.user.email != null){
-          this.setLoggedUser(res.user.email);
-          this.toast.success(`Nos alegra verte de nuevo ${res.user.email}`);
-          this.router.navigateByUrl('/home');
+          if(this.isEmailVerificated()){
+            this.addToLogger(res.user.email);
+            this.setLoggedUser(res.user.email);
+            this.toast.success(`Nos alegra verte de nuevo ${res.user.email}`);
+            this.router.navigateByUrl('/home');
+          }else{
+            this.toast.error()
+          }
         } 
       }).catch((error) => {
         switch (error.code) {
@@ -145,4 +151,8 @@ export class LoginService {
         }
       });
     }
+
+
+
+
 }
