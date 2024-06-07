@@ -12,11 +12,16 @@
         
     @for(user of users; track users ){
         <tr>
-          <td>{{ user.email }}</td>
-          <td>{{ user.nombre }}</td>
-          <td>{{ user.apellido }}</td>
-          <td>{{ user.dni }}</td>
-          <td>{{ user.rol }}</td>
+              <td>{{ user.imgPerfil }}</td>
+              <td>{{ user.imgPerfilSecond }}</td>
+              <td>{{ user.nombre }}</td>
+              <td>{{ user.apellido }}</td>
+              <td>{{ user.dni }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.rol }}</td>
+              <td>{{ user.obraSocial }}</td>
+              <td>{{ user.especialidad }}</td>
+              <td>{{ user.estado }}</td>
         </tr>
     }
 

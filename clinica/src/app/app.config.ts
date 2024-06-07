@@ -9,11 +9,16 @@ import { provideToastr } from 'ngx-toastr';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY, } from 'ng-recaptcha';
 
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(
+      RecaptchaV3Module
+    ),
+    {provide: RECAPTCHA_V3_SITE_KEY , useValue: '6Lc8cPMpAAAAAAQr6pkQIW6qsin3w2mwbbadP4pv'},
     provideHttpClient(),
     provideAnimations(), 
     provideToastr(),
@@ -30,5 +35,6 @@ export const appConfig: ApplicationConfig = {
         "messagingSenderId":"843286763763"}
       )), 
       provideStorage(() => getStorage()), provideAnimationsAsync()
-    ]
+    ],
+   
 };

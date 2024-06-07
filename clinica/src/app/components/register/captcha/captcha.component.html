@@ -1,0 +1,24 @@
+<div class="my-3 text-center">
+        <div class="col-12 control">
+            <canvas #captchaCanvas width="150" height="50" class="canva"></canvas>
+        </div>
+        <div class="col-12 control">
+            <input type="text" name="reCaptcha" class="form-control" [maxlength]="6" id="reCaptcha" (ngModelChange)="onChange($event)"
+              [(ngModel)]="enteredCaptcha" placeholder="Ingresá el código" />
+        </div>
+        <div class="col-12 control">
+          <button class="btn rounded btn-primary" type="button" (click)="validateCaptcha()">Validar Captcha</button>
+        </div>
+        <div class="col-12 control">
+            <button class="btn rounded btn-primary" type="button" (click)="createCaptcha()">Cambiar</button>
+        </div>
+        @if(invalid){
+            <div class="text-danger">
+                Código incorrecto
+            </div>
+        }@else if (!invalid && wasClicked) {
+            <div class="text-success">
+                Código correcto
+            </div>
+        }
+</div>

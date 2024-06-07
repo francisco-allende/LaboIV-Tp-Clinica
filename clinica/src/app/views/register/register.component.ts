@@ -10,11 +10,12 @@ import { EspecialistaModel } from '../../models/especialista';
 import { EspecialidadesService } from '../../services/especialidades.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEspecialidadDialogComponent } from '../../components/register/add-especialidad-dialog/add-especialidad-dialog.component';
+import { CaptchaComponent } from '../../components/register/captcha/captcha.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CaptchaComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -31,6 +32,7 @@ export class RegisterComponent {
     showModal: boolean = false;
     arrImages:any[] = [];
     urls:any[] = [];
+    validToken: boolean = false;
 
     private storage:Storage = getStorage();
 
@@ -133,8 +135,6 @@ export class RegisterComponent {
       }
     }
     
-    
-  
     checkLoaded(formControlName: string){
       let img = this.registerForm?.get(formControlName)?.value;
       if(img != ""){
@@ -147,7 +147,6 @@ export class RegisterComponent {
         }
       }
     }
-
 
     async createUser(){
       if (this.isFormValid()) {
@@ -212,6 +211,10 @@ export class RegisterComponent {
         }
       });
     }
+
+    handleCaptchaValidation(valid: any) {
+      this.validToken = valid;
+    }
     
     //Valido campos en comun y segmento por tipo de usuario
     isFormValid(){
@@ -223,7 +226,8 @@ export class RegisterComponent {
                             this.registerForm.get('edad')?.valid && 
                             this.registerForm.get('email')?.valid && 
                             this.registerForm.get('password')?.valid &&
-                            this.registerForm.get('repeatPassword')?.valid 
+                            this.registerForm.get('repeatPassword')?.valid &&
+                            this.validToken
       
       if(isCommonValid){
         if (this.view === 'paciente') {

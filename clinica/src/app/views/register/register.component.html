@@ -128,6 +128,10 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                  <app-captcha (captchaValidated)="handleCaptchaValidation($event)"></app-captcha>
+                </div>
+
               <div class="login-btns">
                 <div class="form-group">
                   <button type="submit" class="btn btn-success btn-block" [disabled]="!isFormValid()">Crear cuenta</button>
