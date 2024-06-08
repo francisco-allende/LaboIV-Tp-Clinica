@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { PacienteModel } from '../../models/paciente';
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { UsersService } from '../../services/users.service';

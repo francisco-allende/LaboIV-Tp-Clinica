@@ -7,13 +7,13 @@ export function onlyLettersValidator(): ValidatorFn {
       return isValid ? null : { invalidWord: true };
     };
   }
-  
-export function positiveNumberValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const number = control.value;
-      const isValid = !isNaN(number) && number > 0;
-      return isValid ? null : { invalidNumber: true };
-    };
+
+export function ageRangeValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const number = control.value;
+    const isValid = !isNaN(number) && number > 0 && number <= 120;
+    return isValid ? null : { invalidNumber: true };
+  };
 }
 
 export function dniValidator(): ValidatorFn {
@@ -35,19 +35,18 @@ export function imgFormatValidator(): ValidatorFn {
 }
 
 export function confirmPasswordValidator(): ValidatorFn {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-        
-      const password = formGroup.get('password');
-      const repeatPassword = formGroup.get('repeatPassword');
-      const respuestaError = { noCoincide: 'La contraseña no coincide' };
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const password = formGroup.get('password');
+    const repeatPassword = formGroup.get('repeatPassword');
+    const respuestaError = { noCoincide: 'La contraseña no coincide' };
 
-      if (password?.value !== repeatPassword?.value) {
-        formGroup.get('repeatPassword')?.setErrors(respuestaError);
-        return respuestaError;
-      } else {
-        formGroup.get('repeatPassword')?.setErrors(null);
-        return null;
-      }
-    };
-  }
+    if (password && repeatPassword && password.value !== repeatPassword.value) {
+      repeatPassword.setErrors(respuestaError);
+      return respuestaError;
+    } else {
+      repeatPassword?.setErrors(null);
+      return null;
+    }
+  };
+}
   

@@ -7,6 +7,7 @@ import { browserLocalPersistence, browserSessionPersistence, setPersistence } fr
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { UserModel } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -51,11 +52,10 @@ export class LoginService {
     }
 
     
-
-  isEmailVerificated() : boolean | undefined{
-    let u = getAuth()
-    return u.currentUser?.emailVerified
-  }
+    isEmailVerificated() : boolean | undefined{
+      let u = getAuth()
+      return u.currentUser?.emailVerified
+    }
 
     async login(email:string, password:string){
       signInWithEmailAndPassword(this.auth, email, password).then((res)=> {
@@ -66,7 +66,7 @@ export class LoginService {
             this.toast.success(`Nos alegra verte de nuevo ${res.user.email}`);
             this.router.navigateByUrl('/home');
           }else{
-            this.toast.error()
+            this.toast.error('Debe validar su cuenta en su email para loguearse')
           }
         } 
       }).catch((error) => {
@@ -88,50 +88,27 @@ export class LoginService {
       })
     }
 
-    async register(newUser: any){
+    async register(newUser: UserModel){
 
       createUserWithEmailAndPassword(this.auth, newUser.email, newUser.password).then((res)=> {
         if(res.user.email != null){
           this.setLoggedUser(res.user.email);
           let col = collection(this.firestore, 'users');
-          if(newUser.rol == "paciente"){
-            addDoc(col, { 
-              nombre: newUser.nombre,
-              apellido: newUser.apellido,
-              edad: newUser.edad,
-              dni: newUser.dni,
-              obraSocial: newUser.obraSocial,
-              email: newUser.email,
-              password: newUser.password,
-              imgPerfilFirst: newUser.imgPerfilFirst, 
-              imgPerfilSecond: newUser.imgPerfilSecond, 
-              rol:  newUser.rol
-            });
-          }else if(newUser.rol == "especialista"){
-            addDoc(col, { 
-              nombre: newUser.nombre,
-              apellido: newUser.apellido,
-              edad: newUser.edad,
-              dni: newUser.dni,
-              especialidad: newUser.especialidad,
-              email: newUser.email,
-              password: newUser.password,
-              imgPerfil: newUser.imgPerfil,
-              rol:  newUser.rol,
-              estado:newUser.estado,
-            });
-          }else if(newUser.rol == "admin"){
-            addDoc(col, { 
-              nombre: newUser.nombre,
-              apellido: newUser.apellido,
-              edad: newUser.edad,
-              dni: newUser.dni,
-              email: newUser.email,
-              password: newUser.password,
-              imgPerfilAdmin: newUser.imgPerfilAdmin,
-              rol:  newUser.rol,
-            });
-          }
+          addDoc(col, {
+            nombre: newUser.nombre,
+            apellido: newUser.apellido,
+            edad: newUser.edad,
+            dni: newUser.dni,
+            email: newUser.email,
+            password: newUser.password,
+            rol: newUser.rol,
+            mainImg: newUser.mainImg, 
+            extraImg: newUser.extraImg ? newUser.extraImg : '',
+            obraSocial : newUser.obraSocial,
+            especialidad: newUser.especialidad,
+            estado : newUser.estado
+          })
+          
           this.toast.success('Usuario creado con éxito', `Enviamos un mail de verificacion a ${res.user.email}`);
           this.router.navigateByUrl('/enviar_email');
           sendEmailVerification(res.user);
@@ -151,8 +128,4 @@ export class LoginService {
         }
       });
     }
-
-
-
-
 }

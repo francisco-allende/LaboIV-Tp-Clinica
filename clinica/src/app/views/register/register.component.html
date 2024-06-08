@@ -1,4 +1,4 @@
-<div class="container-fluid vh-100 m-0 p-0">
+<div class="container-fluid vh-160 m-0 p-0">
     <div class="row justify-content-center align-items-top h-100 form-container">
       <div class="col-md-12">
         <div class="card">
@@ -30,7 +30,7 @@
                   </div>
                   <div class="form-group">
                       <input type="number" class="form-control" placeholder="Edad" formControlName="edad" >
-                      @if(registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty || registerForm.controls['apellido'].touched)){
+                      @if(registerForm.controls['edad'].invalid && (registerForm.controls['edad'].dirty || registerForm.controls['edad'].touched)){
                         <div class="text-danger">
                             Edad inválida
                         </div>
@@ -38,34 +38,43 @@
                   </div>
                   <div class="form-group">
                       <input type="number" class="form-control" placeholder="DNI" formControlName="dni" >
-                      @if(registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty || registerForm.controls['apellido'].touched)){
+                      @if(registerForm.controls['dni'].invalid && (registerForm.controls['dni'].dirty || registerForm.controls['dni'].touched)){
                         <div class="text-danger">
                             El DNI debe contener 8 números
                         </div>
                       }
                   </div>
 
+                  <div class="form-group">
+                    <input type="file" class="form-control" formControlName="mainImg" 
+                    (change)="handleFileInput($event, 'mainImg'); 
+                    checkLoaded('mainImg')">
+                    @if(mainImgLoaded && registerForm.controls['mainImg'].invalid && (registerForm.controls['mainImg'].dirty || registerForm.controls['mainImg'].touched)){
+                      <div class="text-danger">
+                          La imagen debe ser formato .jpg, .png o .jpeg
+                      </div>
+                    }
+                  </div>
+
                     @if(view === 'paciente'){
+
+                        <div class="form-group">
+                          <input type="file" class="form-control" 
+                          formControlName="extraImg" 
+                          (change)="handleFileInput($event, 'extraImg'); 
+                          checkLoaded('extraImg')">
+                          
+                          @if(extraIMgLoaded && registerForm.controls['extraImg'].invalid && (registerForm.controls['extraImg'].dirty || registerForm.controls['extraImg'].touched)){
+                            <div class="text-danger">
+                                La imagen debe ser formato .jpg, .png o .jpeg
+                            </div>
+                          }
+                        </div>            
+
                         <div class="form-group">
                           <input type="text" class="form-control" placeholder="Obra Social" formControlName="obraSocial">
                         </div>
-
-                        <div class="form-group">
-                          <input type="file" class="form-control" formControlName="imagenPerfil1" (change)="handleFileInput($event, 'imagenPerfil1'); checkLoaded('imagenPerfil1')">
-                          @if(imagenPerfilLoadedFirst && registerForm.controls['imagenPerfil1'].invalid && (registerForm.controls['imagenPerfil1'].dirty || registerForm.controls['imagenPerfil1'].touched)){
-                            <div class="text-danger">
-                                La imagen debe ser formato .jpg, .png o .jpeg
-                            </div>
-                          }
-                        </div>
-                        <div class="form-group">
-                          <input type="file" class="form-control" formControlName="imagenPerfil2" (change)="handleFileInput($event, 'imagenPerfil2'); checkLoaded('imagenPerfil2')">
-                          @if(imagenPerfilLoadedSecond && registerForm.controls['imagenPerfil2'].invalid && (registerForm.controls['imagenPerfil2'].dirty || registerForm.controls['imagenPerfil2'].touched)){
-                            <div class="text-danger">
-                                La imagen debe ser formato .jpg, .png o .jpeg
-                            </div>
-                          }
-                        </div>                
+ 
                     }
                      
                     @if(view === 'especialista'){
@@ -85,15 +94,6 @@
                             No pueden añadirse especialidades ya existentes
                         </div>
                       }
-
-                        <div class="form-group">
-                          <input type="file" class="form-control" formControlName="imagenPerfil" (change)="handleFileInput($event, 'imagenPerfil'); checkLoaded('imagenPerfil')">
-                          @if(imagenPerfilLoaded && registerForm.controls['imagenPerfil'].invalid){
-                              <div class="text-danger">
-                                  La imagen debe ser formato .jpg, .png o .jpeg
-                              </div>
-                          }
-                        </div>
                     }
        
                     <div class="form-group">
@@ -118,6 +118,7 @@
                           </div>
                       }
                     </div>
+
                     <div class="form-group">
                       <input type="password" class="form-control" placeholder="Repita la contraseña" formControlName="repeatPassword">
                       @if(registerForm.controls['repeatPassword'].invalid && (registerForm.controls['repeatPassword'].dirty || registerForm.controls['repeatPassword'].touched)){
@@ -126,6 +127,7 @@
                           </div>
                       }
                     </div>
+
                 </div>
 
                 <div class="form-group">
