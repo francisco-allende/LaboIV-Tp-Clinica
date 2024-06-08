@@ -11,3 +11,7 @@
 .control{
     margin-bottom: 1em;
 }
+.btn {
+    border-radius: 0 !important; 
+  }
+  

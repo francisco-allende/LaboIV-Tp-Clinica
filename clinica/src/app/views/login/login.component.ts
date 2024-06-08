@@ -1,21 +1,24 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { UsersService } from '../../services/users.service';
 import { Router , ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { UserModel } from '../../models/user';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
+  loading:boolean = true;
   loginForm: FormGroup;
+  easyLoginUsers: UserModel[] = [];
 
 
   constructor(private fb: FormBuilder,
@@ -30,9 +33,20 @@ export class LoginComponent {
                 });
                }
 
-  receiveValues(values: any) {
-    this.loginForm.patchValue(values);
+ ngOnInit(){
+  this.getEasyLoginUsersData()
+ }
+
+ async getEasyLoginUsersData(){
+  try{
+    this.loading = true;
+    this.easyLoginUsers = await this.loginService.getAllEasyLoginUsers();
+  }catch(error){
+    console.log(error)
+  }finally{
+    this.loading = false;
   }
+ }
 
   async login() {
     if(this.loginForm.valid){
@@ -48,7 +62,7 @@ export class LoginComponent {
     let retorno = true;
     let user = await this.userService.getUserByEmail(email);
     if(user.rol == "especialista"){
-       retorno = user.estado == "autorizado" ? true : false;
+       retorno = user.estado == "habilitado" ? true : false;
     }
     if(!retorno){
       this.toast.error("Siendo medico especialista, debe estar autorizado por un admin para entrar");
@@ -57,17 +71,9 @@ export class LoginComponent {
     return retorno;
 }
 
-  easyLogin(rol:string){
-    if(rol == "admin"){
-      this.loginForm.controls['email'].setValue('franallende2000@gmail.com');
-      this.loginForm.controls['password'].setValue('adminadmin');
-    }else if(rol == "especialista"){
-      this.loginForm.controls['email'].setValue('myEspecialista@gmail.com');
-      this.loginForm.controls['password'].setValue('pepepepe');
-    }else if(rol == "paciente"){
-      this.loginForm.controls['email'].setValue('yegevan303@jzexport.com');
-      this.loginForm.controls['password'].setValue('pepepepe');
-    }
+  easyLogin(user:UserModel){
+    this.loginForm.controls['email'].setValue(user.email);
+    this.loginForm.controls['password'].setValue(user.password);
   }
 
   goToRegister=()=> this.router.navigateByUrl('/register');

@@ -128,4 +128,26 @@ export class LoginService {
         }
       });
     }
+
+    async getAllEasyLoginUsers():Promise<any> {
+
+      const col = collection(this.firestore, 'users');
+      
+      try {
+          const querySnapshot = await getDocs(col);
+          const users:any = [];
+          querySnapshot.forEach((doc) => {
+              users.push(doc.data());
+          });
+      
+          const enailsEasyLogin = ['medicodos@yopmail.com', 'pacientetres@yopmail.com', 'adminuno@yopmail.com', 'pacienteuno@yopmail.com', 'medicouno@yopmail.com', 'pacientedos@yopmail.com'];
+
+          const usuariosFiltrados = users.filter((usuario: { email: string; }) => enailsEasyLogin.includes(usuario.email));
+          
+          return usuariosFiltrados;
+      } catch (error) {
+          console.error('Error obteniendo los usuarios:', error);
+          throw error;
+      }
+    }
 }

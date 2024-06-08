@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControlName } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { onlyLettersValidator, ageRangeValidator, dniValidator, imgFormatValidator, confirmPasswordValidator} from '../../validators/form-validators';
@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEspecialidadDialogComponent } from '../../components/register/add-especialidad-dialog/add-especialidad-dialog.component';
 import { CaptchaComponent } from '../../components/register/captcha/captcha.component';
 import { UserModel } from '../../models/user';
+
 
 @Component({
   selector: 'app-register',
@@ -23,6 +24,7 @@ export class RegisterComponent {
     newUser: UserModel | undefined;
     registerForm!:FormGroup;
     view: 'paciente' | 'especialista' = 'paciente';
+    showForm: boolean = false;
     mainImgLoaded:boolean = false;
     extraIMgLoaded:boolean = false;
     imgsUploaded:boolean = false;
@@ -67,6 +69,7 @@ export class RegisterComponent {
 
     switchView(view: 'paciente' | 'especialista' ) {
       this.view = view;
+      this.showForm = true;
     }
 
     receiveValues(values: any) {
@@ -107,7 +110,7 @@ export class RegisterComponent {
               await uploadBytes(fileRef, this.arrImages[i].file);
         
               const url = await getDownloadURL(fileRef);
-              this.urls.push(url);
+              this.urls.push({imgField:this.arrImages[i].formControlName, url:url});
               this.imgsUploaded = true;
             } 
           }
@@ -135,8 +138,12 @@ export class RegisterComponent {
 
     async createUser(){
       if (this.isFormValid()) {
+        try{
           await this.uploadFile();
           this.loginService.register(this.setNewUser());
+        }catch(error){
+          console.log(error)
+        } 
       }
     }
 
@@ -151,8 +158,8 @@ export class RegisterComponent {
           email: email,
           password: password,
           obraSocial: obraSocial,
-          mainImg: mainImg,
-          extraImg: extraImg,
+          mainImg: this.getImgUrl("mainImg"),
+          extraImg: this.getImgUrl("extraImg"),
           especialidad: especialidad,
           estado: this.view == "paciente" ? "habilitado" : "pendiente",
           rol: this.view
@@ -161,6 +168,14 @@ export class RegisterComponent {
         return this.newUser;
       
     } 
+
+    getImgUrl(imgFiled:string){
+      let url = this.urls.find(x=> x.imgField == imgFiled)
+      if(url){
+        return url.url;
+      }
+      return '';
+    }
 
     addEspecialidad(): void {
       const dialogRef = this.dialog.open(AddEspecialidadDialogComponent);

@@ -29,7 +29,7 @@
                                 </div>
                             }
                           </div>
-                        
+                           
                         <div class="login-btns">
                             <div class="form-group">
                                 <button type="button" class="btn btn-success btn-block" (click)="login()" [disabled]="loginForm.invalid">Iniciar Sesión</button>
@@ -37,14 +37,19 @@
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary btn-block" (click)="goToRegister()">Registrarse</button>
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-dark btn-block" (click)="easyLogin('admin')">Admin</button>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-dark btn-block" (click)="easyLogin('especialista')">Especialista</button>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-dark btn-block" (click)="easyLogin('paciente')">Paciente</button>
+
+                            <div class="line"></div>
+                            <h2>Acceso Rápido</h2>
+                            
+                            <app-spinner [loading]="loading"></app-spinner>
+                            
+                            <div class="btn-easy-login text-center" role="group">
+                                @for(user of easyLoginUsers; track user){
+                                    <button type="button" class="btn btn-outline-primary" (click)="easyLogin(user)">
+                                        <img [src]="user.mainImg" width="80px" height="80px" [alt]="user.rol" class="btn-image">
+                                        <span>{{user.rol}}</span>
+                                    </button>
+                                }
                             </div>
                         </div>
                         

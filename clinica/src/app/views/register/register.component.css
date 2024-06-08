@@ -11,6 +11,13 @@
     margin: 1%;
 }
 
+.container-fluid {
+    height: 140vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 .form-container{
     margin-top: 1em;
     margin-bottom: 1em;
@@ -39,5 +46,13 @@ button{
 
 .btn-switch{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+}
+
+.btn {
+    border-radius: 0 !important; 
+  }
+
+.btn-outline-primary{
+    margin: 0.5em;
 }

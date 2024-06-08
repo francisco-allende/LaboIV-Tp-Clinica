@@ -38,7 +38,6 @@ export class CaptchaComponent {
     if (value.length === 6) {
       setTimeout(() => {
         this.captchaForDirective = this.enteredCaptcha;
-        console.log(this.captchaForDirective)
       }, 200);
     }
   }

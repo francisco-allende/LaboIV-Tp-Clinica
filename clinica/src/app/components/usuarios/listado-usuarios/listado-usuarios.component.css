@@ -1,3 +1,27 @@
+.container-fluid {
+    height: 85vh;
+    background-color: rgb(106, 216, 212);
+    background-image: url('../../../../assets/fondo-login.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+  }
+
 table{
     margin-top: 1em;
+}
+
+li:hover, a:hover{
+    cursor: pointer;
+}
+
+.btn {
+    border-radius: 0 !important; 
+    width: 90px;
+  }
+
+.btn-danger{
+    padding-left: 0px;
+    padding-right: 0px;
 }

@@ -1,32 +1,68 @@
 import { Component } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
+import { UserModel } from '../../../models/user';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 
 @Component({
   selector: 'app-listado-usuarios',
   standalone: true,
-  imports: [],
+  imports: [SpinnerComponent],
   templateUrl: './listado-usuarios.component.html',
   styleUrl: './listado-usuarios.component.css'
 })
 export class ListadoUsuariosComponent {
-  users:any[] = [];
-  loading: boolean = false;
+  users:UserModel[] = [];
+  loading: boolean = true;
+  currentPage: number = 1;
+  pageSize: number = 10;
 
   constructor(public usersService: UsersService) {}
 
   ngOnInit(): void{
-    this.getEsp();
-    this.populateTable();
+    this.getData();
   }
   
-  async getEsp(){
-    this.users =  await this.usersService.getAllUsers()
+  async getData(){
+    try{
+      this.users =  await this.usersService.getAllUsers()
+    }catch(error){
+      console.log(error)
+    }finally{
+      this.loading = false;
+    }
   }
 
-  async populateTable(){
-   }
+  get pagedUsers() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.users.slice(startIndex, startIndex + this.pageSize);
+  }
 
-   loadData(arr:any, gameName:string){
-   
-   }
+  get totalPages() {
+    return Math.ceil(this.users.length / this.pageSize);
+  }
+
+  get pages() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  setPage(page: number) {
+    this.currentPage = page;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  async changeState(user:UserModel, state:string){
+    user.estado = state;
+    await this.usersService.update(user);
+  }
 }
