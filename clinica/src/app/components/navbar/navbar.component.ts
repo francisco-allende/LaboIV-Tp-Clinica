@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faPlusSquare, faPowerOff, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../../services/login.service';
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class NavbarComponent {
 
 
   constructor(private loginService: LoginService, 
-              private usersService: UsersService,
+              private usersService: UserService,
               public router: Router) {}
 
   ngOnInit(){

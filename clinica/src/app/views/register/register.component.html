@@ -1,19 +1,25 @@
-<div class="container-fluid vh-160 m-0 p-0">
+<div [ngClass]="showForm ? 'vh-160' : 'vh-100'" class="container-fluid m-0 p-0">
     <div class="row justify-content-center align-items-top h-100 form-container">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <h1 class="card-title">Registre su usuario</h1>
+            <h1 class="card-title text-center">Registre su usuario</h1>
             <br>
             <div class="btn-switch text-center" role="group">
               <button type="button" class="btn btn-outline-primary" (click)="switchView('paciente')">
-                <img src="../../../assets/rol_paciente.png" width="70px" alt="paciente" class="btn-image">
+                <img src="../../../assets/rol_paciente.png" width="100px" alt="paciente" class="btn-image">
+                <br>
+                <span>Paciente</span>
               </button>
               <button type="button" class="btn btn-outline-primary" (click)="switchView('especialista')">
-                <img src="../../../assets/rol_medico.png" width="70px" alt="especialista" class="btn-image">
+                <img src="../../../assets/rol_medico.png" width="100px" alt="especialista" class="btn-image">
+                <br>
+                <span>Especialista</span>
               </button>
-
             </div>
+            @if(!showForm){
+              <img style="padding-top: 6em;" src="../../../assets/fondo-login.png" width="500px" alt="serpientes medicina">
+            }
             <br><br>
             @if(showForm){
               <form [formGroup]="registerForm" (ngSubmit)="createUser()">
@@ -93,13 +99,19 @@
                           </option>
                           }
                         </select>
-                        <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px; margin-bottom: 1em;">+</button>
+                        <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px; margin-bottom: 1em;"><fa-icon [icon]='faPlus'></fa-icon></button>
                       </div>
                       @if(registerForm.controls['especialidad'].invalid && (registerForm.controls['especialidad'].dirty || registerForm.controls['especialidad'].touched)){
                         <div class="text-danger">
                             No pueden añadirse especialidades ya existentes
                         </div>
                       }
+                      <div class="form-group text-center">
+                          <button type="button" class="btn btn-primary" (click)="agregarOtraEspecialidad()">
+                            Poseo mas de una especialidad
+                          </button>
+                      </div>
+                      <br>
                     }
        
                     <div class="form-group">

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { UsersService } from '../../../services/users.service';
+import { UserService } from '../../../services/user.service';
 import { UserModel } from '../../../models/user';
 import { SpinnerComponent } from '../../spinner/spinner.component';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-listado-usuarios',
@@ -16,7 +17,7 @@ export class ListadoUsuariosComponent {
   currentPage: number = 1;
   pageSize: number = 10;
 
-  constructor(public usersService: UsersService) {}
+  constructor(public usersService: UserService, private log:LoginService) {}
 
   ngOnInit(): void{
     this.getData();
@@ -24,7 +25,7 @@ export class ListadoUsuariosComponent {
   
   async getData(){
     try{
-      this.users =  await this.usersService.getAllUsers()
+      this.users =  await this.usersService.getAllUsers();
     }catch(error){
       console.log(error)
     }finally{

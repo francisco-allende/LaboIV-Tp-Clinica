@@ -1,8 +1,8 @@
 .container-fluid {
     background-color: black;
-    background-image: url('../../../assets/fondo-login.png'); 
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-image: url('../../../assets/fondo-celeste.png'); 
+    background-size: 250px 250px;
+    background-repeat: repeat;
     background-position: center;
     display: flex;
     flex-direction: column;

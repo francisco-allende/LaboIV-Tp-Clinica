@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControlName } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControlName, FormControl, FormArray } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { onlyLettersValidator, ageRangeValidator, dniValidator, imgFormatValidator, confirmPasswordValidator} from '../../validators/form-validators';
@@ -10,12 +10,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEspecialidadDialogComponent } from '../../components/register/add-especialidad-dialog/add-especialidad-dialog.component';
 import { CaptchaComponent } from '../../components/register/captcha/captcha.component';
 import { UserModel } from '../../models/user';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlus, faMinus, faL } from '@fortawesome/free-solid-svg-icons';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CaptchaComponent],
+  imports: [FormsModule, ReactiveFormsModule, CaptchaComponent, FontAwesomeModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -33,6 +35,10 @@ export class RegisterComponent {
     arrImages:any[] = [];
     urls:any[] = [];
     validToken: boolean = false;
+    myEspecialidades:string[] = [];
+
+    faPlus = faPlus;
+    faMinus = faMinus;
 
     private storage:Storage = getStorage();
 
@@ -149,7 +155,8 @@ export class RegisterComponent {
 
     setNewUser(): any{
       const { nombre , apellido, dni, edad, email, password, especialidad, obraSocial, mainImg, extraImg } = this.registerForm.value;
-      
+      this.myEspecialidades.push(especialidad);
+
         this.newUser = {
           nombre: nombre,
           apellido: apellido,
@@ -160,7 +167,7 @@ export class RegisterComponent {
           obraSocial: obraSocial,
           mainImg: this.getImgUrl("mainImg"),
           extraImg: this.getImgUrl("extraImg"),
-          especialidad: especialidad,
+          especialidad: this.myEspecialidades,
           estado: this.view == "paciente" ? "habilitado" : "pendiente",
           rol: this.view
         }
@@ -196,6 +203,25 @@ export class RegisterComponent {
       });
     }
 
+
+    agregarOtraEspecialidad():void{
+      const dialogRef = this.dialog.open(AddEspecialidadDialogComponent);
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const nuevaEspecialidad = result.toLowerCase().trim();
+          const especialidadExistente = this.especialidades.some(especialidad => especialidad.toLowerCase().trim() === nuevaEspecialidad);
+    
+          if (especialidadExistente) {
+            this.myEspecialidades.push(nuevaEspecialidad);
+            this.toast.success("Su otra especialidad fue añadida con éxito");
+          } else {
+            this.toast.error("Si su otra especialidad no figura, puede añdirla manualmente");
+          }
+        }
+      });
+    }
+
     handleCaptchaValidation(valid: any) {
       this.validToken = valid;
     }
@@ -221,7 +247,7 @@ export class RegisterComponent {
                  this.registerForm.get('extraImg')?.valid;
         } else if (this.view == 'especialista') {
           retorno =
-                 this.registerForm.get('especialidad')?.valid
+                 this.registerForm.get('especialidad')?.valid 
         }
       }
       

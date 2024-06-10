@@ -9,7 +9,7 @@ export class EspecialidadesService {
 
   constructor(private firestore:Firestore) {}
 
-  getAllEspecialidades(): Observable<any[]> {
+  getAllEspecialidades(): Observable<string[]> {
     const col = collection(this.firestore, 'especialidades');
     return collectionData(col).pipe(
       map(especialidades => especialidades.map(especialidad => especialidad['especialidad']))

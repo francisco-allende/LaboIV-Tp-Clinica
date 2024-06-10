@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 import { Router , ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserModel } from '../../models/user';
@@ -25,7 +25,7 @@ export class LoginComponent {
               private router: Router,
               private toast: ToastrService,
               private loginService: LoginService,
-              private userService: UsersService) 
+              private userService: UserService) 
               {
                 this.loginForm = this.fb.group({
                   email: ['', [Validators.required, Validators.email]],

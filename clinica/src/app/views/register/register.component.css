@@ -1,8 +1,8 @@
 .container-fluid {
     background-color: black;
-    background-image: url('../../../assets/fondo-login.png'); 
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-image: url('../../../assets/fondo-celeste.png'); 
+    background-size: 250px 250px;
+    background-repeat: repeat;
     background-position: center;
     display: flex;
     flex-direction: column;
@@ -56,3 +56,17 @@ button{
 .btn-outline-primary{
     margin: 0.5em;
 }
+
+.form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Ajusta el ancho según sea necesario */
+    max-width: 600px; /* Ancho máximo para pantallas más grandes */
+    text-align: center;
+}
+
+
+
+

@@ -1,0 +1,93 @@
+<div class="container-fluid">
+    
+    <div class="container mt-4">
+        <div class="row">
+        @if(loading){
+            <app-spinner [loading]="loading"></app-spinner>
+        }@else {
+
+          <!--Medicos-->
+          <div class="col-md-3">
+            <h2 class="text-center">Especialista</h2>
+            <div class="cards-container">
+                @for(medico of medicos; track medico){
+                    <div class="card custom-card mb-sm-3" (click)="chooseMedico(medico)">
+                        <img class="card-img-top" [src]="medico.mainImg" width="70px" height="70px" [alt]="'especialista ' + medico.apellido" >
+                        <div class="card-body text-center">
+                          <p class="card-text">{{medico.nombre}} {{medico.apellido}}</p>
+                          <p class="card-text">Médico especializado en <strong>{{medico.especialidad}}</strong></p>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+          </div>
+        
+          <!--Especialdiades-->
+          <div class="col-md-3 text-center">
+            <h2 class="text-center">Especialidad</h2>
+            @for(especialidad of selectedMedico?.especialidad; track especialidad){
+                <div class="card mb-3" (click)="chooseEspecialidad(especialidad)">
+                    <div class="card-body">
+                      <h3>{{especialidad}}</h3>
+                    </div>
+                </div>
+            }
+          </div>
+    
+          <!--Pacientes-->
+          <div class="col-md-3">
+            <h2 class="text-center">Paciente</h2>
+            @if(currentRol == "paciente"){
+                <div class="list-group mb-3">
+                    <a class="list-group-item list-group-item-action">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{mySelf?.nombre}} {{mySelf?.apellido}}</h5>
+                        <img [src]="mySelf?.mainImg" [alt]="'paciente ' + mySelf?.apellido" width="70px" height="70px"/>
+                      </div>
+                    </a>
+                </div>
+            }@else if (currentRol == "admin") {
+                <div class="cards-container">
+                @for(paciente of pacientes; track paciente){
+                    <div class="list-group mb-3" (click)="choosePaciente(paciente)">
+                        <a class="list-group-item list-group-item-action">
+                          <div class="d-flex w-100 justify-content-between">
+                            <h4 class="mb-1">{{paciente?.nombre}} {{paciente?.apellido}}</h4>
+                            <img [src]="paciente?.mainImg" [alt]="'paciente ' + paciente?.apellido" width="70px" height="70px" />
+                          </div>
+                        </a>
+                    </div>
+                }
+                </div>
+                
+            }
+          </div>
+
+          <!--Horarios-->
+          <div class="col-md-3 text-center">
+            <h2 class="text-center">Horarios</h2>
+            <div class="cards-container">
+                @for(horario of selectedMedico?.horarios; track horario){
+                    <div class="card mb-3" (click)="chooseHorario(horario)">
+                        <div class="card-body">
+                        <h3>{{horario}}</h3>
+                        </div>
+                    </div>
+                }
+            </div>
+          </div>
+
+          <!--Solicitar-->
+          <div class="line"></div>
+          <div class="text-center">
+            <button class="btn btn-success" [disabled]="!isValid()" (click)="solicitar()"> Solicitar turno </button>
+          </div>
+        }
+        </div>
+    </div>
+      
+    
+  </div>
+  
+  

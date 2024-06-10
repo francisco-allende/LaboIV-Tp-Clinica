@@ -10,7 +10,7 @@ import { UserModel } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UserService {
 
   userRol:string='';
 
@@ -84,4 +84,28 @@ export class UsersService {
       throw error;
     }
   }
+
+  async getAllUsersByRol(rol: string): Promise<UserModel[] | null> {
+    try {
+      const col = collection(this.firestore, 'users');
+      const q = query(col, where('rol', '==', rol));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const users: UserModel[] = [];
+        querySnapshot.forEach((doc: any) => {
+          users.push(doc.data());
+        });
+        return users;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al obtener usuarios por rol: ", error);
+      return null;
+    }
+  }
+  
+
+
 }

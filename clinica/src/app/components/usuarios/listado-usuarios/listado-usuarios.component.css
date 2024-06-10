@@ -1,9 +1,9 @@
 .container-fluid {
     height: 85vh;
     background-color: rgb(106, 216, 212);
-    background-image: url('../../../../assets/fondo-login.png'); 
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-image: url('../../../../assets/main_fondo.png'); 
+    background-size: 250px 250px;
+    background-repeat: repeat;
     background-position: center;
     padding: 20px;
   }

@@ -1,10 +1,10 @@
-<h1 mat-dialog-title>Añadir Especialidad</h1>
-<div mat-dialog-content>
+<h1 mat-dialog-title class="dialog-title">Añadir Especialidad</h1>
+<div mat-dialog-content class="dialog-content">
   <mat-form-field>
     <input matInput placeholder="Especialidad" [(ngModel)]="newEspecialidad">
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-button (click)="onAdd()">Añadir</button>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onCancel()" class="dialog-text">Cancelar</button>
+  <button mat-button (click)="onAdd()" class="dialog-text">Añadir</button>
 </div>

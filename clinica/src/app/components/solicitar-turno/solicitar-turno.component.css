@@ -1,0 +1,73 @@
+.container-fluid {
+    height: 90vh;
+    background-color: rgb(106, 216, 212);
+    background-image: url('../../../assets/main_fondo.png'); 
+    background-size: 250px 250px;
+    background-repeat: repeat;
+    background-position: center;
+    padding: 20px;
+  }
+
+.container{
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+li:hover, a:hover{
+    cursor: pointer;
+}
+
+.btn {
+    border-radius: 0 !important; 
+    width: 90px;
+  }
+
+  .card-img-top {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .custom-card {
+    width: 250px; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+
+  .custom-card:hover, .card{
+    cursor: pointer;
+  }
+  
+  .custom-card img {
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
+    margin: 10px auto; 
+  }
+  
+  .custom-card .card-body {
+    padding: 10px; 
+  }
+  
+  .custom-card .card-text {
+    font-size: 1em; 
+  }
+
+.cards-container {
+  max-height: 630px;
+  overflow-y: auto;
+}
+
+.btn-success{
+  width: 300px;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #3d8282; 
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+  

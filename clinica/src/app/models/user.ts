@@ -7,8 +7,10 @@ export interface UserModel{
     password: string;
     rol:string;
     mainImg: string; 
-    extraImg: string;
-    obraSocial : string;
-    especialidad: string;
+    extraImg?: string;
+    obraSocial? : string;
+    especialidad?: string[];
     estado : string;
+    turnos?: string[]; //array de ids de turnos
+    horarios?:Date []| string [];
 }

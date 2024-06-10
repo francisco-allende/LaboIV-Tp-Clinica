@@ -106,7 +106,9 @@ export class LoginService {
             extraImg: newUser.extraImg ? newUser.extraImg : '',
             obraSocial : newUser.obraSocial,
             especialidad: newUser.especialidad,
-            estado : newUser.estado
+            estado : newUser.estado,
+            turnos: [],
+            horarios: []
           })
           
           this.toast.success('Usuario creado con éxito', `Enviamos un mail de verificacion a ${res.user.email}`);

@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { loggedGuard } from './guards/logged.guard';
 import { adminGuard } from './guards/admin.guard';
+import { pacienteGuard } from './guards/paciente.guard';
+import { especialistaGuard } from './guards/especialista.guard';
 
 
 export const routes: Routes = [
@@ -11,7 +13,7 @@ export const routes: Routes = [
     },
     {
         path: 'home',
-        canActivate:[loggedGuard],
+        //canActivate:[loggedGuard],
         loadComponent: () => import('./views/home/home.component').then((m) => m.HomeComponent)
     },
     {
@@ -28,8 +30,13 @@ export const routes: Routes = [
     },
     {
         path: 'usuarios',
-        canActivate:[adminGuard],
+        //canActivate:[adminGuard],
         loadComponent: () => import('./views/usuarios-container/usuarios-container.component').then((m) => m.UsuariosContainerComponent)
+    },
+    {
+        path: 'turnos/solicitar',
+        //canActivate:[especialistaGuard || pacienteGuard],
+        loadComponent: () => import('./views/solicitar-turno-container/solicitar-turno-container.component').then((m) => m.SolicitarTurnoContainerComponent)
     },
     {
         path: 'error',
