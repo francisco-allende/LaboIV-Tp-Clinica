@@ -4,7 +4,7 @@ export interface TurnoModel {
     especialistaId: string; // es el email
     pacienteId: string; // es el email
     especialidad: string;
-    estado: string; // 'pendiente', 'confirmado/aceptado', 'cancelado', 'rechazado', 'finalizado'
+    estado: string; // 'pendiente', 'confirmado', 'cancelado', 'rechazado', 'finalizado'
     comentario: string;
     reseña: string;
 }

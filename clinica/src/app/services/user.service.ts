@@ -56,6 +56,29 @@ export class UserService {
     }
   }
 
+  async getNameAndSurnameByEmail(email: string): Promise<string> {
+    try {
+      const col = collection(this.firestore, 'users');
+      const q = query(col, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        this.setUserRol(userData['rol']);
+
+        let user = {...userData} as any;
+
+        return `${user.nombre} ${user.apellido}`;
+      } else {
+        return '';
+      }
+    } catch (error) {
+      console.error("Error al obtener el usuario via email: ", error);
+      return '';
+    }
+  }
+
    async update(user:UserModel) {
     try {
       const col = collection(this.firestore, 'users');
@@ -85,10 +108,14 @@ export class UserService {
     }
   }
 
-  async getAllUsersByRol(rol: string): Promise<UserModel[] | null> {
+  async getAllEnabledUsersByRol(rol: string): Promise<UserModel[] | null> {
     try {
       const col = collection(this.firestore, 'users');
-      const q = query(col, where('rol', '==', rol));
+      const q = query(col, 
+        where('rol', '==', rol), 
+        where('estado', '==', 'habilitado')
+        );
+      
       const querySnapshot = await getDocs(q);
   
       if (!querySnapshot.empty) {

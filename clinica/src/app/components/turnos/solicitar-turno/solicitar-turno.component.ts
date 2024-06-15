@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SpinnerComponent } from '../spinner/spinner.component';
-import { LoginService } from '../../services/login.service';
-import { UserService } from '../../services/user.service';
-import { TurnoService } from '../../services/turno.service';
-import { UserModel } from '../../models/user';
-import { TurnoModel } from '../../models/turno';
+import { SpinnerComponent } from '../../spinner/spinner.component';
+import { LoginService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
+import { TurnoService } from '../../../services/turno.service';
+import { UserModel } from '../../../models/user';
+import { TurnoModel } from '../../../models/turno';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -37,13 +37,13 @@ export class SolicitarTurnoComponent {
 
   async getData(){
     try{
-      this.medicos = await this.userService.getAllUsersByRol('especialista');
+      this.medicos = await this.userService.getAllEnabledUsersByRol('especialista');
       let email = this.loginService.getLoggedUser().value;
       this.mySelf = await this.userService.getUserByEmail(email);
       this.currentRol = this.mySelf?.rol;
       
       if(this.currentRol == "admin"){
-        this.pacientes = await this.userService.getAllUsersByRol('paciente');
+        this.pacientes = await this.userService.getAllEnabledUsersByRol('paciente');
       }
     }catch(error){
       console.log(error);

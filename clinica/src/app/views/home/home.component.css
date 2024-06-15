@@ -1,4 +1,4 @@
-main{
+main {
     height: 85vh;
     background-image: url('../../../assets/main_fondo.png'); 
     background-size: 250px 250px;
@@ -6,20 +6,60 @@ main{
     background-position: center;
 }
 
-.card{
-    width: 18rem;
-    height: 14rem;
-}
-.row {
-    margin: 0 auto; 
+#work-title {
+    text-align: center;
+    font-size: 50px;
+    padding: 1em;
+    background-color: white;
 }
 
+p {
+    font-size: large;
+}
+
+#first-work, #second-work, #third-work, #fourth-work, #fifth-work {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 1%;
+}
+
+#first-work {
+    background-color: rgb(209, 225, 239);
+}
+
+#second-work {
+    background-color: lightpink;
+}
+
+#third-work {
+    background-color: lavender;
+}
+
+#fourth-work {
+    background-color: lightgray;
+}
+
+#fifth-work {
+    background-color: #adfbad;
+}
+
+#video-galapagos {
+    border-radius: 10px;
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
 
 @media (max-width: 1300px) {
-    main{
+    main {
         height: 100vh;
     }
-    .card{
+    .card {
         margin: 1em;
         width: 14rem;
     }

@@ -39,6 +39,11 @@ export const routes: Routes = [
         loadComponent: () => import('./views/solicitar-turno-container/solicitar-turno-container.component').then((m) => m.SolicitarTurnoContainerComponent)
     },
     {
+        path: 'turnos/listar_turnos',
+        //canActivate:[adminGuard],
+        loadComponent: () => import('./views/turnos-container/turnos-container.component').then((m) => m.TurnosContainerComponent)
+    },
+    {
         path: 'error',
         loadComponent: () => import('./views/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent)
     },

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { SolicitarTurnoComponent } from '../../components/solicitar-turno/solicitar-turno.component';
+import { SolicitarTurnoComponent } from '../../components/turnos/solicitar-turno/solicitar-turno.component';
 
 @Component({
   selector: 'app-solicitar-turno-container',

@@ -17,7 +17,7 @@ export class ListadoUsuariosComponent {
   currentPage: number = 1;
   pageSize: number = 10;
 
-  constructor(public usersService: UserService, private log:LoginService) {}
+  constructor(public usersService: UserService) {}
 
   ngOnInit(): void{
     this.getData();

@@ -1,7 +1,7 @@
 .container-fluid {
     height: 90vh;
     background-color: rgb(106, 216, 212);
-    background-image: url('../../../assets/main_fondo.png'); 
+    background-image: url('../../../../assets/main_fondo.png'); 
     background-size: 250px 250px;
     background-repeat: repeat;
     background-position: center;

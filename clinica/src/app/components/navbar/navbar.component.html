@@ -22,7 +22,7 @@
         }
         @if(currentRol == "admin"){
           <li class="nav-item">
-            <a class="nav-link" href="#">Turnos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/listar_turnos')">Turnos</a>
           </li>
         }
         @if(currentRol == "admin" || currentRol == "paciente"){

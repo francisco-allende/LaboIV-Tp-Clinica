@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="container mt-4">
+        <div class="row container">
+
+        @if(loading){
+            <app-spinner [loading]="loading" ></app-spinner>
+        }@else {
+
+            <!-- Filtros -->
+            <div class="filter-container d-flex justify-content-center my-4">
+              <div class="filter mx-3">
+                <label for="filter-especialista" class="form-label">Especialista:</label>
+                <input type="text" id="filter-especialista" class="form-control" [value]="especialistaFilter"  readonly>
+              </div>
+              <div class="filter mx-3">
+                <label for="filter-especialidad" class="form-label">Especialidad:</label>
+                <input type="text" id="filter-especialidad" class="form-control" [value]="especialidadFilter" readonly>
+              </div>
+              <div class="filter mx-3 d-flex align-items-end">
+                <button class="btn btn-primary" (click)="applyFilters()" [disabled]="!especialidadFilter && !especialistaFilter">Filtrar</button>
+              </div>
+              <div class="filter mx-3 d-flex align-items-end">
+                <button class="btn btn-secondary" (click)="clearFilters()">Ver todos</button>
+              </div>
+            </div>
+            
+
+            <!--Turnos-->
+            <table class="table table-striped table-light container">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Especialista</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col" style="width: 120px;">Estado</th>
+                    <th scope="col" class="td-modify-state">Modificar Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @if(pagedTurnos?.length === 0){
+                    <td colspan="6" class="td-no-results">No se encontraron resultados</td>
+                  }@else {
+                    @for(turno of pagedTurnos; track turno ){
+                      <tr class="text-center">
+                            <td>{{ turno.fecha }}</td>
+                            <td (click)="setFilter('especialista', turno.especialistaId)" class="td-clickeable">{{userMap[turno.especialistaId]}}</td>
+                            <td (click)="setFilter('especialidad', turno.especialidad)" class="td-clickeable">{{ turno.especialidad }}</td>
+                            <td>{{userMap[turno.pacienteId]}}</td>
+                            <td style="width: 120px;">{{ turno.estado }}</td>
+                            <td>
+                              <div class="td-modify-state">
+                                @if(turno.estado == "pendiente"){
+                                  <button class="btn btn-success" (click)="changeState(turno, 'cancelado')"> Cancelar </button>
+                                }@else {
+                                  <button class="btn btn-secondary" (click)="showMotivo(turno.comentario)"> Ver motivo </button>
+                                }
+                              </div>
+                            </td>
+                      </tr>
+                  }
+                }
+                  </tbody>
+              </table>    
+        
+       
+
+     
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="previousPage()">Anterior</a>
+            </li>
+        
+            @for(page of pages; track page){
+              <li class="page-item" [class.active]="currentPage === page">
+                <a class="page-link" (click)="setPage(page)">{{ page }}</a>
+              </li>
+            }
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="nextPage()">Siguiente</a>
+            </li>
+          </ul>
+        }
+
+        </div>
+    </div>
+</div>
