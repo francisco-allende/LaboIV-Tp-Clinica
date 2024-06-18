@@ -3,8 +3,55 @@
     <div class="row">
         <!-- Contenido principal -->
         <main class="col-lg-12 m-0 p-0">
+            <div class="banner">
+                <h1>Bienvenido a Clínica San Francisco</h1>
+                <p>Tu salud es nuestra prioridad</p>
+            </div>
+            @if(loading){
+                <app-spinner [loading]="loading"></app-spinner>
+            }@else {
+                <div class="container my-5">
+                    <div class="row justify-content-center">
+                      <div class="col-md-4">
+                        <div id="turnos-card" class="card text-center shadow-sm">
+                          <div class="card-body">
+                              <h2 class="card-title">Turnos</h2>
+                            <img src="../../../assets/home-turnos.jpg" alt="Turnos" class="img-fluid mb-3">
+                            @if(currentRol != "admin"){
+                                <p class="card-text">Gestiona tus turnos de manera rápida y sencilla.</p>
+                                <a (click)="router.navigateByUrl('turnos/mis_turnos')" class="btn btn-primary">Ver más</a>
+                            }@else {
+                                <p class="card-text">Visualizar y administrar turnos.</p>
+                                <a (click)="router.navigateByUrl('turnos/listar_turnos')" class="btn btn-primary">Ver más</a>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div id="perfil-card" class="card text-center shadow-sm">
+                          <div class="card-body">
+                              <h2 class="card-title">Mi Perfil</h2>
+                            <img src="../../../assets/home-perfil.jpg" alt="Mi Perfil" class="img-fluid mb-3">
+                            <p class="card-text">Accede y actualiza tu información personal.</p>
+                            <a class="btn btn-primary" (click)="router.navigateByUrl('mi_perfil')">Ver más</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div id="consultas-card" class="card text-center shadow-sm">
+                          <div class="card-body">
+                              <h2 class="card-title">Consultas</h2>
+                            <img src="../../../assets/home-consultas.jpeg" alt="Consultas" class="img-fluid mb-3" width="382px" height="312px">
+                            <p class="card-text">Revisa tus consultas médicas previas.</p>
+                            <a href="/consultas" class="btn btn-primary">Ver más</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            }
             
-        </main>
+          </main>
     </div>
     <app-footer></app-footer>
 </div>

@@ -4,63 +4,72 @@ main {
     background-size: 250px 250px;
     background-repeat: repeat;
     background-position: center;
+  }
+  
+  .banner {
+    text-align: center;
+    padding: 2em 0;
+    background: linear-gradient(90deg, #87CEFA 0%, #B0E0E6 100%);
+    color: rgb(10, 10, 10);
 }
 
-#work-title {
+.banner h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    color: rgb(6, 6, 6); 
+}
+
+.banner p {
+    font-size: 1.5em;
+    color: rgb(3, 3, 3);
+}
+
+  .title {
     text-align: center;
-    font-size: 50px;
+    font-size: 2em;
     padding: 1em;
     background-color: white;
-}
-
-p {
+  }
+  
+  p {
     font-size: large;
-}
-
-#first-work, #second-work, #third-work, #fourth-work, #fifth-work {
+  }
+  
+  .card {
     padding-top: 1em;
     padding-bottom: 1em;
     border-radius: 1%;
-}
-
-#first-work {
+    margin: 1em 0;
+  }
+  
+  #turnos-card {
     background-color: rgb(209, 225, 239);
-}
-
-#second-work {
+  }
+  
+  #perfil-card {
     background-color: lightpink;
-}
-
-#third-work {
-    background-color: lavender;
-}
-
-#fourth-work {
-    background-color: lightgray;
-}
-
-#fifth-work {
-    background-color: #adfbad;
-}
-
-#video-galapagos {
-    border-radius: 10px;
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-}
-
-img.img-fluid {
+  }
+  
+  #consultas-card {
+    background-color: rgb(213, 245, 196);
+  }
+  
+  .img-fluid {
     max-width: 100%;
-    height: auto;
-}
+    height: 312px;
+  }
 
-@media (max-width: 1300px) {
+  .card-body{
+    height: 500px;
+  }
+  
+  @media (max-width: 1300px) {
     main {
-        height: 100vh;
+      height: 100vh;
     }
     .card {
-        margin: 1em;
-        width: 14rem;
+      margin: 1em;
+      width: 14rem;
     }
-}
+  }
+  
