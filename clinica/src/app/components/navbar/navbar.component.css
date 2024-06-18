@@ -33,3 +33,7 @@ a:hover{
     margin-left: 1em;
     margin-right: 1em;
   }
+
+  .nav-link{
+    font-size: medium;
+  }

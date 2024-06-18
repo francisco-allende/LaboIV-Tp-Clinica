@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="container mt-4">
+        <div class="row container">
+
+            @if(loading){
+                <app-spinner [loading]="loading"></app-spinner>
+            }@else{
+                <div class="user-card">
+                    <img [src]="mySelf?.mainImg" alt="User Image" class="user-image">
+                    <div class="user-details">
+                      <p class="user-data"><strong>Usuario:</strong> {{ mySelf?.nombre }} {{mySelf?.apellido}}</p>
+                      <p class="user-data"><strong>DNI:</strong> {{ mySelf?.dni }} </p>
+                      <p class="user-data"><strong>Email:</strong> {{ mySelf?.email }}</p>
+                      <p class="user-data"><strong>Rol:</strong> {{ mySelf?.rol }}</p>
+                      @if(currentRol == "paciente"){
+                        <p class="user-data"><strong>Obra Social:</strong> {{ mySelf?.obraSocial }}</p>
+                      }
+                      @if(currentRol == "especialista"){
+                        <p class="user-data list-container"><strong>Especialidades:</strong> 
+                            @for (esp of mySelf?.especialidad; track esp) {
+                                <li class="list-data">{{esp}}</li>
+                            }
+                        </p>
+                        
+                        <p class="user-data"><strong>Días y Horarios de Atencion:</strong></p>
+                        @if(!mySelf?.horarios){
+                            <p class="user-data">No tiene dias y horarios de atencion cargados</p>
+                        }@else {
+                            @for(horario of mySelf?.horarios; track horario){
+                                <ul class="user-data list-container">
+                                    <li class="list-data">{{ horario }}</li> <!--pipe de horarios-->
+                                  </ul>
+                            }
+                        }
+
+                        <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="openModal()">Mis horarios</button>
+                      }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

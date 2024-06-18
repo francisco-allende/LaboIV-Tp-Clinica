@@ -13,7 +13,7 @@
       <!-- Menú centrado -->
       <ul class="nav navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" (click)="router.navigateByUrl('home')">Home</a>
         </li>
         @if(currentRol == "paciente" || currentRol == "especialista"){
           <li class="nav-item">
@@ -22,7 +22,7 @@
         }
         @if(currentRol == "admin"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('turnos/listar_turnos')">Turnos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/listar_turnos')">Listar Turnos</a>
           </li>
         }
         @if(currentRol == "admin" || currentRol == "paciente"){
@@ -48,7 +48,9 @@
               <div class="mr-3">
                 <!-- Enlace al perfil del usuario -->
                 <span tooltip="Mi Perfil" placement="bottom" container="body">
-                  <fa-icon [icon]="faUser" class="font-xs"></fa-icon>
+                  <a class="nav-link" (click)="router.navigateByUrl('mi_perfil')">
+                    <fa-icon [icon]="faUser" class="font-xs"></fa-icon>
+                  </a>
                 </span>
               </div>
               <div class="btn-nav-end">

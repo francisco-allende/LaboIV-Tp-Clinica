@@ -1,0 +1,64 @@
+.container-fluid {
+    height: 85vh;
+    background-color: rgb(106, 216, 212);
+    background-image: url('../../../../assets/main_fondo.png'); 
+    background-size: 250px 250px;
+    background-repeat: repeat;
+    background-position: center;
+    padding: 20px;
+  }
+
+  .mt-4{
+
+    height: 800px;
+  }
+
+  .user-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+    padding: 16px;
+    margin-top: 1em;
+    width: 400px;
+
+  }
+  
+  .user-image {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 1em;
+    margin-bottom: 3em;
+  }
+  
+  .user-details {
+    font-family: Arial, sans-serif;
+  }
+  
+  .user-data{
+    font-size: 1.2em;
+    margin-bottom: 1.2em;
+  }
+
+  .list-container{
+    width: 50%;
+    margin-left: 25%;
+    text-align: left;
+  }
+
+  .list-data{
+    margin-top: 0.5em;
+  }
+
+  .button:hover{
+    cursor: pointer;
+  }
+  .btn{
+    margin: 1em;
+  }
+
+  

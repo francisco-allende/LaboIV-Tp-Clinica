@@ -49,6 +49,11 @@ export const routes: Routes = [
         loadComponent: () => import('./views/mis-turnos-container/mis-turnos-container.component').then((m) => m.MisTurnosContainerComponent)
     },
     {
+        path: 'mi_perfil',
+        //canActivate:[loginGuard],
+        loadComponent: () => import('./views/perfil-container/perfil-container.component').then((m) => m.PerfilContainerComponent)
+    },
+    {
         path: 'error',
         loadComponent: () => import('./views/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent)
     },

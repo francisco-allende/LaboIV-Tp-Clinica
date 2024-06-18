@@ -12,5 +12,5 @@ export interface UserModel{
     especialidad?: string[];
     estado : string;
     turnos?: string[]; //array de ids de turnos
-    horarios?:Date []| string [];
+    horarios?:Date [] | string [];
 }
