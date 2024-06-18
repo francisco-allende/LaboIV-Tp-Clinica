@@ -1,0 +1,10 @@
+<h1 mat-dialog-title class="dialog-title">Rechazar Turno</h1>
+<div mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="fill" class="w-100">
+    <textarea matInput placeholder="Motivo del rechazo" [(ngModel)]="rechazoReason" rows="5"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onCancel()" class="dialog-text">Cancelar</button>
+  <button mat-button (click)="onConfirm()" class="dialog-text">Confirmar</button>
+</div>

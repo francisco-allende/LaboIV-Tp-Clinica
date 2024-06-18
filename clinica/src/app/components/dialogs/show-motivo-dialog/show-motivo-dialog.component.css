@@ -1,0 +1,24 @@
+.dialog-title {
+    text-align: center;
+    padding-top: 1em;
+  }
+  
+  .dialog-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0;
+    height: 100px;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1em;
+  }
+  
+  .dialog-text {
+    text-align: center;
+  }
+  

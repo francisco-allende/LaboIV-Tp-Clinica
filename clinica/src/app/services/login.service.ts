@@ -15,6 +15,7 @@ import { UserModel } from '../models/user';
 export class LoginService {
 
   loggedUser: BehaviorSubject<string | undefined | null> = new BehaviorSubject<string | undefined | null>(null);
+  private loggedUserKey = 'loggedUserEmail';
 
   constructor(public firestore: Firestore,
     private auth: Auth, 
@@ -24,9 +25,9 @@ export class LoginService {
       this.configureAuthPersistence();
       onAuthStateChanged(this.auth, (user: User | null) => {
         if (user) {
-          this.loggedUser.next(user.email);
+          //this.loggedUser.next(user.email);
         } else {
-          this.loggedUser.next(null);
+          //this.loggedUser.next(null);
         }
       });
     }
@@ -40,7 +41,7 @@ export class LoginService {
     }
 
     setLoggedUser = (email:any) => this.loggedUser = email;
-    getLoggedUser = ():any => this.loggedUser;
+    getLoggedUser = ():any =>  localStorage.getItem(this.loggedUserKey);
 
     addToLogger(emailValue:string){
       try{
@@ -63,6 +64,7 @@ export class LoginService {
           if(this.isEmailVerificated()){
             this.addToLogger(res.user.email);
             this.setLoggedUser(res.user.email);
+            localStorage.setItem(this.loggedUserKey, email);
             this.toast.success(`Nos alegra verte de nuevo ${res.user.email}`);
             this.router.navigateByUrl('/home');
           }else{
@@ -84,6 +86,7 @@ export class LoginService {
 
     logOut(){
       signOut(this.auth).then(() => {
+        localStorage.removeItem(this.loggedUserKey);
         this.setLoggedUser('');
       })
     }

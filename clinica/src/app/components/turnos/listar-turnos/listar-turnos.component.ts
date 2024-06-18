@@ -3,23 +3,25 @@ import { SpinnerComponent } from '../../spinner/spinner.component';
 import { LoginService } from '../../../services/login.service';
 import { UserService } from '../../../services/user.service';
 import { TurnoService } from '../../../services/turno.service';
-import { UserModel } from '../../../models/user';
 import { TurnoModel } from '../../../models/turno';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
-import { CancelTurnoDialogComponent } from '../cancel-turno-dialog/cancel-turno-dialog.component';
-import { ShowMotivoDialogComponent } from '../show-motivo-dialog/show-motivo-dialog.component';
+import { CancelTurnoDialogComponent } from '../../dialogs/cancel-turno-dialog/cancel-turno-dialog.component';
+import { ShowMotivoDialogComponent } from '../../dialogs/show-motivo-dialog/show-motivo-dialog.component';
+import { ListadoFiltrosComponent } from '../listado-filtros/listado-filtros.component';
+import { PaginationComponent } from '../../paginacion/paginacion.component';
 
 @Component({
   selector: 'app-listar-turnos',
   standalone: true,
-  imports: [SpinnerComponent, CancelTurnoDialogComponent],
+  imports: [SpinnerComponent, CancelTurnoDialogComponent, ListadoFiltrosComponent, PaginationComponent],
   templateUrl: './listar-turnos.component.html',
   styleUrl: './listar-turnos.component.css'
 })
 export class ListarTurnosComponent {
 
   loading:boolean = true;
+  currentRol:string | undefined = 'admin';
   turnos:TurnoModel[] | undefined = [];
   filteredTurnos: TurnoModel[] | undefined = [];
   userMap: { [email: string]: string } = {};
@@ -70,6 +72,18 @@ export class ListarTurnosComponent {
     }
   }
 
+  onFilterApplied(filters: { especialidadFilter: string, especialistaFilter: string }) {
+    this.especialidadFilter = filters.especialidadFilter;
+    this.especialistaFilter = filters.especialistaFilter;
+    this.applyFilters();
+  }
+
+  onFiltersCleared() {
+    this.especialidadFilter = '';
+    this.especialistaFilter = '';
+    this.filteredTurnos = this.turnos;
+  }
+
   applyFilters() {
     this.filteredTurnos = this.turnos?.filter(turno => {
       const matchEspecialidad = this.especialidadFilter ? turno.especialidad.includes(this.especialidadFilter) : true;
@@ -78,11 +92,6 @@ export class ListarTurnosComponent {
     });
   }
 
-  clearFilters() {
-    this.especialidadFilter = '';
-    this.especialistaFilter = '';
-    this.filteredTurnos = this.turnos;
-  }
 
   async changeState(turno: TurnoModel, state: string) {
     const dialogRef = this.dialog.open(CancelTurnoDialogComponent, {
@@ -112,30 +121,14 @@ export class ListarTurnosComponent {
   }
 
   get totalPages() {
-    if(this.turnos){
-      return Math.ceil(this.turnos.length / this.pageSize);
-    }else{
+    if(this.filteredTurnos){
+      return Math.ceil(this.filteredTurnos.length / this.pageSize);
+    } else {
       return 0;
     }
   }
 
-  get pages() {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
   setPage(page: number) {
     this.currentPage = page;
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
   }
 }

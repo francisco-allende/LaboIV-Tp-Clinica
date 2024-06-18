@@ -1,27 +1,32 @@
 .container-fluid {
-    height: 85vh;
-    background-color: rgb(106, 216, 212);
-    background-image: url('../../../../assets/main_fondo.png'); 
-    background-size: 250px 250px;
-    background-repeat: repeat;
-    background-position: center;
-    padding: 20px;
-  }
+  height: 90vh;
+  background-color: rgb(106, 216, 212);
+  background-image: url('../../../../assets/main_fondo.png'); 
+  background-size: 250px 250px;
+  background-repeat: repeat;
+  background-position: center;
+  padding: 20px;
+}
+
+.mt-4{
+  background-color: lightblue;
+  height: 800px;
+}
 
 table{
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 li:hover, a:hover{
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .btn {
-    border-radius: 0 !important; 
-    width: 90px;
-  }
+  border-radius: 0 !important; 
+  width: 90px;
+}
 
 .btn-danger{
-    padding-left: 0px;
-    padding-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }

@@ -6,5 +6,5 @@ export interface TurnoModel {
     especialidad: string;
     estado: string; // 'pendiente', 'confirmado', 'cancelado', 'rechazado', 'finalizado'
     comentario: string;
-    reseña: string;
+    resenia: string;
 }

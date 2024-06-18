@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { UserModel } from '../../../models/user';
 import { SpinnerComponent } from '../../spinner/spinner.component';
-import { LoginService } from '../../../services/login.service';
+import { PaginationComponent } from '../../paginacion/paginacion.component';
 
 @Component({
   selector: 'app-listado-usuarios',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerComponent, PaginationComponent],
   templateUrl: './listado-usuarios.component.html',
   styleUrl: './listado-usuarios.component.css'
 })
@@ -33,37 +33,25 @@ export class ListadoUsuariosComponent {
     }
   }
 
+  async changeState(user:UserModel, state:string){
+    user.estado = state;
+    await this.usersService.update(user);
+  }
+
   get pagedUsers() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.users.slice(startIndex, startIndex + this.pageSize);
+    return this.users?.slice(startIndex, startIndex + this.pageSize);
   }
 
   get totalPages() {
-    return Math.ceil(this.users.length / this.pageSize);
-  }
-
-  get pages() {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    if(this.users){
+      return Math.ceil(this.users.length / this.pageSize);
+    } else {
+      return 0;
+    }
   }
 
   setPage(page: number) {
     this.currentPage = page;
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  async changeState(user:UserModel, state:string){
-    user.estado = state;
-    await this.usersService.update(user);
   }
 }

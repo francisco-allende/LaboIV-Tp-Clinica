@@ -1,23 +1,26 @@
 <div class="container-fluid">
-  <app-spinner [loading]="loading"></app-spinner>
-  @if(!loading){
-    <table class="table table-striped table-dark container">
-      <thead>
-        <tr class="text-center">
-          <th scope="col">Imagen perfil</th>
-          <th scope="col">Imagen extra</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">DNI</th>
-          <th scope="col">Email</th>
-          <th scope="col">Rol</th>
-          <th scope="col">Obra social</th>
-          <th scope="col">Especialidad</th>
-          <th scope="col" style="width: 112px;">Estado</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
+  <div class="container mt-4">
+    <div class="row container">
+
+    <app-spinner [loading]="loading"></app-spinner>
+    @if(!loading){
+      <table class="table table-striped table-light container">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Imagen perfil</th>
+            <th scope="col">Imagen extra</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Obra social</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col" style="width: 112px;">Estado</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
           
       @for(user of pagedUsers; track user ){
           <tr class="text-center">
@@ -43,26 +46,18 @@
                     <button class="btn btn-danger" (click)="changeState(user, 'deshabilitado')"> Desabilitar </button>
                   }
                 </td>
-          </tr>
-      }
-      </tbody>
-    </table>
-  
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" (click)="previousPage()">Anterior</a>
-      </li>
-  
-      @for(page of pages; track page){
-        <li class="page-item" [class.active]="currentPage === page">
-          <a class="page-link" (click)="setPage(page)">{{ page }}</a>
-        </li>
-      }
-      
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <a class="page-link" (click)="nextPage()">Siguiente</a>
-      </li>
-    </ul>
-  }
+            </tr>
+        }
+        </tbody>
+      </table>
+    
+      <app-paginacion
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageChanged)="setPage($event)">
+      </app-paginacion>
+    }
+    </div>
+  </div>
 </div>
 

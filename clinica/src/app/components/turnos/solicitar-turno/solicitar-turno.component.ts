@@ -38,19 +38,22 @@ export class SolicitarTurnoComponent {
   async getData(){
     try{
       this.medicos = await this.userService.getAllEnabledUsersByRol('especialista');
-      let email = this.loginService.getLoggedUser().value;
+      let email = this.loginService.getLoggedUser();
       this.mySelf = await this.userService.getUserByEmail(email);
       this.currentRol = this.mySelf?.rol;
       
       if(this.currentRol == "admin"){
         this.pacientes = await this.userService.getAllEnabledUsersByRol('paciente');
       }
+      if(this.currentRol == "paciente"){
+        this.selectedPaciente = this.mySelf;
+      }
+      
     }catch(error){
       console.log(error);
     }finally{
       this.loading = false;
     }
-  
   }
 
   chooseMedico = (medico:UserModel) => this.selectedMedico = medico;
@@ -58,7 +61,7 @@ export class SolicitarTurnoComponent {
   chooseEspecialidad = (especialidad:string) => this.selectedEspecialidad = especialidad;
   
   choosePaciente = (paciente:UserModel) => this.selectedPaciente = paciente;
-
+  
   chooseHorario = (horario:string | Date) => this.selectedHorario = horario;
 
   isValid():boolean  {
@@ -105,7 +108,7 @@ export class SolicitarTurnoComponent {
       especialidad: this.selectedEspecialidad,
       estado: 'pendiente', 
       comentario: '',
-      reseña: ''
+      resenia: ''
     }
     return turno;
   }

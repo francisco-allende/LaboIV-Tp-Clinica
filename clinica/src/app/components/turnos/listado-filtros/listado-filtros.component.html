@@ -1,0 +1,25 @@
+<div class="filter-container d-flex justify-content-center my-4">
+    @if(currentRol == "paciente" || currentRol == "admin"){
+      <div class="filter mx-3">
+        <label for="filter-especialista" class="form-label">Especialista:</label>
+        <input type="text" id="filter-especialista" class="form-control" [value]="especialistaFilter"  readonly>
+      </div>
+    }
+    @if(currentRol == "especialista"){
+      <div class="filter mx-3">
+        <label for="filter-especialista" class="form-label">Paciente:</label>
+        <input type="text" id="filter-especialista" class="form-control" [value]="pacienteFilter"  readonly>
+      </div>
+    }
+
+    <div class="filter mx-3">
+      <label for="filter-especialidad" class="form-label">Especialidad:</label>
+      <input type="text" id="filter-especialidad" class="form-control" [value]="especialidadFilter" readonly>
+    </div>
+    <div class="filter mx-3 d-flex align-items-end">
+      <button class="btn btn-primary" (click)="applyFilters()" [disabled]="!especialidadFilter && !especialistaFilter && !pacienteFilter">Filtrar</button>
+    </div>
+    <div class="filter mx-3 d-flex align-items-end">
+      <button class="btn btn-secondary" (click)="clearFilters()">Ver todos</button>
+    </div>
+  </div>

@@ -3,6 +3,7 @@ import { Firestore, collection, collectionData , addDoc, query, getDocs, updateD
 import { Observable, map } from 'rxjs';
 import { TurnoModel } from '../models/turno';
 import { user } from '@angular/fire/auth';
+import { UserModel } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,48 @@ export class TurnoService {
     return collectionData(col);
   }
 
+  async getTurnosFromEspecialista(especialistaId:string): Promise<TurnoModel[] | undefined> {
+    try{
+      const col = collection(this.firestore, 'turnos');
+      const q = query(col, where('especialistaId', '==', especialistaId));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const turnos: TurnoModel[] = [];
+        querySnapshot.forEach((doc: any) => {
+          turnos.push(doc.data());
+        });
+        return turnos;
+      } else {
+        return undefined;
+      }
+    }catch (error) {
+      console.error("Error al obtener los turnos por paciente: ", error);
+      return undefined;
+    }
+  }
+
+  async getTurnosFromPaciente(pacienteId:string): Promise<TurnoModel[] | undefined> {
+    try{
+      const col = collection(this.firestore, 'turnos');
+      const q = query(col, where('pacienteId', '==', pacienteId));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const turnos: TurnoModel[] = [];
+        querySnapshot.forEach((doc: any) => {
+          turnos.push(doc.data());
+        });
+        return turnos;
+      } else {
+        return undefined;
+      }
+    }catch (error) {
+      console.error("Error al obtener los turnos por especialista: ", error);
+      return undefined;
+    }
+  }
+
   altaTurno(turno:TurnoModel){
     try{
       const col = collection(this.firestore, 'turnos');
@@ -27,7 +70,7 @@ export class TurnoService {
         especialidad: turno.especialidad,
         estado: turno.estado, 
         comentario: turno.comentario,
-        reseña: turno.reseña
+        resenia: turno.resenia
       });
     }catch(error){
       console.error('Error en el alta del turno:', error);
@@ -51,7 +94,7 @@ export class TurnoService {
           especialidad: turno.especialidad,
           estado: turno.estado,
           comentario: turno.comentario,
-          reseña: turno.reseña, 
+          resenia: turno.resenia, 
           });
       } 
     } catch (error) {

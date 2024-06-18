@@ -44,6 +44,11 @@ export const routes: Routes = [
         loadComponent: () => import('./views/turnos-container/turnos-container.component').then((m) => m.TurnosContainerComponent)
     },
     {
+        path: 'turnos/mis_turnos',
+        //canActivate:[especialistaGuard || pacienteGuard],
+        loadComponent: () => import('./views/mis-turnos-container/mis-turnos-container.component').then((m) => m.MisTurnosContainerComponent)
+    },
+    {
         path: 'error',
         loadComponent: () => import('./views/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent)
     },

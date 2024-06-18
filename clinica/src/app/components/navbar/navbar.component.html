@@ -17,7 +17,7 @@
         </li>
         @if(currentRol == "paciente" || currentRol == "especialista"){
           <li class="nav-item">
-            <a class="nav-link" href="#">Mis Turnos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/mis_turnos')">Mis Turnos</a>
           </li>
         }
         @if(currentRol == "admin"){
