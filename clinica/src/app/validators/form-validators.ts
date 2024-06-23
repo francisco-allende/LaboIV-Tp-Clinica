@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormArray, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function onlyLettersValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

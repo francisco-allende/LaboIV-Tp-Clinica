@@ -55,6 +55,7 @@ button{
 
 .btn-outline-primary{
     margin: 0.5em;
+    width: 250px;
 }
 
 .form-container {
@@ -65,6 +66,12 @@ button{
     width: 90%; /* Ajusta el ancho según sea necesario */
     max-width: 600px; /* Ancho máximo para pantallas más grandes */
     text-align: center;
+}
+
+.select-button {
+    width: 50px;
+    height: 40px;
+    background-color: lightblue;
 }
 
 

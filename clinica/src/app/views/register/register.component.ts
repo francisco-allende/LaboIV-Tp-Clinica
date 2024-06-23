@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControlName, FormControl, FormArray } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
-import { onlyLettersValidator, ageRangeValidator, dniValidator, imgFormatValidator, confirmPasswordValidator} from '../../validators/form-validators';
+import { onlyLettersValidator, ageRangeValidator, dniValidator, imgFormatValidator, confirmPasswordValidator, } from '../../validators/form-validators';
 import { Storage, ref, uploadBytes, getDownloadURL, getStorage } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
 import { EspecialidadesService } from '../../services/especialidades.service';
@@ -56,7 +56,8 @@ export class RegisterComponent {
           edad: [0, [Validators.required, ageRangeValidator()]],
           dni: ['', [Validators.required, dniValidator()]],
           obraSocial: ['', [onlyLettersValidator()]],
-          especialidad: ['', [onlyLettersValidator()]],
+          especialidades: this.fb.array([]),
+          //especialidad: ['', [onlyLettersValidator()]],
           email: ['', [Validators.required, Validators.email]],
           password: ['', [Validators.required, Validators.minLength(8)]],
           repeatPassword: ['', [Validators.required, Validators.minLength(8), confirmPasswordValidator()]],
@@ -68,6 +69,7 @@ export class RegisterComponent {
       ngOnInit(){
         this.especialidadService.getAllEspecialidades().subscribe(data =>{
           this.especialidades = data;
+          this.agregarOtraEspecialidad()
         })
       }
 
@@ -155,7 +157,9 @@ export class RegisterComponent {
 
     setNewUser(): any{
       const { nombre , apellido, dni, edad, email, password, especialidad, obraSocial, mainImg, extraImg } = this.registerForm.value;
-      this.myEspecialidades.push(especialidad);
+      const especialidadesFormArray = this.registerForm.get('especialidades') as FormArray;
+      const especialidadesSeleccionadas = especialidadesFormArray.value;
+      this.myEspecialidades = especialidadesSeleccionadas.map((especialidad: { especialidad: any; }) => especialidad.especialidad);
 
         this.newUser = {
           nombre: nombre,
@@ -202,30 +206,45 @@ export class RegisterComponent {
         }
       });
     }
-
-
-    agregarOtraEspecialidad():void{
-      const dialogRef = this.dialog.open(AddEspecialidadDialogComponent);
-      
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          const nuevaEspecialidad = result.toLowerCase().trim();
-          const especialidadExistente = this.especialidades.some(especialidad => especialidad.toLowerCase().trim() === nuevaEspecialidad);
     
-          if (especialidadExistente) {
-            this.myEspecialidades.push(nuevaEspecialidad);
-            this.toast.success("Su otra especialidad fue añadida con éxito");
-          } else {
-            this.toast.error("Si su otra especialidad no figura, puede añdirla manualmente");
-          }
-        }
-      });
+    get especialidadesFormArray() {
+      return this.registerForm.get('especialidades') as FormArray;
     }
+
+    getEspecialidadesDisponibles(): string[] {
+      const especialidadesSeleccionadas = this.especialidadesFormArray.value.map((control: { especialidad: any; }) => control.especialidad);
+      let retorno = this.especialidades.filter(especialidad => !especialidadesSeleccionadas.includes(especialidad));
+      return retorno;
+    }
+
+    agregarOtraEspecialidad(): void {
+      const especialidadesControl = this.especialidadesFormArray;
+   
+      // Verificar si ya se seleccionó la especialidad
+      const especialidadesSeleccionadas = especialidadesControl.controls.map(control => control.get('especialidad')?.value);
+      const especialidadDisponible = this.especialidades.filter(especialidad => !especialidadesSeleccionadas.includes(especialidad));
+
+      if (especialidadDisponible.length === 0) {
+        this.toast.error("No hay especialidades disponibles para agregar.'")
+        return;
+      }
+
+      const nuevoControl = this.fb.group({
+        especialidad: [especialidadDisponible[0], [onlyLettersValidator()]]
+      });
+
+      especialidadesControl.push(nuevoControl);
+    }
+
+    eliminarEspecialidad(index: number): void {
+      this.especialidadesFormArray.removeAt(index);
+    }
+
 
     handleCaptchaValidation(valid: any) {
       this.validToken = valid;
     }
-    
+ 
     //Valido campos en comun y segmento por tipo de usuario
     isFormValid(){
       let retorno:boolean | undefined = false;
@@ -246,8 +265,8 @@ export class RegisterComponent {
                  this.registerForm.get('obraSocial')?.valid &&
                  this.registerForm.get('extraImg')?.valid;
         } else if (this.view == 'especialista') {
-          retorno =
-                 this.registerForm.get('especialidad')?.valid 
+          const especialidadesFormArray = this.registerForm.get('especialidades') as FormArray;
+          retorno = especialidadesFormArray.controls.every(control => control.valid);
         }
       }
       

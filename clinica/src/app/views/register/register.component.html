@@ -18,7 +18,10 @@
               </button>
             </div>
             @if(!showForm){
-              <img style="padding-top: 6em;" src="../../../assets/fondo-login.png" width="500px" alt="serpientes medicina">
+              <img style="padding-top: 6em;" src="../../../assets/fondo-login.png" width="400px" alt="serpientes medicina">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary btn-block" (click)="router.navigateByUrl('/login')">Volver al login</button>
+              </div>
             }
             <br><br>
             @if(showForm){
@@ -90,29 +93,41 @@
                     }
                      
                     @if(view === 'especialista'){
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <select class="form-control" formControlName="especialidad" style="flex: 1;">
-                          <option value="" disabled selected>Especialidades</option>
-                          @for(especialidad of especialidades; track especialidad){
-                          <option [value]="especialidad">
-                            {{ especialidad }}
-                          </option>
-                          }
-                        </select>
-                        <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px; margin-bottom: 1em;"><fa-icon [icon]='faPlus'></fa-icon></button>
-                      </div>
-                      @if(registerForm.controls['especialidad'].invalid && (registerForm.controls['especialidad'].dirty || registerForm.controls['especialidad'].touched)){
-                        <div class="text-danger">
-                            No pueden añadirse especialidades ya existentes
+                      <div formArrayName="especialidades">
+                        <div *ngFor="let especialidadControl of especialidadesFormArray.controls; let i = index" [formGroupName]="i">
+                          <div class="form-group" style="display: flex; align-items: center; justify-content: space-evenly;">
+                            
+                            <select class="select-button" formControlName="especialidad">
+                              <option value="" disabled selected>Especialidades</option>
+                              @for(especialidad of getEspecialidadesDisponibles(); track especialidad){
+                                <option
+                                [value]="especialidad">
+                                {{ especialidad }}
+                              </option>
+                              }
+                            </select>
+                            <span style="width: 130px;" class="ml-2">{{ especialidadesFormArray.controls[i].get('especialidad')?.value }}</span>
+                            <button type="button" class="btn btn-danger" style="margin-left: 10px; margin-bottom: 1em;" (click)="eliminarEspecialidad(i)">Eliminar</button>
+                          
+                          </div>
                         </div>
-                      }
-                      <div class="form-group text-center">
-                          <button type="button" class="btn btn-primary" (click)="agregarOtraEspecialidad()">
-                            Poseo mas de una especialidad
-                          </button>
                       </div>
-                      <br>
+                        <br>
+                        <div class="form-group text-center d-flex justify-content-evenly">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary" (click)="agregarOtraEspecialidad()">
+                              Poseo más de una especialidad
+                            </button>
+                          </div>
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary"  (click)="addEspecialidad()" style="margin-left: 10px; margin-bottom: 1em;">
+                              Sumar especialdiad al listado
+                            </button>
+                          </div>
+                        </div> 
                     }
+
+                  
        
                     <div class="form-group">
                       <input type="email" class="form-control" placeholder="Email" formControlName="email">

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { LoginService } from '../../../services/login.service';
 import { UserService } from '../../../services/user.service';
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-solicitar-turno',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerComponent, CommonModule],
   templateUrl: './solicitar-turno.component.html',
   styleUrl: './solicitar-turno.component.css'
 })

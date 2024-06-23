@@ -74,4 +74,7 @@ li:hover, a:hover{
 .mb-1{
   font-size: medium;
 }
-  
+
+.selected-row {
+  border: 2px solid #007bff; 
+}

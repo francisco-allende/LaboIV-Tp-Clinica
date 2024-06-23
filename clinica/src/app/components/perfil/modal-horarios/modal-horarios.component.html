@@ -1,11 +1,11 @@
 <h1 mat-dialog-title class="text-center">Horario disponibles de atención</h1>
 <div mat-dialog-content>
-  <p class="text-center">Elija su horario de atención, de 07:00 a 20:00</p>
+  <p class="text-center">Elija su horario de atención, de 07:00 a 18:00</p>
   <table class="table text-center">
     <thead>
       <tr>
-        <th scope="col">Fecha</th>
         <th scope="col">Día</th>
+        <th scope="col">Fecha</th>
         <th scope="col">Desde</th>
         <th scope="col">Hasta</th>
       </tr>
@@ -14,25 +14,23 @@
         @for (day of data.daysData; track day) {
             <tr>
               <td class="align-middle">
-                <input type="checkbox" class="btn-check" id="{{day.value}}" autocomplete="off" [value]="day.value + '-' + day.valuesFrom + '-' + day.valuesTo" (change)="onInputValueChange($event)" />
-                <label class="btn btn-outline-dark day" for="{{day.value}}">
-                  {{day.name}}
-                </label>
+                <input type="text" readonly [value]="day.name">
               </td>
-                <td class="align-middle">
-                  <input type="checkbox" class="btn-check" id="{{day.value}}" autocomplete="off" [value]="day.value + '-' + day.valuesFrom + '-' + day.valuesTo" (change)="onInputValueChange($event)" />
-                  <label class="btn btn-outline-dark day" for="{{day.value}}">
-                    {{day.name}}
-                  </label>
-                </td>
-                <td class="align-middle">
-                  <input type="time" class="form-control time" [(ngModel)]="day.valuesFrom">
-                  <span class="validity"></span>
-                </td>
-                <td class="align-middle">
-                  <input type="time" class="form-control time" [(ngModel)]="day.valuesTo">
-                  <span class="validity"></span>
-                </td>
+              <td class="align-middle">
+                <select class="form-select" [(ngModel)]="day.date" (ngModelChange)="onDateChange(day)">
+                  <option *ngFor="let date of validDates" [value]="date">{{ date }}</option>
+                </select>
+              </td>
+              <td class="align-middle">
+                <select class="form-select" [(ngModel)]="day.valuesFrom">
+                  <option *ngFor="let time of validTimes" [value]="time">{{ time }}</option>
+                </select>
+              </td>
+              <td class="align-middle">
+                <select class="form-select" [(ngModel)]="day.valuesTo">
+                  <option *ngFor="let time of validTimes" [value]="time">{{ time }}</option>
+                </select>
+              </td>
               </tr>
         }
      
@@ -43,33 +41,3 @@
     <button mat-button (click)="onCancel()" class="btn btn-danger">Cancelar</button>
   <button mat-button (click)="actualizarHorarios()" class="btn btn-success">Guardar</button>
 </div>
-
-<datalist id="datalist-horarios">
-  <option value="07:00:00"></option>
-  <option value="07:30:00"></option>
-  <option value="08:00:00"></option>
-  <option value="08:30:00"></option>
-  <option value="09:00:00"></option>
-  <option value="09:30:00"></option>
-  <option value="10:00:00"></option>
-  <option value="10:30:00"></option>
-  <option value="11:00:00"></option>
-  <option value="11:30:00"></option>
-  <option value="12:00:00"></option>
-  <option value="12:30:00"></option>
-  <option value="13:00:00"></option>
-  <option value="13:30:00"></option>
-  <option value="14:00:00"></option>
-  <option value="14:30:00"></option>
-  <option value="15:00:00"></option>
-  <option value="15:30:00"></option>
-  <option value="16:00:00"></option>
-  <option value="16:30:00"></option>
-  <option value="17:00:00"></option>
-  <option value="17:30:00"></option>
-  <option value="18:00:00"></option>
-  <option value="18:30:00"></option>
-  <option value="19:00:00"></option>
-  <option value="19:30:00"></option>
-  <option value="20:00:00"></option>
-</datalist>

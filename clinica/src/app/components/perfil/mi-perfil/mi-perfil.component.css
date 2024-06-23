@@ -54,11 +54,13 @@
     margin-top: 0.5em;
   }
 
-  .button:hover{
+  button:hover{
     cursor: pointer;
+    color: white;
   }
   .btn{
     margin: 1em;
-  }
+  } 
+
 
   

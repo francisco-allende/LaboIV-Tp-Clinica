@@ -9,11 +9,23 @@ import { UserService } from '../../../services/user.service';
 import { UserModel } from '../../../models/user';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { ModalHorariosComponent } from '../modal-horarios/modal-horarios.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import moment from 'moment';
+
+interface Day {
+  name: string;
+  value: string;
+  desde: string;
+  hasta: string;
+  date: string;
+}
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [SpinnerComponent, CommonModule, FormsModule],
+  imports: [SpinnerComponent, CommonModule, FormsModule,],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css'
 })
@@ -65,10 +77,8 @@ export class MiPerfilComponent {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.daysData = result;
-          // Aquí puedes llamar al servicio para actualizar los horarios en el backend
+         
         }
       });
-    }
-
-   
+    }   
 }
