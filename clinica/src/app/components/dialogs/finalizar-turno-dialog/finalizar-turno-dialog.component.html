@@ -1,10 +1,35 @@
 <h1 mat-dialog-title class="dialog-title">Finalizar Turno</h1>
+<br>
 <div mat-dialog-content class="dialog-content">
   <mat-form-field appearance="fill" class="w-100">
     <textarea matInput placeholder="Deje un diagnóstico como reseña" [(ngModel)]="resenia" rows="5"></textarea>
   </mat-form-field>
+  <mat-form-field appearance="fill" class="w-100">
+    <input matInput placeholder="Altura (cm)" type="number" [(ngModel)]="altura">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="w-100">
+    <input matInput placeholder="Peso (kg)" type="number" [(ngModel)]="peso">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="w-100">
+    <input matInput placeholder="Temperatura (°C)" type="number" [(ngModel)]="temperatura">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="w-100">
+    <input matInput placeholder="Presión" [(ngModel)]="presion">
+  </mat-form-field>
+  <div *ngFor="let dato of datosDinamicos; let i = index">
+    <mat-form-field appearance="fill" class="w-100">
+      <input matInput placeholder="Clave" [(ngModel)]="dato.key">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+      <input matInput placeholder="Valor" [(ngModel)]="dato.value">
+    </mat-form-field>
+    <button mat-icon-button (click)="removeDatoDinamico(i)" *ngIf="datosDinamicos.length > 1">
+      <mat-icon>remove_circle</mat-icon>
+    </button>
+  </div>
+  <button mat-button (click)="addDatoDinamico()" *ngIf="datosDinamicos.length < 3">Agregar Dato Dinámico</button>
 </div>
 <div mat-dialog-actions class="dialog-actions">
-  <button mat-button (click)="onCancel()" class="dialog-text">Cancelar</button>
-  <button mat-button (click)="onConfirm()" class="dialog-text">Confirmar</button>
+  <button mat-button (click)="onCancel()" class="dialog-text btn btn-danger">Cancelar</button>
+  <button mat-button (click)="onConfirm()" class="dialog-text btn btn-success">Guardar</button>
 </div>

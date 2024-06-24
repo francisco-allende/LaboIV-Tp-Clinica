@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -13,6 +13,7 @@ import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY, } from 'ng-recaptcha';
 
 
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
@@ -23,7 +24,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(), 
     provideToastr(),
     provideAuth(() => getAuth()), 
-    provideRouter(routes), 
+    provideRouter(routes, withViewTransitions(
+    )), 
     provideFirestore(() => getFirestore()), 
     provideFirebaseApp(() => initializeApp(
         {

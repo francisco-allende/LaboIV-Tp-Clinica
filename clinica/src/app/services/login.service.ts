@@ -111,7 +111,8 @@ export class LoginService {
             especialidad: newUser.especialidad,
             estado : newUser.estado,
             turnos: [],
-            horarios: []
+            horarios: [],
+            historiaClinica: []
           })
           
           this.toast.success('Usuario creado con éxito', `Enviamos un mail de verificacion a ${res.user.email}`);

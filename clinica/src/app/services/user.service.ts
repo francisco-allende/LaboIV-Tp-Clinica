@@ -127,7 +127,8 @@ export class UserService {
           especialidad: user.especialidad,
           estado : user.estado,
           turnos: user.turnos, 
-          horarios: user.horarios
+          horarios: user.horarios,
+          historiaClinica: user.historiaClinica
         });
       } 
     } catch (error) {

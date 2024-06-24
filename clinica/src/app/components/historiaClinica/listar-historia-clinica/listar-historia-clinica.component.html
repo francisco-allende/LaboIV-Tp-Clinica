@@ -1,0 +1,29 @@
+
+@if(historiasClinicas && historiasClinicas.length > 0){
+    <h2>Historia Clínica</h2>
+    @for(hist of historiasClinicas; track hist){
+        <h3>
+            {{ hist.fecha.dayName  | capitalizeFirstLetterPipe}} 
+            {{ hist.fecha.fecha | setFechaWithSlashes }} 
+            {{ hist.fecha.timeSlot.time | horariosAmPmFormat }}
+        </h3>
+        <p>Altura: {{ hist.altura }} cm</p>
+        <p>Peso: {{ hist.peso }} kg</p>
+        <p>Temperatura: {{ hist.temperatura }} °C</p>
+        <p>Presión: {{ hist.presion }}</p>
+        @if(hist.datosDinamicos && hist.datosDinamicos.length > 0){
+            <h4>Datos Adicionales</h4>
+            @for(dato of hist.datosDinamicos; track dato){
+                <p>{{ dato.key }}: {{ dato.value }}</p>
+            }
+        }
+    }
+}@else {
+    <p class="text-center">No hay historia clínica disponible.</p>
+}
+
+
+       
+   
+    
+  

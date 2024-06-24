@@ -21,6 +21,7 @@ import { ShowCalificacionEncuestaDialogComponent } from '../../dialogs/show-cali
 import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-letter-pipe.pipe';
 import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
 import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pipe';
+import { HistoriaClinicaModel } from '../../../models/historia-clinica';
 
 @Component({
   selector: 'app-mis-turnos',
@@ -178,15 +179,30 @@ export class MisTurnosComponent {
       if(state == "finalizado"){
         dialogRef = this.dialog.open(FinalizarTurnoDialogComponent, {
           width: '400px',
-          data: { motivo: '' }
+          data: { turno: turno }
         });
         dialogRef?.afterClosed().subscribe(async (result) => {
           if (result) {
             turno.estado = state;
             turno.resenia = result.resenia;
+            await this.cargarHistoriaClinica(turno, result.historiaClinica);
             await this.turnoService.update(turno);
           }
         });
+      }
+    }
+
+    async cargarHistoriaClinica(turno:TurnoModel, hist:HistoriaClinicaModel){
+      if (turno && turno.estado === 'finalizado') {
+        const paciente = await this.userService.getUserByEmail(turno.pacienteId);
+        paciente.historiaClinica = paciente.historiaClinica?.filter((hist: {}) => hist && Object.keys(hist).length > 0) || [];
+        
+        if (paciente.historiaClinica) {
+          paciente.historiaClinica.push(hist);
+        } else {
+          paciente.historiaClinica = [hist];
+        }
+        await this.userService.update(paciente);
       }
     }
   

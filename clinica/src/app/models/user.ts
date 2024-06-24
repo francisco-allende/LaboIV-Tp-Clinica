@@ -1,4 +1,5 @@
 import { DayModel } from "./day";
+import { HistoriaClinicaModel } from "./historia-clinica";
 
 export interface UserModel{
     nombre: string;
@@ -15,4 +16,5 @@ export interface UserModel{
     estado : string;
     turnos?: string[]; //array de ids de turnos del paciente
     horarios?: DayModel []; //horarios del especialista
+    historiaClinica?: HistoriaClinicaModel[]; // historia clínica del paciente
 }
