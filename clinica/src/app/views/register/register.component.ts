@@ -85,19 +85,19 @@ export class RegisterComponent {
     }
 
     async handleFileInput(event: Event, imageField: string) {
-      const dni = this.registerForm?.get('dni')?.value.toString();
+      let dni = this.registerForm?.get('dni')?.value.toString();
+      if(!dni){
+        dni =  Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+      }
       
       try{
-        if(dni){
           const input = event.target as HTMLInputElement;
           if (input.files && input.files.length > 0) {
             this.arrImages.push({ formControlName: imageField, dni: dni, file: input.files[0]})
           }else{
             this.toast.error("Ups! No se pudo subir la imagen. Intente con otra.");
           }
-        }else{
-          this.toast.error("Es necesario cargar el DNI antes que las imagenes"); 
-        }
+      
       }catch(error){
         console.log("error al subir la imagen: " ,error);
       }

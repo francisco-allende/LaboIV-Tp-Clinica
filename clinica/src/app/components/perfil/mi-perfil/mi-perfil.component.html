@@ -6,7 +6,13 @@
                 <app-spinner [loading]="loading"></app-spinner>
             }@else{
                 <div class="user-card">
-                    <img [src]="mySelf?.mainImg" alt="User Image" class="user-image">
+                    <div *ngIf="currentRol === 'paciente'">
+                        <img [src]="selectedImage" alt="User Image" class="user-image">
+                        <button (click)="toggleImage()" class="btn btn-primary">Cambiar Image</button>
+                    </div>
+                    <div *ngIf="currentRol !== 'paciente'">
+                        <img [src]="mySelf?.mainImg" alt="User Image" class="user-image">
+                    </div>
                     <div class="user-details">
                       <p class="user-data"><strong>Usuario:</strong> {{ mySelf?.nombre }} {{mySelf?.apellido}}</p>
                       <p class="user-data"><strong>DNI:</strong> {{ mySelf?.dni }} </p>

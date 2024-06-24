@@ -29,6 +29,7 @@ export class MiPerfilComponent {
   currentRol:string | undefined = '';
   mySelf:UserModel | null = null;
   daysData: DayModel[] = [];
+  selectedImage: string | undefined = ''; 
   
 
   constructor(private userService: UserService, 
@@ -45,6 +46,7 @@ export class MiPerfilComponent {
       try{
         let email = this.loginService.getLoggedUser();
         this.mySelf = await this.userService.getUserByEmail(email);
+        this.selectedImage = this.mySelf?.mainImg;
         this.currentRol = this.mySelf?.rol;
         if (this.currentRol == "especialista") {
           this.daysData = this.daysData; 
@@ -54,6 +56,10 @@ export class MiPerfilComponent {
       }finally{
         this.loading = false;
       }
+    }
+
+    toggleImage() {
+      this.selectedImage = (this.selectedImage === this.mySelf?.mainImg) ? this.mySelf?.extraImg : this.mySelf?.mainImg;
     }
 
     openModal() {
