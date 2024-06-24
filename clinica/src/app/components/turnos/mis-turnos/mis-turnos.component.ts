@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ListadoFiltrosComponent } from '../listado-filtros/listado-filtros.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { UserModel } from '../../../models/user';
@@ -17,11 +18,14 @@ import { ShowMotivoRechazoDialogComponent } from '../../dialogs/show-motivo-rech
 import { ShowReseniaDialogComponent } from '../../dialogs/show-resenia-dialog/show-resenia-dialog.component';
 import { CalificacionEncuestaDialogComponent } from '../../dialogs/calificacion-encuesta-dialog/calificacion-encuesta-dialog.component';
 import { ShowCalificacionEncuestaDialogComponent } from '../../dialogs/show-calificacion-encuesta-dialog/show-calificacion-encuesta-dialog.component';
+import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-letter-pipe.pipe';
+import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
+import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pipe';
 
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
-  imports: [SpinnerComponent, ListadoFiltrosComponent, PaginationComponent],
+  imports: [CommonModule, SpinnerComponent, ListadoFiltrosComponent, PaginationComponent, CapitalizeFirstLetterPipePipe, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe],
   templateUrl: './mis-turnos.component.html',
   styleUrl: './mis-turnos.component.css'
 })
@@ -50,6 +54,10 @@ export class MisTurnosComponent {
 
     ngOnInit(){
       this.getData();
+    }
+
+    getTurno(turno:any){
+      console.log(turno)
     }
       
     async getData(){
@@ -156,6 +164,7 @@ export class MisTurnosComponent {
           if (result) {
             turno.estado = state;
             turno.comentario = result
+            turno.fecha.timeSlot.estaDisponible = true;
             await this.turnoService.update(turno);
           }
         });

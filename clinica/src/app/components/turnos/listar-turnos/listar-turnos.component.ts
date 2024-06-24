@@ -10,11 +10,14 @@ import { CancelTurnoDialogComponent } from '../../dialogs/cancel-turno-dialog/ca
 import { ShowMotivoDialogComponent } from '../../dialogs/show-motivo-dialog/show-motivo-dialog.component';
 import { ListadoFiltrosComponent } from '../listado-filtros/listado-filtros.component';
 import { PaginationComponent } from '../../paginacion/paginacion.component';
+import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pipe';
+import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
+import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-letter-pipe.pipe';
 
 @Component({
   selector: 'app-listar-turnos',
   standalone: true,
-  imports: [SpinnerComponent, CancelTurnoDialogComponent, ListadoFiltrosComponent, PaginationComponent],
+  imports: [SpinnerComponent, CancelTurnoDialogComponent, ListadoFiltrosComponent, PaginationComponent, CapitalizeFirstLetterPipePipe, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe],
   templateUrl: './listar-turnos.component.html',
   styleUrl: './listar-turnos.component.css'
 })

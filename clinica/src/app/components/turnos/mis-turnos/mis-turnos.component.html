@@ -20,7 +20,9 @@
                 <table class="table table-striped table-light container">
                     <thead>
                       <tr class="text-center">
+                        <th scope="col">Día</th>
                         <th scope="col">Fecha</th>
+                        <th scope="col">Horario</th>
                         @if(currentRol != "especialista"){
                             <th scope="col">Especialista</th>
                         }
@@ -34,12 +36,14 @@
                     </thead>
                     <tbody>
     
-                      @if(pagedTurnos?.length === 0){
-                        <td colspan="6" class="td-no-results">No se encontraron resultados</td>
+                      @if(pagedTurnos?.length === 0 || turnos?.length == 0 || !turnos){
+                        <td colspan="8" class="td-no-results">No se encontraron resultados</td>
                       }@else {
                         @for(turno of pagedTurnos; track turno ){
                           <tr class="text-center">
-                                <td>{{ turno.fecha }}</td>
+                                <td>{{ turno.fecha.dayName | capitalizeFirstLetterPipe }}</td>
+                                <td>{{ turno.fecha.fecha | setFechaWithSlashes}}</td>
+                                <td>{{ turno.fecha.timeSlot.time | horariosAmPmFormat}}</td>
                                 @if(currentRol != "especialista"){
                                     <td (click)="setFilter('especialista', turno.especialistaId)" class="td-clickeable">{{userMap[turno.especialistaId]}}</td>
                                 }

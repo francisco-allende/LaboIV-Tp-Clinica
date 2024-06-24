@@ -22,18 +22,9 @@
                             }
                         </p>
                         
-                        <p class="user-data"><strong>Días y Horarios de Atencion:</strong></p>
-                        @if(!mySelf?.horarios){
-                            <p class="user-data">No tiene dias y horarios de atencion cargados</p>
-                        }@else {
-                            @for(horario of mySelf?.horarios; track horario){
-                                <ul class="user-data list-container">
-                                    <li class="list-data">{{ horario }}</li> <!--pipe de horarios-->
-                                  </ul>
-                            }
-                        }
 
-                        <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="openModal()">Mis horarios</button>
+                        <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="verHorarios()">Ver mis horarios</button>                     
+                        <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="openModal()">Gestionar mis horarios</button>
                       }
                     </div>
                 </div>

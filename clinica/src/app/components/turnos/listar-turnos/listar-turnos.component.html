@@ -23,7 +23,9 @@
             <table class="table table-striped table-light container">
                 <thead>
                   <tr class="text-center">
+                    <th scope="col">Día</th>
                     <th scope="col">Fecha</th>
+                    <th scope="col">Horario</th>
                     <th scope="col">Especialista</th>
                     <th scope="col">Especialidad</th>
                     <th scope="col">Paciente</th>
@@ -38,7 +40,9 @@
                   }@else {
                     @for(turno of pagedTurnos; track turno ){
                       <tr class="text-center">
-                            <td>{{ turno.fecha }}</td>
+                            <td>{{ turno.fecha.dayName | capitalizeFirstLetterPipe }}</td>
+                            <td>{{ turno.fecha.fecha | setFechaWithSlashes}}</td>
+                            <td>{{ turno.fecha.timeSlot.time | horariosAmPmFormat}}</td>
                             <td (click)="setFilter('especialista', turno.especialistaId)" class="td-clickeable">{{userMap[turno.especialistaId]}}</td>
                             <td (click)="setFilter('especialidad', turno.especialidad)" class="td-clickeable">{{ turno.especialidad }}</td>
                             <td>{{userMap[turno.pacienteId]}}</td>

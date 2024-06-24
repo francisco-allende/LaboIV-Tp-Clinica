@@ -6,68 +6,100 @@
             <app-spinner [loading]="loading"></app-spinner>
         }@else {
 
+          <!--Especialidades-->
+          <div [ngClass]="{'col-md-4': currentRol === 'admin', 'col-md-3': currentRol !== 'admin'}" class=" text-center">
+            <h2 class="text-center">Especialidad</h2>
+            <div class="scroll-container">
+              @for(especialidad of especialidades; track especialidad){
+                <div class="card mb-sm-3 rounded-card" (click)="chooseEspecialidad(especialidad)" [ngClass]="{'selected-row': especialidad === selectedEspecialidad}">
+                  <img class="esp-img card-img-top" [src]="especialidadesConImagen[especialidad.toLowerCase()] || especialidadesConImagen['default']" width="70px" height="70px" [alt]="'especialidad ' + especialidad" >
+                </div>
+              }
+            </div>
+          </div>
+
           <!--Medicos-->
-          <div [ngClass]="{'col-md-3': currentRol === 'admin', 'col-md-4': currentRol !== 'admin'}" class="col-md-3">
+          <div [ngClass]="{'col-md-2': currentRol === 'admin', 'col-md-3': currentRol !== 'admin'}" class="col-md-3">
             <h2 class="text-center">Especialista</h2>
-            <div class="cards-container">
-                @for(medico of medicos; track medico){
-                    <div class="card custom-card mb-sm-3" (click)="chooseMedico(medico)" [ngClass]="{'selected-row': medico === selectedMedico}">
+            @if(selectedEspecialidad){
+            <div class="scroll-container">
+              <div class="cards-container">
+                @for(medico of getMedicosPorEspecialidad(selectedEspecialidad); track medico){
+                    <div class="card mb-sm-3 custom-card rounded-card" (click)="chooseMedico(medico)" [ngClass]="{'selected-row': medico === selectedMedico}">
                         <img class="card-img-top" [src]="medico.mainImg" width="70px" height="70px" [alt]="'especialista ' + medico.apellido" >
                         <div class="card-body text-center">
                           <p class="card-text">{{medico.nombre}} {{medico.apellido}}</p>
-                          <p class="card-text">Médico especializado en <strong>{{medico.especialidad}}</strong></p>
                         </div>
                     </div>
                 }
+              </div>
             </div>
-            
-          </div>
-        
-          <!--Especialidades-->
-          <div [ngClass]="{'col-md-3': currentRol === 'admin', 'col-md-4': currentRol !== 'admin'}" class=" text-center">
-            <h2 class="text-center">Especialidad</h2>
-            @for(especialidad of selectedMedico?.especialidad; track especialidad){
-                <div class="card mb-3" (click)="chooseEspecialidad(especialidad)" [ngClass]="{'selected-row': especialidad == selectedEspecialidad}">
-                    <div class="card-body">
-                      <h3>{{especialidad}}</h3>
-                    </div>
-                </div>
-            }
+            }  
           </div>
     
           <!--Pacientes. No se muestra si el rol es de paciente-->
           @if(currentRol == "admin"){
-            <div [ngClass]="{'col-md-3': currentRol === 'admin', 'col-md-4': currentRol !== 'admin'}">
+            <div [ngClass]="{'col-md-2': currentRol === 'admin', 'col-md-3': currentRol !== 'admin'}">
               <h2 class="text-center">Paciente</h2>
+              <div class="scroll-container">
                   <div class="cards-container">
                   @for(paciente of pacientes; track paciente){
-                      <div class="list-group mb-3" (click)="choosePaciente(paciente)" [ngClass]="{'selected-row': paciente === selectedPaciente}">
-                          <a class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                              <h4 class="mb-1">{{paciente?.nombre}} {{paciente?.apellido}}</h4>
-                              <img [src]="paciente?.mainImg" [alt]="'paciente ' + paciente?.apellido" width="70px" height="70px" />
-                            </div>
-                          </a>
+                    <div class="card mb-sm-3 custom-card rounded-card" (click)="choosePaciente(paciente)" [ngClass]="{'selected-row': paciente === selectedPaciente}">
+                      <img class="card-img-top" [src]="paciente.mainImg" width="70px" height="70px" [alt]="'paciente ' + paciente.apellido" >
+                      <div class="card-body text-center">
+                        <p class="card-text">{{paciente.nombre}} {{paciente.apellido}}</p>
                       </div>
+                    </div>
                   }
                   </div>
+              </div>
             </div>
           }
-        
 
-          <!--Horarios-->
-          <div [ngClass]="{'col-md-3': currentRol === 'admin', 'col-md-4': currentRol !== 'admin'}" class="text-center">
-            <h2 class="text-center">Horarios</h2>
-            <div class="cards-container">
-                @for(horario of selectedMedico?.horarios; track horario){
-                    <div class="card mb-3" (click)="chooseHorario(horario)" [ngClass]="{'selected-row': horario == selectedHorario}">
-                        <div class="card-body">
-                        <h3>{{horario}}</h3>
-                        </div>
-                    </div>
-                }
+        <!-- Dias -->
+        <div [ngClass]="{'col-md-2': currentRol === 'admin', 'col-md-3': currentRol !== 'admin'}" class="text-center">
+          <h2 class="text-center">Días</h2>
+          <div class="cards-container">
+            <div class="scroll-container">
+              @if(selectedMedico && getDiasDisponibles().length > 0){
+                <div *ngFor="let dia of getDiasDisponibles()" class="card mb-3" (click)="chooseDia(dia)" [ngClass]="{'selected-row': dia === selectedDia}">
+                  <div class="card-body">
+                    <h3>{{ dia.dayName | translateDayName | capitalizeFirstLetterPipe }} {{dia.fecha | setFechaWithSlashes }}</h3>
+                  </div>
+                </div>
+              }@else if(selectedMedico){
+                <div class="card-body">
+                  <h3>No quedan días disponibles</h3>
+                </div>
+              }
+            
             </div>
           </div>
+        </div>
+
+        <!-- Horarios -->
+        <div [ngClass]="{'col-md-2': currentRol === 'admin', 'col-md-3': currentRol !== 'admin'}" class="text-center">
+          <h2 class="text-center">Horarios</h2>
+          <div *ngIf="selectedDia">
+            <div class="cards-container">
+              <div class="scroll-container">
+                @if(timeLoading){
+                  <app-spinner [loading]="timeLoading"></app-spinner>
+                }@else{
+                  <div *ngFor="let horario of timeSlotsDisponibles" class="card mb-3" (click)="chooseHorario(horario)" [ngClass]="{'selected-row': horario.time === selectedHorario?.time}">
+                    <div class="card-body">
+                      <h3> {{ horario.time | horariosAmPmFormat }} </h3>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedDia && timeSlotsDisponibles.length === 0 && !timeLoading">
+            <p>No hay horarios disponibles para el día seleccionado.</p>
+          </div>
+        </div>
+
 
           <!--Solicitar-->
           <div class="line"></div>

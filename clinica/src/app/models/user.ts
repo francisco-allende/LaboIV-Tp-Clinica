@@ -1,3 +1,5 @@
+import { DayModel } from "./day";
+
 export interface UserModel{
     nombre: string;
     apellido: string;
@@ -11,6 +13,6 @@ export interface UserModel{
     obraSocial? : string;
     especialidad?: string[];
     estado : string;
-    turnos?: string[]; //array de ids de turnos
-    horarios?:Date [] | string [];
+    turnos?: string[]; //array de ids de turnos del paciente
+    horarios?: DayModel []; //horarios del especialista
 }

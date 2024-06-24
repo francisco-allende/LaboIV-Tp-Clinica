@@ -11,28 +11,29 @@
       </tr>
     </thead>
     <tbody>
-        @for (day of data.daysData; track day) {
-            <tr>
-              <td class="align-middle">
-                <input type="text" readonly [value]="day.name">
-              </td>
-              <td class="align-middle">
-                <select class="form-select" [(ngModel)]="day.date" (ngModelChange)="onDateChange(day)">
-                  <option *ngFor="let date of validDates" [value]="date">{{ date }}</option>
-                </select>
-              </td>
-              <td class="align-middle">
-                <select class="form-select" [(ngModel)]="day.valuesFrom">
-                  <option *ngFor="let time of validTimes" [value]="time">{{ time }}</option>
-                </select>
-              </td>
-              <td class="align-middle">
-                <select class="form-select" [(ngModel)]="day.valuesTo">
-                  <option *ngFor="let time of validTimes" [value]="time">{{ time }}</option>
-                </select>
-              </td>
-              </tr>
-        }
+      @if(daysData.length == 15){
+        @for (day of daysData; track day) {
+          <tr>
+            <td class="align-middle">
+              <input type="text" readonly [value]="day.dayName | translateDayName" class="short-input">
+            </td>
+            <td class="align-middle">
+              <input type="text" readonly [value]="day.fecha | setFechaWithSlashes" class="short-input">
+            </td>
+            <td class="align-middle">
+              <select class="form-select" [(ngModel)]="day.desde">
+                <option *ngFor="let time of validTimes" [value]="time">{{ time | horariosAmPmFormat }}</option>
+              </select>
+            </td>
+            <td class="align-middle">
+              <select class="form-select" [(ngModel)]="day.hasta">
+                <option *ngFor="let time of validTimes" [value]="time">{{ time | horariosAmPmFormat }}</option>
+              </select>
+            </td>
+            </tr>
+        } 
+      }
+        
      
     </tbody>
   </table>

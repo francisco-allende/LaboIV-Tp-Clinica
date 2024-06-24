@@ -13,14 +13,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import moment from 'moment';
-
-interface Day {
-  name: string;
-  value: string;
-  desde: string;
-  hasta: string;
-  date: string;
-}
+import { DayModel } from '../../../models/day';
+import { VerModalHorariosComponent } from '../ver-modal-horarios/ver-modal-horarios.component';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -34,13 +28,7 @@ export class MiPerfilComponent {
   loading:boolean = true;
   currentRol:string | undefined = '';
   mySelf:UserModel | null = null;
-  daysData = [
-    { name: 'Lunes', value: 'monday', desde: '', hasta: '' },
-    { name: 'Martes', value: 'tuesday', desde: '', hasta: '' },
-    { name: 'Miércoles', value: 'wednesday', desde: '', hasta: '' },
-    { name: 'Jueves', value: 'thursday', desde: '', hasta: '' },
-    { name: 'Viernes', value: 'friday', desde: '', hasta: '' },
-  ];
+  daysData: DayModel[] = [];
   
 
   constructor(private userService: UserService, 
@@ -59,7 +47,7 @@ export class MiPerfilComponent {
         this.mySelf = await this.userService.getUserByEmail(email);
         this.currentRol = this.mySelf?.rol;
         if (this.currentRol == "especialista") {
-          this.daysData = this.daysData; //this.mySelf?.horarios || refactorizar
+          this.daysData = this.daysData; 
         }
       }catch(error){
         console.log(error);
@@ -69,16 +57,69 @@ export class MiPerfilComponent {
     }
 
     openModal() {
+      let hasBeenLoadedOnce = false;
+      this.mySelf?.horarios?.forEach(day=>{
+        if(day.dayName != '' && day.fecha != '' && day.desde != '' && day.hasta != ''){
+          hasBeenLoadedOnce = true;
+        }
+      })
+      if(!hasBeenLoadedOnce){
+        this.generateDaysData();
+      }
+
       const dialogRef = this.dialog.open(ModalHorariosComponent, {
         width: '600px',
-        data: { daysData: this.daysData }
+        data: { daysData: hasBeenLoadedOnce? this.mySelf?.horarios : this.daysData }
       });
   
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.daysData = result;
-         
+          this.saveHorarios();
         }
       });
     }   
+
+    verHorarios(){
+      let daysData = this.mySelf?.horarios;
+      this.dialog.open(VerModalHorariosComponent, {
+        width: '600px',
+        data: { daysData: daysData }
+      });
+    }
+
+    generateDaysData(): void {
+      const today = moment();
+      this.daysData = [];
+  
+      for (let i = 0; i < 15; i++) {
+        const day = today.clone().add(i, 'days');
+        this.daysData.push({
+          dayName: day.format('dddd'),
+          desde: '',
+          hasta: '',
+          fecha: day.format('DD-MM-YYYY'),
+          estaDisponible: true,
+          timeSlot: {time:'', estaDisponible: true},
+        });
+      }
+    }
+
+    saveHorarios(){
+      if (this.mySelf) {
+        this.mySelf.horarios = this.daysData.map(day => ({
+          dayName: day.dayName,
+          fecha: day.fecha,
+          desde: day.desde,
+          hasta: day.hasta,
+          estaDisponible: true,
+          timeSlot: {time:'', estaDisponible: true},
+        }));
+   
+        this.userService.update(this.mySelf);
+      }
+    }
+    
+
+    
 }

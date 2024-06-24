@@ -79,35 +79,6 @@ export class UserService {
     }
   }
 
-   async update(user:UserModel) {
-    try {
-      const col = collection(this.firestore, 'users');
-      const q = query(col, where('email', '==', user.email));
-
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        
-        const docRef = querySnapshot.docs[0].ref;
-        await updateDoc(docRef, {   
-          nombre: user.nombre,
-          apellido: user.apellido,
-          edad: user.edad,
-          dni: user.dni,
-          email: user.email,
-          password: user.password,
-          rol: user.rol,
-          mainImg: user.mainImg, 
-          extraImg: user.extraImg,
-          obraSocial : user.obraSocial,
-          especialidad: user.especialidad,
-          estado : user.estado });
-      } 
-    } catch (error) {
-      console.error('Error actualizando el usuario:', error);
-      throw error;
-    }
-  }
-
   async getAllEnabledUsersByRol(rol: string): Promise<UserModel[] | null> {
     try {
       const col = collection(this.firestore, 'users');
@@ -132,5 +103,39 @@ export class UserService {
       return null;
     }
   }
+
+  async update(user:UserModel) {
+    try {
+      const col = collection(this.firestore, 'users');
+      const q = query(col, where('email', '==', user.email));
+
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        
+        const docRef = querySnapshot.docs[0].ref;
+        await updateDoc(docRef, {   
+          nombre: user.nombre,
+          apellido: user.apellido,
+          edad: user.edad,
+          dni: user.dni,
+          email: user.email,
+          password: user.password,
+          rol: user.rol,
+          mainImg: user.mainImg, 
+          extraImg: user.extraImg,
+          obraSocial : user.obraSocial,
+          especialidad: user.especialidad,
+          estado : user.estado,
+          turnos: user.turnos, 
+          horarios: user.horarios
+        });
+      } 
+    } catch (error) {
+      console.error('Error actualizando el usuario:', error);
+      throw error;
+    }
+  }
+
+  
 
 }

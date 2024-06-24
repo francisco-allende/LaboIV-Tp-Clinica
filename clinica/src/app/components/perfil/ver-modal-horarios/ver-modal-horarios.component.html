@@ -1,0 +1,54 @@
+<h1 mat-dialog-title class="text-center">Horario elegidos de atención</h1>
+<div mat-dialog-content>
+  <p class="text-center">Los horarios de atención son de 07:00 a 18:00</p>
+  <table class="table text-center">
+    <thead>
+      <tr>
+        <th scope="col">Día</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Desde</th>
+        <th scope="col">Hasta</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if(daysData.length == 15){
+        @for (day of daysData; track day) {
+            @if(day.desde != '' && day.hasta != ''){
+                <tr>
+                    <td class="align-middle">
+                      <input type="text" readonly [value]="day.dayName | translateDayName" class="short-input">
+                    </td>
+                    <td class="align-middle">
+                      <input type="text" readonly [value]="day.fecha | setFechaWithSlashes" class="short-input">
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" readonly [value]="day.desde | horariosAmPmFormat"  class="short-input">
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" readonly [value]="day.hasta "  class="short-input">
+                    </td>
+                </tr>
+            }@else{
+                <tr class="non-chosen">
+                    <td class="align-middle">
+                      <input type="text" readonly [value]="'-'" class="short-input text-center">
+                    </td>
+                    <td class="align-middle">
+                      <input type="text" readonly [value]="'-/-/-'" class="short-input text-center">
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" readonly [value]="'--:--'" class="short-input text-center">
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" readonly [value]="'--:--'" class="short-input text-center">
+                    </td>
+                </tr>
+            }
+        }
+      }
+    </tbody>
+  </table>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-evenly">
+    <button mat-button (click)="onCancel()" class="btn btn-primary">Ok</button>
+</div>

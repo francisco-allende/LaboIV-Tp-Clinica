@@ -5,54 +5,35 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import moment from 'moment';
-
-interface Day {
-  name: string;
-  value: string;
-  desde: string;
-  hasta: string;
-  fecha: string;
-}
+import { TranslateDayNamePipe } from '../../../pipes/translate-day-name.pipe';
+import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
+import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pipe';
+import { ToastrService } from 'ngx-toastr';
+import { DayModel } from '../../../models/day';
 
 @Component({
   selector: 'app-modal-horarios',
   standalone: true,
-  imports: [FormsModule, CommonModule, MatDialogModule, MatButtonModule],
+  imports: [FormsModule, CommonModule, MatDialogModule, MatButtonModule ,TranslateDayNamePipe ,SetFechaWithSlashesPipe, HorariosAmPmFormatPipe],
   templateUrl: './modal-horarios.component.html',
   styleUrl: './modal-horarios.component.css'
 })
 export class ModalHorariosComponent {
 
-  //@Input() daysData: any[] = [];
   @Output() serviceHoursUpdated = new EventEmitter<any>();
-
-  daysData: Day[] = [
-    { name: 'Lunes', value: 'lunes', desde: '', hasta: '', fecha: '' },
-    { name: 'Martes', value: 'martes', desde: '', hasta: '', fecha: '' },
-    { name: 'Miércoles', value: 'miercoles', desde: '', hasta: '', fecha: '' },
-    { name: 'Jueves', value: 'jueves', desde: '', hasta: '', fecha: '' },
-    { name: 'Viernes', value: 'viernes', desde: '', hasta: '', fecha: '' },
-    { name: 'Sábado', value: 'sabado', desde: '', hasta: '', fecha: '' },
-    { name: 'Domingo', value: 'domingo', desde: '', hasta: '', fecha: '' }
-  ];
-
-  validDates: string[] = [];
+  daysData: DayModel[] = [];
   validTimes: string[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ModalHorariosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toast:ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.generateValidDates();
-    this.generateValidTimes();
-  }
-
-  generateValidDates(): void {
-    const today = moment();
-    for (let i = 0; i <= 15; i++) {
-      this.validDates.push(today.clone().add(i, 'days').format('DD-MM-YYYY'));
+    if (this.data && this.data.daysData) {
+      this.daysData = this.data.daysData;
+      this.generateValidTimes();
     }
   }
 
@@ -60,25 +41,58 @@ export class ModalHorariosComponent {
     const startTime = moment('07:00', 'HH:mm');
     const endTime = moment('18:00', 'HH:mm');
 
+    this.validTimes.push('');
+    
     while (startTime <= endTime) {
       this.validTimes.push(startTime.format('HH:mm'));
       startTime.add(30, 'minutes');
     }
   }
 
-  onDateChange(selectedDay: Day) {
-      
-    let fecha = selectedDay.fecha;
-
-    const dayOfWeek = moment(fecha).format('dddd');
-  
-
-    console.log(selectedDay, dayOfWeek);
+  actualizarHorarios() {
+    if(this.isValid()){
+      this.serviceHoursUpdated.emit(this.daysData);
+      this.dialogRef.close(this.daysData);
+    }
   }
 
-  actualizarHorarios() {
-    console.log(this.daysData);
-    this.serviceHoursUpdated.emit(this.daysData);
+  isValid():boolean{
+    let retorno = true;
+    this.daysData.forEach(day=>{
+      
+      //Valido que todo desde tenga su hasta y viceversa
+      if(day.desde != ''){
+        if(day.hasta == ''){
+          this.toast.error('Todo rango de turnos necesita un horario de inicio y finalización completos')
+          retorno = false;
+        }
+      }
+      if(day.hasta != ''){
+        if(day.desde == ''){
+          this.toast.error('Todo rango de turnos necesita un desde y hasta completo')
+          retorno = false;
+        }
+      }
+
+      if (day.desde !== '' && day.hasta !== '') {
+        // Valido que desde no sea mayor a hasta
+        const desdeMoment = moment(day.desde, 'HH:mm');
+        const hastaMoment = moment(day.hasta, 'HH:mm');
+        if (desdeMoment.isAfter(hastaMoment)) {
+          this.toast.error('El horario de inicio no puede ser posterior al horario de finalización');
+          retorno = false;
+        }
+  
+        // Valido que desde no sea igual a hasta
+        if (day.desde === day.hasta) {
+          this.toast.error('Todo rango de turnos necesita un horario de inicio y finalización completos');
+          retorno = false;
+        }
+      }
+    })
+
+    
+    return retorno;
   }
 
   onCancel(): void {
