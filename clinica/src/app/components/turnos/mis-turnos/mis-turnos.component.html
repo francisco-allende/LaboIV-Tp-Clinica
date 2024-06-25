@@ -4,6 +4,7 @@
             @if(loading){
                 <app-spinner [loading]="loading"></app-spinner>
             }@else{
+
                 <!-- Filtros -->
                 <app-listado-filtros
                     [currentRol]="currentRol"  
@@ -16,6 +17,15 @@
                     (filterApplied)="onFilterApplied($event)"
                     (filtersCleared)="onFiltersCleared()">
                 </app-listado-filtros>
+
+                <!-- Búsqueda -->
+              <div class="filtro-general mb-3 d-flex align-items-center" style="margin-top: 1em;">
+                <input type="text" class="form-control me-2" placeholder="Buscar por cualquier campo" [(ngModel)]="generalSearch">
+                <button class="btn btn-success" (click)="onGeneralSearch()">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </div>
+
 
                 <table class="table table-striped table-light container">
                     <thead>

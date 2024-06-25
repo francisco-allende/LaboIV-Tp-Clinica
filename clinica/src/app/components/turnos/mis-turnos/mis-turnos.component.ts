@@ -22,11 +22,13 @@ import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-l
 import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
 import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pipe';
 import { HistoriaClinicaModel } from '../../../models/historia-clinica';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent, ListadoFiltrosComponent, PaginationComponent, CapitalizeFirstLetterPipePipe, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe],
+  imports: [MatIcon, FormsModule ,CommonModule, SpinnerComponent, ListadoFiltrosComponent, PaginationComponent, CapitalizeFirstLetterPipePipe, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe],
   templateUrl: './mis-turnos.component.html',
   styleUrl: './mis-turnos.component.css'
 })
@@ -46,6 +48,7 @@ export class MisTurnosComponent {
   especialistaFilter: string = '';
   pacienteFilter: string = '';
   intervalId: any;
+  generalSearch: string = '';
 
   constructor(private userService: UserService, 
     private loginService:LoginService, 
@@ -103,6 +106,7 @@ export class MisTurnosComponent {
         }
       });
     }
+
     showEncuesta(turno:TurnoModel){
       let calificacion = turno.comentario;
       if(turno.estado == "finalizado"){
@@ -135,14 +139,44 @@ export class MisTurnosComponent {
       this.especialistaFilter = '';
       this.filteredTurnos = this.turnos;
     }
+
+    onGeneralSearch() {
+      this.generalSearch = this.generalSearch.toLowerCase();
+      this.applyFilters();
+    }
   
     applyFilters() {
       this.filteredTurnos = this.turnos?.filter(turno => {
         const matchEspecialidad = this.especialidadFilter ? turno.especialidad.includes(this.especialidadFilter) : true;
         const matchEspecialista = this.especialistaFilter ? this.userMap[turno.especialistaId].includes(this.especialistaFilter) : true;
         const matchPaciente = this.pacienteFilter ? this.userMap[turno.pacienteId].includes(this.pacienteFilter) : true;
-        return matchEspecialidad && matchEspecialista && matchPaciente;
+        const matchGeneralSearch = this.generalSearch ? this.matchGeneralSearch(turno) : true;
+        return matchEspecialidad && matchEspecialista && matchPaciente && matchGeneralSearch;
       });
+    }
+
+    matchGeneralSearch(turno: TurnoModel): boolean {
+      const search = this.generalSearch;
+      const fieldsToSearch = [
+        turno.especialidad,
+        this.userMap[turno.especialistaId],
+        this.userMap[turno.pacienteId],
+        turno.fecha.dayName,
+        turno.fecha.fecha,
+        turno.fecha.timeSlot.time,
+        turno.estado,
+        turno.resenia,
+        turno.comentario,
+
+        ...Object.values(this.mySelf?.historiaClinica || []).flatMap(hist => [
+          hist.altura,
+          hist.peso,
+          hist.temperatura,
+          hist.presion,
+          ...hist.datosDinamicos?.flatMap(dd => [dd.key, dd.value]) || []
+        ])
+      ];
+      return fieldsToSearch.some(field => field?.toString().toLowerCase().includes(search));
     }
   
     async changeState(turno: TurnoModel, state: string) {
