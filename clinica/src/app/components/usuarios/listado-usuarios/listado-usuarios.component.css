@@ -21,12 +21,28 @@ li:hover, a:hover{
   cursor: pointer;
 }
 
-.btn {
+.btn-danger{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.btn-danger, .btn-dark, .enabled{
+  height: 40px;
   border-radius: 0 !important; 
   width: 90px;
 }
 
-.btn-danger{
-  padding-left: 0px;
-  padding-right: 0px;
+.btn-dark{
+  font-size: small;
+  padding-left: 0.1em;
+  padding-right: 0.1em;
+}
+
+.action-btns{
+  padding: 0.2em;
+  height: 67.5px;
+}
+
+.btn-csv{
+  margin-bottom: 1em;
 }

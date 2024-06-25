@@ -15,6 +15,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import moment from 'moment';
 import { DayModel } from '../../../models/day';
 import { VerModalHorariosComponent } from '../ver-modal-horarios/ver-modal-horarios.component';
+import { ShowHistoriaClinicaComponent } from '../../dialogs/show-historia-clinica/show-historia-clinica.component';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -125,6 +126,13 @@ export class MiPerfilComponent {
         this.userService.update(this.mySelf);
       }
     }
+
+    verHistoriaClinica(paciente:UserModel | null) {
+      this.dialog.open(ShowHistoriaClinicaComponent, {
+        width: '600px',
+        data: paciente?.historiaClinica
+      });
+  }
     
 
     

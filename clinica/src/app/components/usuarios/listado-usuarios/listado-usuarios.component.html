@@ -17,7 +17,7 @@
             <th scope="col">Obra social</th>
             <th scope="col">Especialidad</th>
             <th scope="col" style="width: 112px;">Estado</th>
-            <th scope="col">Acciones</th>
+            <th scope="col" style="width: 412px;">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +39,16 @@
                 <td>{{ user.obraSocial ? user.obraSocial : '-' }}</td>
                 <td>{{ user.especialidad ? user.especialidad : '-' }}</td>
                 <td>{{ user.estado }}</td>
-                <td>
+                <td class="d-flex justify-content-evenly align-items-center action-btns">
                   @if(user.estado == "pendiente" || user.estado == "deshabilitado"){
-                    <button class="btn btn-success" (click)="changeState(user, 'habilitado')"> Habilitar </button>
+                    <button class="btn btn-success enabled" (click)="changeState(user, 'habilitado')"> Habilitar </button>
                   }@else if (user.estado == "habilitado") {
                     <button class="btn btn-danger" (click)="changeState(user, 'deshabilitado')"> Desabilitar </button>
+                  }
+                  @if(user.rol == "paciente"){
+                    <button class="btn btn-dark text-center" (click)="verHistoriaClinica(user)">
+                      Hist. Clinica
+                    </button>   
                   }
                 </td>
             </tr>
@@ -51,6 +56,8 @@
         </tbody>
       </table>
     
+      <button class="btn btn-success btn-csv" (click)="exportToCSV()">Exportar a CSV</button>
+
       <app-paginacion
         [currentPage]="currentPage"
         [totalPages]="totalPages"

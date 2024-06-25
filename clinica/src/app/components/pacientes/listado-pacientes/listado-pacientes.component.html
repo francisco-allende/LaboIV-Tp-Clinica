@@ -1,1 +1,27 @@
-<app-listar-historia-clinica [historiasClinicas]="historiasClinicas"></app-listar-historia-clinica>
+<div class="container-fluid">
+    <div class="container mt-4">
+        <div class="row container">
+        @if(loading){
+            <app-spinner [loading]="loading"></app-spinner>
+        }@else {
+            @for(paciente of pacientes; track paciente){
+                <div class="user-card">
+                    <img [src]="selectedImages[paciente.email]" alt="User Image" class="user-image">
+                    <button (click)="toggleImage(paciente)" class="btn btn-primary text-center">Cambiar Imagen</button>
+
+                    <div class="user-details">
+                        <p class="user-data"><strong>Paciente:</strong> {{ paciente.nombre }} {{paciente.apellido}}</p>
+                        <p class="user-data"><strong>DNI:</strong> {{ paciente.dni }} </p>
+                        <p class="user-data"><strong>Email:</strong> {{ paciente.email }}</p>
+                        <p class="user-data"><strong>Obra Social:</strong> {{ paciente.obraSocial }}</p>
+                    
+                        <button class="btn btn-dark text-center" (click)="verHistoriaClinica(paciente)">
+                            Ver Historia Clinica
+                        </button>        
+                    </div> 
+                </div>            
+            }
+        }
+        </div>
+    </div>
+</div>

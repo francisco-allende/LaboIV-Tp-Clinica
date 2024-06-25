@@ -8,7 +8,7 @@
                 <div class="user-card">
                     <div *ngIf="currentRol === 'paciente'">
                         <img [src]="selectedImage" alt="User Image" class="user-image">
-                        <button (click)="toggleImage()" class="btn btn-primary">Cambiar Image</button>
+                        <button (click)="toggleImage()" class="btn btn-primary">Cambiar Imagen</button>
                     </div>
                     <div *ngIf="currentRol !== 'paciente'">
                         <img [src]="mySelf?.mainImg" alt="User Image" class="user-image">
@@ -31,6 +31,11 @@
 
                         <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="verHorarios()">Ver mis horarios</button>                     
                         <button class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#horariosModal" (click)="openModal()">Gestionar mis horarios</button>
+                      }
+                      @if(currentRol == "paciente"){
+                        <button class="btn btn-dark text-center" (click)="verHistoriaClinica(mySelf)">
+                            Ver Historia Clinica
+                        </button>   
                       }
                     </div>
                 </div>

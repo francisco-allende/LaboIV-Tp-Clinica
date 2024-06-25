@@ -18,10 +18,10 @@
   </mat-form-field>
   <div *ngFor="let dato of datosDinamicos; let i = index">
     <mat-form-field appearance="fill" class="w-100">
-      <input matInput placeholder="Clave" [(ngModel)]="dato.key">
+      <input matInput placeholder="Clave dato dinámico" [(ngModel)]="dato.key">
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-100">
-      <input matInput placeholder="Valor" [(ngModel)]="dato.value">
+      <input matInput placeholder="Valor dato dinámico" [(ngModel)]="dato.value">
     </mat-form-field>
     <button mat-icon-button (click)="removeDatoDinamico(i)" *ngIf="datosDinamicos.length > 1">
       <mat-icon>remove_circle</mat-icon>
