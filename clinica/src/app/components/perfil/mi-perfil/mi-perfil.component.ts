@@ -13,7 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import moment from 'moment';
-import { DayModel } from '../../../models/day';
+import { DayModel, TimeSlot } from '../../../models/day';
 import { VerModalHorariosComponent } from '../ver-modal-horarios/ver-modal-horarios.component';
 import { ShowHistoriaClinicaComponent } from '../../dialogs/show-historia-clinica/show-historia-clinica.component';
 
@@ -49,6 +49,7 @@ export class MiPerfilComponent {
         this.mySelf = await this.userService.getUserByEmail(email);
         this.selectedImage = this.mySelf?.mainImg;
         this.currentRol = this.mySelf?.rol;
+        this.generateDaysData();
         if (this.currentRol == "especialista") {
           this.daysData = this.daysData; 
         }
@@ -70,9 +71,6 @@ export class MiPerfilComponent {
           hasBeenLoadedOnce = true;
         }
       })
-      if(!hasBeenLoadedOnce){
-        this.generateDaysData();
-      }
 
       const dialogRef = this.dialog.open(ModalHorariosComponent, {
         width: '600px',
@@ -107,24 +105,39 @@ export class MiPerfilComponent {
           hasta: '',
           fecha: day.format('DD-MM-YYYY'),
           estaDisponible: true,
-          timeSlot: {time:'', estaDisponible: true},
+          timeSlot: {time: '', estaDisponible: true }
         });
       }
     }
 
     saveHorarios(){
       if (this.mySelf) {
+
         this.mySelf.horarios = this.daysData.map(day => ({
           dayName: day.dayName,
           fecha: day.fecha,
           desde: day.desde,
           hasta: day.hasta,
           estaDisponible: true,
-          timeSlot: {time:'', estaDisponible: true},
+          timeSlot: day.timeSlot,
+          timeSlots: this.getTimeSlotsByRange(day.desde, day.hasta),
         }));
    
         this.userService.update(this.mySelf);
       }
+    }
+
+    getTimeSlotsByRange(desde: string, hasta: string): TimeSlot[] {
+      const timeSlots: TimeSlot[] = [];
+      let startTime = moment(desde, 'HH:mm');
+      const endTime = moment(hasta, 'HH:mm');
+    
+      while (startTime < endTime) {
+        timeSlots.push({ time: startTime.format('HH:mm'), estaDisponible: true });
+        startTime.add(30, 'minutes');
+      }
+    
+      return timeSlots;
     }
 
     verHistoriaClinica(paciente:UserModel | null) {

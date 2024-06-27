@@ -33,7 +33,25 @@ export class ModalHorariosComponent {
   ngOnInit(): void {
     if (this.data && this.data.daysData) {
       this.daysData = this.data.daysData;
+      this.generateDaysData();
       this.generateValidTimes();
+    }
+  }
+
+  generateDaysData(): void {
+    const today = moment();
+    this.daysData = [];
+
+    for (let i = 0; i < 15; i++) {
+      const day = today.clone().add(i, 'days');
+      this.daysData.push({
+        dayName: day.format('dddd'),
+        desde: '',
+        hasta: '',
+        fecha: day.format('DD-MM-YYYY'),
+        estaDisponible: true,
+        timeSlot: {time:'', estaDisponible: true},
+      });
     }
   }
 

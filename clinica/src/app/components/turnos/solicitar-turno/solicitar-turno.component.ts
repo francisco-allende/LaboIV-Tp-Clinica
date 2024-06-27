@@ -14,6 +14,7 @@ import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pip
 import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
 import { TranslateDayNamePipe } from '../../../pipes/translate-day-name.pipe';
 import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-letter-pipe.pipe';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -114,7 +115,11 @@ export class SolicitarTurnoComponent {
     this.selectedDia = null;
     this.selectedHorario = null;
     if(medico && medico.horarios){
-      this.horariosDisponiblesByMedico = medico.horarios.filter(horario => horario.estaDisponible);
+      this.horariosDisponiblesByMedico = medico.horarios.filter(horario => {
+        const horarioFecha = moment(horario.fecha, 'DD-MM-YYYY'); 
+        const today = moment().startOf('day'); 
+        return horario.estaDisponible && horarioFecha.isSameOrAfter(today);
+      });
     }
   }
 
@@ -141,67 +146,17 @@ export class SolicitarTurnoComponent {
   async getHorariosPorDia(dia: DayModel): Promise<TimeSlot[]> {
     const horario = this.horariosDisponiblesByMedico.find(h => h.fecha === dia.fecha);
   
-    if (horario && horario.desde && horario.hasta) {
-      let timeSlots:TimeSlot[] = this.getTimeSlotsByRange(horario.desde, horario.hasta);
-      //Filtro por slots disponibles
-      return await this.checkDisponibilidad(timeSlots);
-    }
-  
-    return [];
+    return horario && horario.desde && horario.hasta ? this.getHorariosDisponiblesByMedico() : [];
   }
 
-  async checkDisponibilidad(timeSlots: TimeSlot[]) {
-    if (this.selectedMedico) {
-      try {
-        this.timeLoading = true;
-        let turnos = await this.turnoService.getTurnosFromEspecialista(this.selectedMedico.email);
-  
-        if (turnos && turnos.length > 0) {
+  //Filtro por slots disponibles
+  getHorariosDisponiblesByMedico():TimeSlot []{
+    let availableTimeSlots: TimeSlot [] = [];
+    this.selectedMedico?.horarios?.flatMap(h => 
+      h.timeSlots?.filter(slot => slot.estaDisponible ? availableTimeSlots.push(slot) : undefined)
+    ) || [];
 
-            // Obtengo todos los timeSlots de los turnos
-            let timeSlotsOcupados: TimeSlot[] = [];
-
-            turnos.forEach(turno => {
-              if (turno.fecha.timeSlot) {
-                timeSlotsOcupados.push(turno.fecha.timeSlot);
-              }
-            });
-
-            // Filtro los timeSlots proporcionados para verificar disponibilidad
-            let timeSlotsDisponibles = timeSlots.filter(slot => {
-              // Verifico si el slot está en los timeSlots ocupados
-              return !timeSlotsOcupados.some(ocupado => ocupado.time === slot.time && !ocupado.estaDisponible);
-            });
-
-            return timeSlotsDisponibles;
-
-        } else {
-          console.log('No se encontraron turnos para el especialista.');
-          return [];
-        }
-      } catch (error) {
-        console.error('Error al obtener los turnos del especialista:', error);
-        return [];
-      }finally{
-        this.timeLoading = false;
-      }
-    } else {
-      console.error('No se ha seleccionado un médico.');
-      return [];
-    }
-  }
-  
-  getTimeSlotsByRange(desde: string, hasta: string): TimeSlot[] {
-    const timeSlots: TimeSlot[] = [];
-    let startTime = moment(desde, 'HH:mm');
-    const endTime = moment(hasta, 'HH:mm');
-  
-    while (startTime < endTime) {
-      timeSlots.push({ time: startTime.format('HH:mm'), estaDisponible: true });
-      startTime.add(30, 'minutes');
-    }
-  
-    return timeSlots;
+    return availableTimeSlots;
   }
   
   isValid():boolean  {
@@ -233,6 +188,10 @@ export class SolicitarTurnoComponent {
       try{
       let turn = this.setTurno()
 
+      if(this.currentRol == "paciente" && turn){
+        this.mySelf?.turnos?.push(turn.id)
+      }
+
       if(turn){
         this.turnoService.altaTurno(turn);
         this.updateTurnosDisponibles(turn);
@@ -247,9 +206,10 @@ export class SolicitarTurnoComponent {
   setTurno():TurnoModel | null{
     if(this.selectedDia && this.selectedHorario){
      
-      let dateID:string = `${this.selectedDia.dayName}_${this.selectedDia.fecha}_${this.selectedHorario.time}`
-      this.selectedHorario.estaDisponible = false;
+      this.ocuparHorarioAlMedico();
       this.selectedDia.timeSlot = this.selectedHorario;
+
+      let dateID:string = `${this.selectedDia.dayName}_${this.selectedDia.fecha}_${this.selectedHorario.time}`
 
       const turno:TurnoModel = {
         id: `${this.selectedPaciente?.email}_${this.selectedMedico?.email}_${dateID}`,
@@ -259,12 +219,35 @@ export class SolicitarTurnoComponent {
         especialidad: this.selectedEspecialidad,
         estado: 'pendiente', 
         comentario: '',
-        resenia: ''
+        resenia: '',
+        historiaClinica: {
+          fecha: this.selectedDia,
+          altura: 0,
+          peso: 0,
+          temperatura: 0,
+          presion: '',
+          datosDinamicos: []
+        }
       }
       return turno;
     }
     return null;
-   
+  }
+
+  ocuparHorarioAlMedico(){
+    if(this.selectedMedico){
+      this.selectedMedico?.horarios?.forEach(h => {
+        if (h.fecha === this.selectedDia?.fecha) {
+          h.timeSlots?.forEach(slot => {
+            if (slot.time === this.selectedHorario?.time) {
+              slot.estaDisponible = false;
+              this.selectedHorario.estaDisponible = false;
+            }
+          });
+        }
+      });
+      this.userService.update(this.selectedMedico);
+    }
   }
 
   updateTurnosDisponibles(turn:TurnoModel){

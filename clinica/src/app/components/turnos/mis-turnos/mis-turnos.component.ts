@@ -141,7 +141,6 @@ export class MisTurnosComponent {
     }
 
     onGeneralSearch() {
-      this.generalSearch = this.generalSearch.toLowerCase();
       this.applyFilters();
     }
   
@@ -156,7 +155,7 @@ export class MisTurnosComponent {
     }
 
     matchGeneralSearch(turno: TurnoModel): boolean {
-      const search = this.generalSearch;
+      const search = this.generalSearch.toLowerCase();
       const fieldsToSearch = [
         turno.especialidad,
         this.userMap[turno.especialistaId],
@@ -167,16 +166,23 @@ export class MisTurnosComponent {
         turno.estado,
         turno.resenia,
         turno.comentario,
-
-        ...Object.values(this.mySelf?.historiaClinica || []).flatMap(hist => [
-          hist.altura,
-          hist.peso,
-          hist.temperatura,
-          hist.presion,
-          ...hist.datosDinamicos?.flatMap(dd => [dd.key, dd.value]) || []
-        ])
       ];
-      return fieldsToSearch.some(field => field?.toString().toLowerCase().includes(search));
+
+      if (turno.historiaClinica) {
+        fieldsToSearch.push(
+          turno.historiaClinica.altura?.toString(),
+          turno.historiaClinica.peso?.toString(),
+          turno.historiaClinica.temperatura?.toString(),
+          turno.historiaClinica.presion,
+          ...turno.historiaClinica.datosDinamicos?.flatMap(dd => [dd.key, dd.value]) || []
+        );
+      }
+
+      // Filtro campos nulos o indefinidos
+      const validFields = fieldsToSearch.filter(field => field !== undefined && field !== null && field != '');
+
+      // Realizo la búsqueda  
+      return validFields.some(field => field.toLowerCase().includes(search));
     }
   
     async changeState(turno: TurnoModel, state: string) {
@@ -219,6 +225,7 @@ export class MisTurnosComponent {
           if (result) {
             turno.estado = state;
             turno.resenia = result.resenia;
+            turno.historiaClinica = result.historiaClinica;
             await this.cargarHistoriaClinica(turno, result.historiaClinica);
             await this.turnoService.update(turno);
           }

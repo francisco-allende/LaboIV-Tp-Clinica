@@ -10,4 +10,5 @@ export interface DayModel{
     fecha: string;
     estaDisponible: boolean;
     timeSlot: TimeSlot;
+    timeSlots?: TimeSlot[]
 }
