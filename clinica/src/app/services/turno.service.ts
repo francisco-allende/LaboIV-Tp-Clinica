@@ -70,7 +70,8 @@ export class TurnoService {
         especialidad: turno.especialidad,
         estado: turno.estado, 
         comentario: turno.comentario,
-        resenia: turno.resenia
+        resenia: turno.resenia,
+        historiaClinica: turno.historiaClinica
       });
     }catch(error){
       console.error('Error en el alta del turno:', error);
@@ -95,6 +96,7 @@ export class TurnoService {
           estado: turno.estado,
           comentario: turno.comentario,
           resenia: turno.resenia, 
+          historiaClinica: turno.historiaClinica
           });
       } 
     } catch (error) {

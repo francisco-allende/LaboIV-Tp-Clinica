@@ -1,4 +1,5 @@
 import { DayModel } from "./day";
+import { HistoriaClinicaModel } from "./historia-clinica";
 
 export interface TurnoModel {
     id: string; //El id es paciente + especialista + fecha o random num
@@ -9,4 +10,5 @@ export interface TurnoModel {
     estado: string; // 'pendiente', 'confirmado', 'cancelado', 'rechazado', 'finalizado'
     comentario: string;
     resenia: string;
+    historiaClinica: HistoriaClinicaModel;
 }
