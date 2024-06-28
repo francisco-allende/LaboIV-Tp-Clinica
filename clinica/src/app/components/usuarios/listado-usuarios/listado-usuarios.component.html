@@ -4,59 +4,56 @@
 
     <app-spinner [loading]="loading"></app-spinner>
     @if(!loading){
-      <table class="table table-striped table-light container">
-        <thead>
-          <tr class="text-center">
-            <th scope="col">Imagen perfil</th>
-            <th scope="col">Imagen extra</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">DNI</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Obra social</th>
-            <th scope="col">Especialidad</th>
-            <th scope="col" style="width: 112px;">Estado</th>
-            <th scope="col" style="width: 412px;">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
           
       @for(user of pagedUsers; track user ){
-          <tr class="text-center">
-                <td><img src="{{ user.mainImg }}" width="50px" height="50px" /></td>
-                <td>@if(user.extraImg){
-                  <img [src]="user.extraImg" width="50px" height="50px" />
-                  }@else {
-                    -
-                  }
-                </td>
-                <td>{{ user.nombre }}</td>
-                <td>{{ user.apellido }}</td>
-                <td>{{ user.dni }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.rol }}</td>
-                <td>{{ user.obraSocial ? user.obraSocial : '-' }}</td>
-                <td>{{ user.especialidad ? user.especialidad : '-' }}</td>
-                <td>{{ user.estado }}</td>
-                <td class="d-flex justify-content-evenly align-items-center action-btns">
+
+        <div class="user-card">
+          @if(user.rol === 'paciente'){
+            <div class="d-flex flex-column align-items-center select-user" style="margin-bottom: 1em;" (click)="selectUser(user)">
+              <img [src]="selectedImages[user.email]" alt="User Image" class="user-image">
+              <button (click)="toggleImage(user)" class="btn btn-dark text-center">Cambiar Imagen</button>
+            </div>
+          }@else{
+            <div class="select-user" (click)="selectUser(user)">
+              <img [src]="user.mainImg" alt="User Image" class="user-image">
+            </div>
+          }
+  
+            <div class="user-details">
+                <p class="user-data"><strong>Nombre completo:</strong> {{ user.nombre }} {{user.apellido}}</p>
+                <p class="user-data"><strong>DNI:</strong> {{ user.dni }} </p>
+                <p class="user-data"><strong>Email:</strong> {{ user.email }}</p>
+                <p class="user-data"><strong>Rol:</strong> {{ user.rol }}</p>
+                @if(user.rol === 'paciente'){
+                  <p class="user-data"><strong>Obra Social:</strong> {{ user.obraSocial }}</p>
+                }
+                @if(user.rol === 'especialista'){
+                  <p class="user-data"><strong>Especialidad/es:</strong> {{ user.especialidad }}</p>
+                }
+                <p class="user-data"><strong>Estado:</strong> {{ user.estado }}</p>
+            
+                <div class="btn-container d-flex justify-content-evenly align-items-center">
                   @if(user.estado == "pendiente" || user.estado == "deshabilitado"){
                     <button class="btn btn-success enabled" (click)="changeState(user, 'habilitado')"> Habilitar </button>
                   }@else if (user.estado == "habilitado") {
-                    <button class="btn btn-danger" (click)="changeState(user, 'deshabilitado')"> Desabilitar </button>
+                    <button class="btn btn-secondary" (click)="changeState(user, 'deshabilitado')"> Desabilitar </button>
                   }
                   @if(user.rol == "paciente"){
-                    <button class="btn btn-dark text-center" (click)="verHistoriaClinica(user)">
-                      Hist. Clinica
-                    </button>   
+                    <button class="btn btn-primary text-center" (click)="verHistoriaClinica(user)">
+                      Ver Hist. Clinica
+                    </button>        
                   }
-                </td>
-            </tr>
-        }
-        </tbody>
-      </table>
+                  @if(isUserSelected(user)){
+                    <button (click)="exportUserToCSV(user)" class="btn btn-success">
+                      CSV <mat-icon style="padding-top: 0.2em;">download</mat-icon> 
+                    </button>
+                  }
+                </div>
+            </div>
+          </div> 
+          }
     
-      <button class="btn btn-success btn-csv" (click)="exportToCSV()">Exportar a CSV</button>
+      <button class="btn btn-success btn-csv" (click)="exportAllToCSV()">Exportar listado a CSV</button>
 
       <app-paginacion
         [currentPage]="currentPage"

@@ -1,5 +1,5 @@
 .container-fluid {
-  height: 90vh;
+  height: 145vh;
   background-color: rgb(106, 216, 212);
   background-image: url('../../../../assets/main_fondo.png'); 
   background-size: 250px 250px;
@@ -10,39 +10,46 @@
 
 .mt-4{
   background-color: lightblue;
-  height: 800px;
+  height: 140vh;
 }
 
-table{
+
+.user-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto;
+  padding: 16px;
   margin-top: 1em;
+  width: 400px;
+
 }
 
-li:hover, a:hover{
+.user-image {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+.user-image:hover{
   cursor: pointer;
 }
 
-.btn-danger{
-  padding-left: 0px;
-  padding-right: 0px;
+.user-details {
+  font-family: Arial, sans-serif;
 }
 
-.btn-danger, .btn-dark, .enabled{
-  height: 40px;
-  border-radius: 0 !important; 
-  width: 90px;
-}
-
-.btn-dark{
-  font-size: small;
-  padding-left: 0.1em;
-  padding-right: 0.1em;
-}
-
-.action-btns{
-  padding: 0.2em;
-  height: 67.5px;
+.user-data{
+  font-size: 1.2em;
+  margin-bottom: 1.2em;
 }
 
 .btn-csv{
-  margin-bottom: 1em;
+  margin: 1em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
