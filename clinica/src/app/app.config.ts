@@ -10,8 +10,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY, } from 'ng-recaptcha';
-
-
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
 export const appConfig: ApplicationConfig = {
@@ -23,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(), 
     provideToastr(),
+    provideCharts(withDefaultRegisterables()),
     provideAuth(() => getAuth()), 
     provideRouter(routes, withViewTransitions(
     )), 
@@ -38,5 +38,6 @@ export const appConfig: ApplicationConfig = {
       )), 
       provideStorage(() => getStorage()), provideAnimationsAsync()
     ],
+    
    
 };

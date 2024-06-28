@@ -76,8 +76,10 @@
                                     @else if(turno.estado == "rechazado"){
                                       <button class="btn btn-secondary" (click)="showMotivo(turno)"> Ver motivo </button>
                                     }
-                                    @else if(turno.estado == "confirmado"){
+                                    @else if(turno.estado == "confirmado" && currentRol == "especialista"){
                                         <button class="btn btn-primary" (click)="changeState(turno, 'finalizado')"> Finalizar </button>
+                                    }@else if(turno.estado == "confirmado" && currentRol == "paciente"){
+                                          <mat-icon>check</mat-icon>
                                     }@else if (turno.estado == "finalizado" && turno.resenia != '') {
                                         <button class="btn btn-secondary" (click)="showMotivo(turno)"> Ver reseña </button>
                                         @if(currentRol == 'paciente' && turno.comentario == ''){

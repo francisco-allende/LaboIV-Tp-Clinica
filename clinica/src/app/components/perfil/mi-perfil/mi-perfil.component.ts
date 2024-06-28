@@ -17,6 +17,7 @@ import { DayModel, TimeSlot } from '../../../models/day';
 import { VerModalHorariosComponent } from '../ver-modal-horarios/ver-modal-horarios.component';
 import { ShowHistoriaClinicaComponent } from '../../dialogs/show-historia-clinica/show-historia-clinica.component';
 
+
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
@@ -141,10 +142,15 @@ export class MiPerfilComponent {
     }
 
     verHistoriaClinica(paciente:UserModel | null) {
-      this.dialog.open(ShowHistoriaClinicaComponent, {
-        width: '600px',
-        data: paciente?.historiaClinica
-      });
+      if(paciente && paciente.historiaClinica && paciente.historiaClinica.length > 0 && paciente.historiaClinica[0].altura > 0){
+        this.dialog.open(ShowHistoriaClinicaComponent, {
+          width: '600px',
+          data: paciente
+        });
+      }else{
+        this.toast.info("Aun no posees historia clínica")
+      }
+
   }
     
 

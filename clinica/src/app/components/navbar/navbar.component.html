@@ -34,15 +34,15 @@
           <li class="nav-item">
             <a class="nav-link" (click)="router.navigateByUrl('usuarios')">Usuarios</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="router.navigateByUrl('graficos')">Gráficos</a>
+          </li>
         }
         @if(currentRol == "especialista"){
           <li class="nav-item">
             <a class="nav-link" (click)="router.navigateByUrl('pacientes')">Pacientes</a>
           </li>
         }
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contactanos</a>
-        </li>
       </ul>
   
     <ul class="nav navbar-nav ml-auto">         

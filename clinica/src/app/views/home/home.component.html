@@ -40,10 +40,25 @@
                       <div class="col-md-4">
                         <div id="consultas-card" class="card text-center shadow-sm">
                           <div class="card-body">
-                              <h2 class="card-title">Consultas</h2>
-                            <img src="../../../assets/home-consultas.jpeg" alt="Consultas" class="img-fluid mb-3" width="382px" height="312px">
-                            <p class="card-text">Revisa tus consultas médicas previas.</p>
-                            <a href="/consultas" class="btn btn-primary">Ver más</a>
+                              @if(currentRol == "admin"){
+                                <h2 class="card-title">Usuarios</h2>
+                                <img src="../../../assets/home-consultas.jpeg" alt="Consultas" class="img-fluid mb-3" width="382px" height="312px">
+                                <p class="card-text">Visualiza y gestiona usuarios</p>
+                                <a (click)="router.navigateByUrl('usuarios')" class="btn btn-primary">Ver más</a>
+                              }
+                              @if(currentRol == "especialista"){
+                                <h2 class="card-title">Pacientes</h2>
+                                <img src="../../../assets/home-consultas.jpeg" alt="Consultas" class="img-fluid mb-3" width="382px" height="312px">
+                                <p class="card-text">Visualiza y gestiona tus pacientes.</p>
+                                <a (click)="router.navigateByUrl('paciente')" class="btn btn-primary">Ver más</a>
+                              }
+                              @if(currentRol == "paciente"){
+                                <h2 class="card-title">Solicitar turno</h2>
+                                <img src="../../../assets/home-consultas.jpeg" alt="Consultas" class="img-fluid mb-3" width="382px" height="312px">
+                                <p class="card-text">Elegi un turno a tu conveniencia.</p>
+                                <a (click)="router.navigateByUrl('turnos/solicitar')" class="btn btn-primary">Ver más</a>
+                              }
+                           
                           </div>
                         </div>
                       </div>

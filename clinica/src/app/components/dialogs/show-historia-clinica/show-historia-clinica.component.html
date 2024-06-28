@@ -1,8 +1,8 @@
-@if(historiaClinica && historiaClinica.length > 0){
+@if(paciente.historiaClinica && paciente.historiaClinica.length > 0){
     <h2 mat-dialog-title class="dialog-title">Historia Clínica</h2>
     <mat-dialog-content class="dialog-content">
     <br>
-    @for(hist of historiaClinica; track hist){
+    @for(hist of paciente.historiaClinica; track hist){
         <p>
             {{ hist.fecha.dayName  | capitalizeFirstLetterPipe}} 
             {{ hist.fecha.fecha | setFechaWithSlashes }} 
@@ -20,9 +20,39 @@
         }
         <p>-------------------------------------------------------------</p>
     }
+
+    
+
     <div mat-dialog-actions class="dialog-actions">
-        <button mat-button (click)="onClose()" class="text-center btn btn-primary">Ok</button>
+        <div class="dialog-button-row">
+            <button mat-button (click)="descargarHistoriaPDF()" class="text-center btn btn-success">
+                <mat-icon>download</mat-icon>
+                Descargar PDF Historia 
+            </button>
+        </div>
+        <div class="dialog-button-row d-flex justify-content-evenly">
+            <mat-form-field appearance="fill" class="me-3">
+              <mat-label>Seleccione un especialista</mat-label>
+              <mat-select [(value)]="especialistaSeleccionado">
+                @for(especialista of especialistas; track especialista){
+                    <mat-option [value]="especialista">
+                        {{ especialista.nombre }} {{ especialista.apellido }}
+                    </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            
+            <button mat-button (click)="descargarPorEspecialistaPDF()" class="btn btn-dark" style="height: 45px; margin-top: 0.5em;">
+              <mat-icon>download</mat-icon>
+              PDF Historia por especialista
+            </button>
+          </div>
+          
+        <div class="dialog-button-row">
+            <button mat-button (click)="onClose()" class="text-center btn btn-primary">Cerrar</button>
+        </div>
     </div>
+    
     </mat-dialog-content>
 }@else {
     <h2 class="text-center" style="padding: 1em;">No hay historia clínica disponible.</h2>

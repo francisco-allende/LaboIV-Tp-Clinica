@@ -90,11 +90,18 @@ export class SolicitarTurnoComponent {
   }
 
   getMedicosPorEspecialidad(especialidad: string): UserModel[] | undefined {
+
     if (!this.medicos || !this.selectedEspecialidad) {
       return undefined;
     }
   
     const especialidadLower = this.selectedEspecialidad.toLowerCase();
+
+    console.log(this.selectedEspecialidad)
+    this.medicos.forEach(x=>{
+      console.log(x.apellido)
+    })
+
     const medicosFiltrados = this.medicos.filter(medico =>
       medico.especialidad?.map(espec => espec.toLowerCase()).includes(especialidadLower)
     );

@@ -206,6 +206,7 @@ export class MisTurnosComponent {
             turno.estado = state;
             turno.comentario = result
             turno.fecha.timeSlot.estaDisponible = true;
+            this.liberarHorarioAlMedico(turno);
             await this.turnoService.update(turno);
           }
         });
@@ -230,6 +231,20 @@ export class MisTurnosComponent {
             await this.turnoService.update(turno);
           }
         });
+      }
+    }
+
+    async liberarHorarioAlMedico(turno:TurnoModel){
+      let medico:UserModel = await this.userService.getUserByEmail(turno.especialistaId)
+      let time = turno.fecha.timeSlot.time;
+      
+      if(medico){
+        medico?.horarios?.forEach(h => {
+          if (h.fecha === turno.fecha.fecha) {
+            turno.fecha.timeSlots?.push({time:time, estaDisponible:true})
+          }
+        });
+        this.userService.update(medico);
       }
     }
 

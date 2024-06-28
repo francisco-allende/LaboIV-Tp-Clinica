@@ -67,6 +67,12 @@ export const routes: Routes = [
         data: { animation: 'Page1' }
     },
     {
+        path: 'graficos',
+        //canActivate:[especialistaGuard],
+        loadComponent: () => import('./views/graficos-container/graficos-container.component').then((m) => m.GraficosContainerComponent),
+        data: { animation: 'Page1' }
+    },
+    {
         path: 'error',
         loadComponent: () => import('./views/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),
         data: { animation: 'Page2' }
