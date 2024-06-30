@@ -32,7 +32,7 @@ export class FinalizarTurnoDialogComponent {
     private toast:ToastrService) { }
 
   onConfirm(): void {
-    if(this.resenia !== '' && this.altura !== null && this.peso !== null && this.temperatura !== null && this.presion !== '') {
+    if(this.resenia !== '' && this.altura !== null && this.altura > 0 && this.peso !== null && this.peso > 0 && this.temperatura !== null && this.presion !== '') {
       const historiaClinica: HistoriaClinicaModel = {
         fecha: this.data.turno.fecha,
         altura: this.altura,

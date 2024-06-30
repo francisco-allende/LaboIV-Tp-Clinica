@@ -15,7 +15,11 @@ export class GrafTurnosPorEspecialidadComponent {
     datasets:[
       {
         data:[89, 34 ,43, 54, 26, 74, 93],
-        label:'Turnso por dia'
+        label:'Turnos por dia',
+        fill:true,
+        backgroundColor:'red',
+        borderColor: 'black'
+
       }
     ]
   }

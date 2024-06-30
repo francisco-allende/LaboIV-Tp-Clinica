@@ -185,7 +185,7 @@ export class ListadoUsuariosComponent {
     }else{
       inicio =  `Listado_usuarios`
     }
-    return `${inicio}_Clinica_San_Lucas_${now.getFullYear()}-${this.padZero(now.getMonth() + 1)}-${this.padZero(now.getDate())}_${this.padZero(now.getHours())}-${this.padZero(now.getMinutes())}-${this.padZero(now.getSeconds())}`;
+    return `${inicio}_Clinica_San_Francisco_${now.getFullYear()}-${this.padZero(now.getMonth() + 1)}-${this.padZero(now.getDate())}_${this.padZero(now.getHours())}-${this.padZero(now.getMinutes())}-${this.padZero(now.getSeconds())}`;
   }
 
   getBlob(csvRows:any):any{

@@ -52,6 +52,20 @@ export class LoginService {
       }
     }
 
+    async getAllLogs():Promise<any>{
+      try {
+        let col = collection(this.firestore, 'logs');
+        const querySnapshot = await getDocs(col);
+        const logs:any = [];
+        querySnapshot.forEach((doc) => {
+            logs.push(doc.data());
+        });
+        return logs;
+      } catch (error) {
+          console.error('Error obteniendo los logs:', error);
+          throw error;
+      }
+    }
     
     isEmailVerificated() : boolean | undefined{
       let u = getAuth()

@@ -1,27 +1,65 @@
 <div class="container-fluid">
     <div class="container mt-4">
-        <div class="row container">
+      <div class="row justify-content-center">
         @if(loading){
-            <app-spinner [loading]="loading"></app-spinner>
+          <app-spinner [loading]="loading"></app-spinner>
         }@else {
+          @if(!loading && count > 0){
+              <div class="d-flex justify-content-evenly">
             @for(paciente of pacientes; track paciente){
-                <div class="user-card">
-                    <img [src]="selectedImages[paciente.email]" alt="User Image" class="user-image">
-                    <button (click)="toggleImage(paciente)" class="btn btn-primary text-center">Cambiar Imagen</button>
+                    <div class="user-card" (click)="showData(paciente)">
+                        <div class="image-container">
+                          <img [src]="selectedImages[paciente.email]" alt="User Image" class="user-image">
+                          <div class="overlay">
+                            <div class="user-name">{{ paciente.nombre }} {{ paciente.apellido }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    }
+                </div>
+            @if(selectedPaciente){
+                @if(loadTurnos){
+                    <app-spinner [loading]="loadTurnos"></app-spinner>
+                }@else{
 
-                    <div class="user-details">
-                        <p class="user-data"><strong>Paciente:</strong> {{ paciente.nombre }} {{paciente.apellido}}</p>
-                        <p class="user-data"><strong>DNI:</strong> {{ paciente.dni }} </p>
-                        <p class="user-data"><strong>Email:</strong> {{ paciente.email }}</p>
-                        <p class="user-data"><strong>Obra Social:</strong> {{ paciente.obraSocial }}</p>
+        
+                <div class="patient-details">
+                    <h2>Turnos de {{ selectedPaciente.nombre }} {{ selectedPaciente.apellido }} con {{mySelf?.nombre}} {{mySelf?.apellido}}</h2>
+                    <div *ngFor="let turno of pagedTurnos" class="turno-card">
+                        <p><strong>Fecha:</strong>  
+                            {{ turno.fecha.dayName | capitalizeFirstLetterPipe}} 
+                            {{ turno.fecha.fecha | setFechaWithSlashes }}
+                            {{turno.fecha.timeSlot.time | horariosAmPmFormat}}</p>
+                        <p><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
+                        <p><strong>Estado:</strong> {{ turno.estado | capitalizeFirstLetterPipe }}</p>
+                        <div class="d-flex justify-content-evenly">
+                            @if(turno.resenia != ''){
+                                <button (click)="showResenia(turno)" class="btn btn-info">Ver Reseña</button>
+                            }
+                            @if(turno.comentario != ''){
+                                <button (click)="showComentario(turno)" class="btn btn-info">Ver Comentario del paciente</button>
+                            }
+                            @if(turno.historiaClinica.altura > 0 && turno.historiaClinica.peso > 0){
+                                <button (click)="verHistoriaClinica(turno, turno.historiaClinica)" class="btn btn-info">Ver Historia Clinica del turno</button>
+                            }
+                        </div>
                     
-                        <button class="btn btn-dark text-center" (click)="verHistoriaClinica(paciente)">
-                            Ver Historia Clinica
-                        </button>        
-                    </div> 
-                </div>            
+                    </div>
+                </div>
+
+                <app-paginacion
+                    [currentPage]="currentPage"
+                    [totalPages]="totalPages"
+                    (pageChanged)="setPage($event)">
+                </app-paginacion>
+                }
             }
+          }@else{
+            <h1 class="text-center" style="background-color: white;">Aún no tienes pacientes</h1>
+          }
         }
-        </div>
+      </div>
     </div>
-</div>
+  </div>
+  

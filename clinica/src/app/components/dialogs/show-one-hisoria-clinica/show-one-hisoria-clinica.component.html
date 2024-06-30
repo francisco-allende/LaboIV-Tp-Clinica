@@ -1,0 +1,41 @@
+@if(data.historiaClinica && data.historiaClinica.altura > 0){
+    <h2 mat-dialog-title class="dialog-title">Historia Clínica</h2>
+    <mat-dialog-content class="dialog-content">
+    <br>
+        <p>
+            {{ data.historiaClinica.fecha.dayName  | capitalizeFirstLetterPipe}} 
+            {{ data.historiaClinica.fecha.fecha | setFechaWithSlashes }} 
+            {{ data.historiaClinica.fecha.timeSlot.time | horariosAmPmFormat }}
+        </p>
+        <p>Altura: {{ data.historiaClinica.altura }} cm</p>
+        <p>Peso: {{ data.historiaClinica.peso }} kg</p>
+        <p>Temperatura: {{ data.historiaClinica.temperatura }} °C</p>
+        <p>Presión: {{ data.historiaClinica.presion | capitalizeFirstLetterPipe}}</p>
+        @if(data.historiaClinica.datosDinamicos && data.historiaClinica.datosDinamicos.length > 0){
+            <h4>Datos Adicionales</h4>
+            @for(dato of data.historiaClinica.datosDinamicos; track dato){
+                <p>{{ dato.key | capitalizeFirstLetterPipe}}: {{ dato.value | capitalizeFirstLetterPipe}}</p>
+            }
+        }
+        <p>-------------------------------------------------------------</p>
+    
+    <div mat-dialog-actions class="dialog-actions">
+        <div class="dialog-button-row">
+            <button mat-button (click)="descargarHistoriaPDF()" class="text-center btn btn-success">
+                <mat-icon>download</mat-icon>
+                Descargar PDF Historia 
+            </button>
+        </div>
+        <div class="dialog-button-row">
+            <button mat-button (click)="onClose()" class="text-center btn btn-primary">Cerrar</button>
+        </div>
+    </div>
+    
+    </mat-dialog-content>
+}@else {
+    <h2 class="text-center" style="padding: 1em;">No hay historia clínica disponible.</h2>
+    <div mat-dialog-actions class="dialog-actions">
+        <button mat-button (click)="onClose()" class="text-center btn btn-primary">Ok</button>
+    </div>
+}
+

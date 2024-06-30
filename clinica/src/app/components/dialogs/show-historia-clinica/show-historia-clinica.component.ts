@@ -95,6 +95,7 @@ export class ShowHistoriaClinicaComponent {
             });
           }
           line += 20;
+
         });
       } else {
         doc.text('No hay datos de historia clínica disponibles.', 15, line);

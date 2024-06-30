@@ -1,65 +1,80 @@
 .container-fluid {
-    height: 85vh;
-    background-color: rgb(106, 216, 212);
-    background-image: url('../../../../assets/main_fondo.png'); 
-    background-size: 250px 250px;
-    background-repeat: repeat;
-    background-position: center;
-    padding: 20px;
-  }
+  height: 85vh;
+  background-color: rgb(106, 216, 212);
+  background-image: url('../../../../assets/main_fondo.png');
+  background-size: 250px 250px;
+  background-repeat: repeat;
+  background-position: center;
+  padding: 20px;
+}
 
-  .mt-4{
-    height: 800px;
-  }
+.mt-4 {
+  height: 800px;
+}
 
-  .user-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin: 0 auto;
-    padding: 16px;
-    margin-top: 1em;
-    width: 400px;
+.user-card {
+  position: relative;
+  margin: 1em;
+}
 
-  }
-  
-  .user-image {
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    margin-top: 1em;
-    margin-bottom: 3em;
-  }
-  
-  .user-details {
-    font-family: Arial, sans-serif;
-  }
-  
-  .user-data{
-    font-size: 1.2em;
-    margin-bottom: 1.2em;
-  }
+.image-container {
+  position: relative;
+  display: inline-block;
+}
 
-  .list-container{
-    width: 50%;
-    margin-left: 25%;
-    text-align: left;
-  }
+.user-image {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
 
-  .list-data{
-    margin-top: 0.5em;
-  }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-  button:hover{
-    cursor: pointer;
-    color: white;
-  }
-  .btn{
-    margin: 1em;
-  } 
+.image-container:hover .overlay {
+  opacity: 1;
+}
 
+.user-name {
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+}
 
-  
+button:hover {
+  cursor: pointer;
+}
+
+.user-card:hover{
+  cursor: pointer;
+}
+
+.patient-details {
+  margin-top: 20px;
+  background-color: lightblue;
+}
+
+.turno-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  margin: 10px;
+  padding: 16px;
+}
