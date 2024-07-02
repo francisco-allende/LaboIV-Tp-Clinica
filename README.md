@@ -1,6 +1,9 @@
 # Clínica Online San Francisco
 Bienvenido a La Clínica Online San Francisco, una aplicación online construida en las ultimas tecnologias de frontend y bases de datos con Angular 17 y Firebase. La clínica cuenta con esta plataforma de fácil acceso y entendimiento para la gestion de usuarios, turnos, historias clinicas y que tanto los paceintes como los especialistas tengan a mano sus turnos.  La clinica trabaja los 7 días de la semana, de lunes a viernes en el horario de 8:00 a 19:00. Los especialistas cargan sus horarios disponibles y sus diversas especialidades para atender a los pacientes según su disponibilidad. Los turnos se solicitan a través de la página seleccionando al profesional y la especialidad deseada. Además, cuenta con historia clinica de los pacientes que se guarda y exporta a pdf.
 
+Podes acceder aqui:
+## https://clinica-3c199.web.app/
+
 Nuestro home:
 
 ![image](https://github.com/francisco-allende/LaboIV-Tp-Clinica/assets/74782019/1373aee8-e0c2-4eaf-954e-a632ae39446e)
