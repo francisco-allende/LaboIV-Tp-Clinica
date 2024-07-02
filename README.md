@@ -1,4 +1,4 @@
-### Clínica Online
+# Clínica Online
 La Clínica Online es una plataforma especializada en salud, que permite la gestión integral de turnos, perfiles de usuarios, y visualización de informes. La clínica cuenta actualmente con seis consultorios, dos laboratorios y una sala de espera general. Está abierta al público de lunes a viernes en el horario de 8:00 a 19:00, y los sábados de 8:00 a 14:00. Los profesionales de diversas especialidades atienden a los pacientes en estos consultorios según su disponibilidad. Los turnos pueden ser solicitados a través de esta página seleccionando el profesional o la especialidad deseada.
 
 Pantallas
