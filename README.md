@@ -4,7 +4,7 @@ Bienvenido a La Clínica Online San Francisco, una aplicación online construida
 ## Podes acceder aqui:
 ## https://clinica-3c199.web.app/
 
-Nuestro home:
+## Nuestro home:
 
 ![image](https://github.com/francisco-allende/LaboIV-Tp-Clinica/assets/74782019/1373aee8-e0c2-4eaf-954e-a632ae39446e)
 
