@@ -130,7 +130,6 @@ export class LoginService {
           })
           
           this.toast.success('Usuario creado con éxito', `Enviamos un mail de verificacion a ${res.user.email}`);
-          this.router.navigateByUrl('/enviar_email');
           sendEmailVerification(res.user);
         } 
       }).catch((error) => {

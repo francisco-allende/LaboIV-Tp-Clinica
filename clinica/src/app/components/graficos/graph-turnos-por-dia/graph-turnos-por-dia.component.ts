@@ -46,6 +46,11 @@ export class GraphTurnosPorDiaComponent {
     this.turnos.forEach(turno => {
       const fecha = turno.fecha.fecha; 
       const dia = turno.fecha.dayName;
+
+      if (!fecha || !dia) {
+        console.error('Fecha o día no definido para el turno:', turno);
+        return;
+      }
   
       if (!turnosPorDia[dia]) {
         turnosPorDia[dia] = [];

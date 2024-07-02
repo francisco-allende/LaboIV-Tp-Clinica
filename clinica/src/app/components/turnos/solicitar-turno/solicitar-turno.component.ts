@@ -97,11 +97,6 @@ export class SolicitarTurnoComponent {
   
     const especialidadLower = this.selectedEspecialidad.toLowerCase();
 
-    console.log(this.selectedEspecialidad)
-    this.medicos.forEach(x=>{
-      console.log(x.apellido)
-    })
-
     const medicosFiltrados = this.medicos.filter(medico =>
       medico.especialidad?.map(espec => espec.toLowerCase()).includes(especialidadLower)
     );
@@ -159,9 +154,12 @@ export class SolicitarTurnoComponent {
   //Filtro por slots disponibles
   getHorariosDisponiblesByMedico():TimeSlot []{
     let availableTimeSlots: TimeSlot [] = [];
-    this.selectedMedico?.horarios?.flatMap(h => 
-      h.timeSlots?.filter(slot => slot.estaDisponible ? availableTimeSlots.push(slot) : undefined)
-    ) || [];
+
+    this.selectedMedico?.horarios?.forEach(h=>{
+      if(h.fecha == this.selectedDia?.fecha){
+        h.timeSlots?.filter(slot=> slot.estaDisponible ? availableTimeSlots.push(slot) : undefined)
+      }
+    }) || []
 
     return availableTimeSlots;
   }

@@ -14,7 +14,7 @@ export const especialistaGuard: CanActivateFn = (route, state) => {
     if(usersService.getUserRol() == "especialista") {
       return true
     }else{
-      toast.error("Necesita ser admin para acceder al sitio");
+      toast.error("Necesita ser especialista para acceder al sitio");
       ruta.navigateByUrl("/home");
       return  false;
     }

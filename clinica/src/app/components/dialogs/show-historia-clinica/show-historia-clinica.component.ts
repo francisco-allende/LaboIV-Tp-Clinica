@@ -56,6 +56,13 @@ export class ShowHistoriaClinicaComponent {
       const today = new Date();
       let line = 20;
       const pageHeight = (doc.internal.pageSize.height) - 10;
+
+      const checkAddPage = () => {
+        if (line >= pageHeight) {
+          doc.addPage();
+          line = 10; 
+        }
+      };
   
       doc.addImage('../../../../assets/logo.png', 'PNG', 150, 10, 50, 50);
       doc.text(`Fecha de creación: ${today.toLocaleDateString("es-ES")}`, 10, line);
@@ -76,26 +83,32 @@ export class ShowHistoriaClinicaComponent {
   
       if (this.paciente.historiaClinica && this.paciente.historiaClinica.length > 0) {
         this.paciente.historiaClinica.forEach((historia) => {
+          checkAddPage();
           doc.text(`Fecha: ${historia.fecha.fecha}`, 15, line);
           line += 10;
+          checkAddPage();
           doc.text(`Altura: ${historia.altura} cm`, 15, line);
           line += 10;
+          checkAddPage();
           doc.text(`Peso: ${historia.peso} kgs`, 15, line);
           line += 10;
+          checkAddPage();
           doc.text(`Temperatura: ${historia.temperatura} ºC`, 15, line);
           line += 10;
+          checkAddPage();
           doc.text(`Presión: ${historia.presion}`, 15, line);
           line += 10;
           if (historia.datosDinamicos && historia.datosDinamicos.length > 0) {
+            checkAddPage();
             doc.text('Datos Dinámicos:', 15, line);
             line += 10;
             historia.datosDinamicos.forEach((dato) => {
+              checkAddPage();
               doc.text(`${dato.key}: ${dato.value}`, 20, line);
               line += 10;
             });
           }
           line += 20;
-
         });
       } else {
         doc.text('No hay datos de historia clínica disponibles.', 15, line);
@@ -117,6 +130,14 @@ export class ShowHistoriaClinicaComponent {
       
       const doc = new jsPDF();
       const logoUrl = '../../../../assets/logo.png'; 
+
+      const pageHeight = (doc.internal.pageSize.height) - 10;
+      const checkAddPage = () => {
+        if (line >= pageHeight) {
+          doc.addPage();
+          line = 10; 
+        }
+      };
 
       // logo de la clínica
       doc.addImage(logoUrl, 'JPEG', 10, 10, 50, 30);
@@ -145,19 +166,25 @@ export class ShowHistoriaClinicaComponent {
       turnosFiltrados?.forEach(turno => {
         const especialista = this.especialistas?.find(especialista => especialista.email === turno.especialistaId);
         const nombreEspecialista = especialista ? `${especialista.nombre} ${especialista.apellido}` : 'Desconocido';
+        checkAddPage();
         doc.text(`Fecha: ${turno.fecha.fecha}`, 10, line);
         line += 10;
+        checkAddPage();
         doc.text(`Especialista: ${nombreEspecialista}`, 10, line);
         line += 10;
+        checkAddPage();
         doc.text(`Especialialidad: ${turno.especialidad}`, 10, line);
         line += 10;
+        checkAddPage();
         doc.text(`Estado del turno: ${turno.estado}`, 10, line);
         line += 10;
         if(turno.comentario != ''){
+          checkAddPage();
           doc.text(`Comentario del paciente: ${turno.comentario}`, 10, line);
           line += 10;
         }
         if(turno.resenia != ''){
+          checkAddPage();
           doc.text(`Diagnóstico: ${turno.resenia}`, 10, line);
           line += 10;
         }

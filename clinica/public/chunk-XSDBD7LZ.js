@@ -1,0 +1,1 @@
+import{Va as s,ia as r,ya as n}from"./chunk-TDWWCWZI.js";var a=(()=>{let t=class t{constructor(i){this.el=i}ngAfterViewInit(){this.el.nativeElement.focus()}};t.\u0275fac=function(c){return new(c||t)(s(n))},t.\u0275dir=r({type:t,selectors:[["","appAutofocus",""]],standalone:!0});let e=t;return e})();export{a};

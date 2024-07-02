@@ -150,6 +150,7 @@ export class RegisterComponent {
         try{
           await this.uploadFile();
           this.loginService.register(this.setNewUser());
+          this.router.navigateByUrl('/enviar_email');
         }catch(error){
           console.log(error)
         } 

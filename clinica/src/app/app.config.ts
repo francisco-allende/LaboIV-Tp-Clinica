@@ -11,6 +11,8 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY, } from 'ng-recaptcha';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import firebaseConfigBackup from './enviroments/backup';
+import firebaseConfigMain from './enviroments/main';
 
 
 export const appConfig: ApplicationConfig = {
@@ -27,15 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(
     )), 
     provideFirestore(() => getFirestore()), 
-    provideFirebaseApp(() => initializeApp(
-      {
-        "projectId":"clinica-3c199",
-        "appId":"1:843286763763:web:20326de4d5d4168fcebf86",
-        "storageBucket":"clinica-3c199.appspot.com",
-        "apiKey":"AIzaSyARVYnrMWCFZLB64LouAFTOxtRpl__n98s",
-        "authDomain":"clinica-3c199.firebaseapp.com",
-        "messagingSenderId":"843286763763"
-      })), 
-      provideStorage(() => getStorage()), provideAnimationsAsync()
+    provideFirebaseApp(() => initializeApp(firebaseConfigBackup)), 
+    provideStorage(() => getStorage()), provideAnimationsAsync()
     ],
 };

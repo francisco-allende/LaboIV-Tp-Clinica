@@ -5,17 +5,17 @@ import { ToastrService } from 'ngx-toastr';
 import { Route } from '@angular/router';
 import { LoginService } from '../services/login.service';
 
-export const pacienteGuard: CanActivateFn = (route, state) => {
+export const especialistaOrPacienteGuard: CanActivateFn = (route, state) => {
   const usersService = inject(UserService);
   const loginService = inject(LoginService);
   const toast = inject(ToastrService);
   const ruta = inject(Router);
 
   if(loginService.getLoggedUser()) {
-    if(usersService.getUserRol() == "paciente") {
+    if(usersService.getUserRol() == "especialista" || usersService.getUserRol() == "paciente") {
       return true
     }else{
-      toast.error("Necesita ser paciente para acceder al sitio");
+      toast.error("Necesita ser admin o paciente para acceder al sitio");
       ruta.navigateByUrl("/home");
       return  false;
     }
