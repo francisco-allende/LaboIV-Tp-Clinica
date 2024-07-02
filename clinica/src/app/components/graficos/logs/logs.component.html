@@ -1,7 +1,12 @@
-<div class="container-fluid">
-    <div class="container mt-4">
-        <div class="row container" style="background-color: white;">
-            <button class="btn btn-success" (click)="descargarCSV()"><mat-icon>download</mat-icon> Descargar Logs</button>
-        </div>
+<div  class="container-fluid">
+    <div class="d-flex justify-content-center btn-container">
+        <div class="log-card" (click)="descargarCSV()" appCursorPointer>
+            <div class="image-container">
+              <img [src]="'../../../../assets/log.png'" alt="Logs"  class="log-image">
+              <div class="overlay">
+                <div class="log-name">Descargar Logs</div>
+              </div>
+            </div>
+          </div>
     </div>
 </div>

@@ -6,11 +6,12 @@ import { Router , ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserModel } from '../../models/user';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, SpinnerComponent],
+  imports: [FormsModule, ReactiveFormsModule, SpinnerComponent, AutofocusDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

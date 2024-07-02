@@ -14,13 +14,13 @@ import { HorariosAmPmFormatPipe } from '../../../pipes/horarios-am-pm-format.pip
 import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.pipe';
 import { TranslateDayNamePipe } from '../../../pipes/translate-day-name.pipe';
 import { CapitalizeFirstLetterPipePipe } from '../../../pipes/capitalize-first-letter-pipe.pipe';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { ResaltarDirective } from '../../../directives/resaltar.directive';
 
 
 @Component({
   selector: 'app-solicitar-turno',
   standalone: true,
-  imports: [SpinnerComponent, CommonModule, TranslateDayNamePipe ,SetFechaWithSlashesPipe, HorariosAmPmFormatPipe ,CapitalizeFirstLetterPipePipe],
+  imports: [ResaltarDirective ,SpinnerComponent, CommonModule, TranslateDayNamePipe ,SetFechaWithSlashesPipe, HorariosAmPmFormatPipe ,CapitalizeFirstLetterPipePipe],
   templateUrl: './solicitar-turno.component.html',
   styleUrl: './solicitar-turno.component.css'
 })

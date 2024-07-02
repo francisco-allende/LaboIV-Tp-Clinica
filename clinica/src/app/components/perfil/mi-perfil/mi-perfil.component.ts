@@ -16,12 +16,12 @@ import moment from 'moment';
 import { DayModel, TimeSlot } from '../../../models/day';
 import { VerModalHorariosComponent } from '../ver-modal-horarios/ver-modal-horarios.component';
 import { ShowHistoriaClinicaComponent } from '../../dialogs/show-historia-clinica/show-historia-clinica.component';
-
+import { RoundedImgDirective } from '../../../directives/rounded-img.directive';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [SpinnerComponent, CommonModule, FormsModule,],
+  imports: [RoundedImgDirective, SpinnerComponent,  CommonModule, FormsModule, ],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css'
 })

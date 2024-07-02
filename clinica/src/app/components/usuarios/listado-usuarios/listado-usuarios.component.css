@@ -24,17 +24,8 @@
   padding: 16px;
   margin-top: 1em;
   width: 400px;
-
 }
 
-.user-image {
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  margin-top: 1em;
-  margin-bottom: 2em;
-}
 .user-image:hover{
   cursor: pointer;
 }

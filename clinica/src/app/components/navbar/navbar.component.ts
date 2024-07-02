@@ -4,12 +4,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faPlusSquare, faPowerOff, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../../services/login.service';
 import { UserService } from '../../services/user.service';
-
+import { ResaltarDirective } from '../../directives/resaltar.directive';
+import { CursorPointerDirective } from '../../directives/cursor-pointer.directive';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, ResaltarDirective ,CursorPointerDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

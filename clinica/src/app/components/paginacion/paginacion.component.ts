@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CursorPointerDirective } from '../../directives/cursor-pointer.directive';
 
 @Component({
   selector: 'app-paginacion',
   standalone: true,
-  imports: [],
+  imports: [CursorPointerDirective],
   templateUrl: './paginacion.component.html',
   styleUrl: './paginacion.component.css'
 })

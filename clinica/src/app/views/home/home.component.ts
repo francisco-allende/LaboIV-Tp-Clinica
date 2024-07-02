@@ -23,6 +23,8 @@ export class HomeComponent {
   constructor(public router:Router, private loginService: LoginService, private userService: UserService) {}
 
   ngOnInit(){
+
+    console.log(new Date())
     this.getData();
   }
     

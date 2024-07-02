@@ -10,10 +10,17 @@ export const especialistaGuard: CanActivateFn = (route, state) => {
   const toast = inject(ToastrService);
   const ruta = inject(Router);
 
-  if(usersService.getUserRol() == "especialista") {
-    return true
+  if(loginService.getLoggedUser()) {
+    if(usersService.getUserRol() == "especialista") {
+      return true
+    }else{
+      toast.error("Necesita ser admin para acceder al sitio");
+      ruta.navigateByUrl("/home");
+      return  false;
+    }
+  }else{
+    toast.error("Necesita estar logueado para navegar");
+    ruta.navigateByUrl("/login");
+    return  false;
   }
-
-  toast.error("Necesita ser especialista para acceder al sitio");
-  return  false;
 };

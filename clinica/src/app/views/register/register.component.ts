@@ -13,11 +13,12 @@ import { UserModel } from '../../models/user';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faMinus, faL } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CaptchaComponent, FontAwesomeModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CaptchaComponent, FontAwesomeModule, CommonModule, AutofocusDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

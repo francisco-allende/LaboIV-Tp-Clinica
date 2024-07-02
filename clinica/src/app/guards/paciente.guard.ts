@@ -11,12 +11,17 @@ export const pacienteGuard: CanActivateFn = (route, state) => {
   const toast = inject(ToastrService);
   const ruta = inject(Router);
 
-  if(usersService.getUserRol() == "paciente") {
-    return true
+  if(loginService.getLoggedUser()) {
+    if(usersService.getUserRol() == "paciente") {
+      return true
+    }else{
+      toast.error("Necesita ser admin para acceder al sitio");
+      ruta.navigateByUrl("/home");
+      return  false;
+    }
+  }else{
+    toast.error("Necesita estar logueado para navegar");
+    ruta.navigateByUrl("/login");
+    return  false;
   }
-
-
-  toast.error("Necesita ser paciente para acceder al sitio");
-  ruta.navigateByUrl("/login");
-  return  false;
 };

@@ -10,12 +10,12 @@
         <div class="user-card">
           @if(user.rol === 'paciente'){
             <div class="d-flex flex-column align-items-center select-user" style="margin-bottom: 1em;" (click)="selectUser(user)">
-              <img [src]="selectedImages[user.email]" alt="User Image" class="user-image">
+              <img [src]="selectedImages[user.email]" alt="User Image" appRoundedImg class="user-image" >
               <button (click)="toggleImage(user)" class="btn btn-dark text-center">Cambiar Imagen</button>
             </div>
           }@else{
             <div class="select-user" (click)="selectUser(user)">
-              <img [src]="user.mainImg" alt="User Image" class="user-image">
+              <img [src]="user.mainImg" alt="User Image" appRoundedImg class="user-image">
             </div>
           }
   

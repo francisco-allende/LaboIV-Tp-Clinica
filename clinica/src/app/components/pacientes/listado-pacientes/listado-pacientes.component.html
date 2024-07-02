@@ -7,7 +7,7 @@
           @if(!loading && count > 0){
               <div class="d-flex justify-content-evenly">
             @for(paciente of pacientes; track paciente){
-                    <div class="user-card" (click)="showData(paciente)">
+                    <div class="user-card" appCursorPointer (click)="showData(paciente)">
                         <div class="image-container">
                           <img [src]="selectedImages[paciente.email]" alt="User Image" class="user-image">
                           <div class="overlay">
@@ -35,13 +35,13 @@
                         <p><strong>Estado:</strong> {{ turno.estado | capitalizeFirstLetterPipe }}</p>
                         <div class="d-flex justify-content-evenly">
                             @if(turno.resenia != ''){
-                                <button (click)="showResenia(turno)" class="btn btn-info">Ver Reseña</button>
+                                <button appCursorPointer (click)="showResenia(turno)" class="btn btn-info">Ver Reseña</button>
                             }
                             @if(turno.comentario != ''){
-                                <button (click)="showComentario(turno)" class="btn btn-info">Ver Comentario del paciente</button>
+                                <button appCursorPointer (click)="showComentario(turno)" class="btn btn-info">Ver Comentario del paciente</button>
                             }
                             @if(turno.historiaClinica.altura > 0 && turno.historiaClinica.peso > 0){
-                                <button (click)="verHistoriaClinica(turno, turno.historiaClinica)" class="btn btn-info">Ver Historia Clinica del turno</button>
+                                <button appCursorPointer (click)="verHistoriaClinica(turno, turno.historiaClinica)" class="btn btn-info">Ver Historia Clinica del turno</button>
                             }
                         </div>
                     

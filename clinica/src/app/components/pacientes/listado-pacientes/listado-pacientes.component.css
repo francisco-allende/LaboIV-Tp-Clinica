@@ -56,14 +56,6 @@
   font-size: 1.2em;
 }
 
-button:hover {
-  cursor: pointer;
-}
-
-.user-card:hover{
-  cursor: pointer;
-}
-
 .patient-details {
   margin-top: 20px;
   background-color: lightblue;

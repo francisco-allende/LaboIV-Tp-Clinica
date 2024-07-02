@@ -62,22 +62,19 @@ export class GraphTurnosPorDiaComponent {
     this.updateChart(turnosPorDia);
   }
   
-order(a:string, b:string):number{
+orderByDate(a:string, b:string):number{
   const regex = /^(\d{2})-(\d{2})-(\d{4})$/;
 
-  // Extraer los componentes de la fecha para a
   const matchA = a.match(regex);
-  const dayA = matchA ? parseInt(matchA[1], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
-  const monthA = matchA ? parseInt(matchA[2], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
-  const yearA = matchA ? parseInt(matchA[3], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
+  const dayA = matchA ? parseInt(matchA[1], 10) : 0; 
+  const monthA = matchA ? parseInt(matchA[2], 10) : 0; 
+  const yearA = matchA ? parseInt(matchA[3], 10) : 0; 
 
-  // Extraer los componentes de la fecha para b
   const matchB = b.match(regex);
-  const dayB = matchB ? parseInt(matchB[1], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
-  const monthB = matchB ? parseInt(matchB[2], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
-  const yearB = matchB ? parseInt(matchB[3], 10) : 0; // Convertir a número o asignar 0 si no hay coincidencia
+  const dayB = matchB ? parseInt(matchB[1], 10) : 0; 
+  const monthB = matchB ? parseInt(matchB[2], 10) : 0; 
+  const yearB = matchB ? parseInt(matchB[3], 10) : 0; 
 
-  // Comparar primero por año, luego por mes y finalmente por día
   if (yearA !== yearB) {
     return yearA - yearB;
   }
@@ -98,9 +95,7 @@ order(a:string, b:string):number{
       return { labels, data };
     });
   
-    const sortedDates = Array.from(uniqueDates).sort((a, b) => this.order(a, b));
-
-
+    const sortedDates = Array.from(uniqueDates).sort((a, b) => this.orderByDate(a, b));
 
     this.barChartLabels = sortedDates;
   

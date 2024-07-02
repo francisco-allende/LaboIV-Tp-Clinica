@@ -12,7 +12,7 @@ export const routes: Routes = [
     },
     {
         path: 'home',
-        //canActivate:[loggedGuard],
+        canActivate:[loggedGuard],
         loadComponent: () => import('./views/home/home.component').then((m) => m.HomeComponent),
         data: { animation: 'Page1' }
     },
@@ -33,42 +33,42 @@ export const routes: Routes = [
     },
     {
         path: 'usuarios',
-        //canActivate:[adminGuard],
+        canActivate:[adminGuard],
         loadComponent: () => import('./views/usuarios-container/usuarios-container.component').then((m) => m.UsuariosContainerComponent),
         data: { animation: 'Page1' }
     },
     {
         path: 'turnos/solicitar',
-        //canActivate:[especialistaGuard || pacienteGuard],
+        canActivate:[especialistaGuard || pacienteGuard],
         loadComponent: () => import('./views/solicitar-turno-container/solicitar-turno-container.component').then((m) => m.SolicitarTurnoContainerComponent),
         data: { animation: 'Page2' }
     },
     {
         path: 'turnos/listar_turnos',
-        //canActivate:[adminGuard],
+        canActivate:[adminGuard],
         loadComponent: () => import('./views/turnos-container/turnos-container.component').then((m) => m.TurnosContainerComponent)
     },
     {
         path: 'turnos/mis_turnos',
-        //canActivate:[especialistaGuard || pacienteGuard],
+        canActivate:[especialistaGuard || pacienteGuard],
         loadComponent: () => import('./views/mis-turnos-container/mis-turnos-container.component').then((m) => m.MisTurnosContainerComponent),
         data: { animation: 'Page2' }
     },
     {
         path: 'mi_perfil',
-        //canActivate:[loginGuard],
+        canActivate:[loggedGuard],
         loadComponent: () => import('./views/perfil-container/perfil-container.component').then((m) => m.PerfilContainerComponent),
         data: { animation: 'Page1' }
     },
     {
         path: 'pacientes',
-        //canActivate:[especialistaGuard],
+        canActivate:[especialistaGuard],
         loadComponent: () => import('./views/pacientes-container/pacientes-container.component').then((m) => m.PacientesContainerComponent),
         data: { animation: 'Page1' }
     },
     {
         path: 'graficos',
-        //canActivate:[especialistaGuard],
+        canActivate:[adminGuard],
         loadComponent: () => import('./views/graficos-container/graficos-container.component').then((m) => m.GraficosContainerComponent),
         data: { animation: 'Page1' }
     },

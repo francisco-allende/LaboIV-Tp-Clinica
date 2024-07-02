@@ -10,11 +10,12 @@ import { MatIcon } from '@angular/material/icon';
 import { TurnoModel } from '../../../models/turno';
 import { TurnoService } from '../../../services/turno.service';
 import { ToastrService } from 'ngx-toastr';
+import { RoundedImgDirective } from '../../../directives/rounded-img.directive';
 
 @Component({
   selector: 'app-listado-usuarios',
   standalone: true,
-  imports: [SpinnerComponent, PaginationComponent, MatIcon],
+  imports: [RoundedImgDirective, SpinnerComponent, PaginationComponent, MatIcon],
   templateUrl: './listado-usuarios.component.html',
   styleUrl: './listado-usuarios.component.css'
 })

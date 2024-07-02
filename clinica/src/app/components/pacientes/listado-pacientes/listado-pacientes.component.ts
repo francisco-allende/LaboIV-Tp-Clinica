@@ -19,11 +19,12 @@ import { SetFechaWithSlashesPipe } from '../../../pipes/set-fecha-with-slashes.p
 import { PaginationComponent } from '../../paginacion/paginacion.component';
 import { ShowCalificacionEncuestaDialogComponent } from '../../dialogs/show-calificacion-encuesta-dialog/show-calificacion-encuesta-dialog.component';
 import { ShowOneHisoriaClinicaComponent } from '../../dialogs/show-one-hisoria-clinica/show-one-hisoria-clinica.component';
+import { CursorPointerDirective } from '../../../directives/cursor-pointer.directive';
 
 @Component({
   selector: 'app-listado-pacientes',
   standalone: true,
-  imports: [PaginationComponent, MatIcon, SpinnerComponent, CommonModule, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe, CapitalizeFirstLetterPipePipe],
+  imports: [CursorPointerDirective, PaginationComponent, MatIcon, SpinnerComponent, CommonModule, SetFechaWithSlashesPipe, HorariosAmPmFormatPipe, CapitalizeFirstLetterPipePipe],
   templateUrl: './listado-pacientes.component.html',
   styleUrl: './listado-pacientes.component.css'
 })

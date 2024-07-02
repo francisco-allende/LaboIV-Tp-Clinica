@@ -3,7 +3,7 @@
 
       <!-- Navegación interna -->
       <div class="d-none d-md-flex btn-nav-end">
-        <button class="navbar-toggler btn-menu" type="button" (click)="goBack()">
+        <button class="navbar-toggler btn-menu" type="button" (click)="goBack()" appResaltar>
           <fa-icon [icon]="faArrowLeft" class="icon-arrow-left"></fa-icon>
         </button>
       </div>
@@ -13,34 +13,34 @@
       <!-- Menú centrado -->
       <ul class="nav navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link" (click)="router.navigateByUrl('home')">Home</a>
+          <a class="nav-link" (click)="router.navigateByUrl('home')" appResaltar appCursorPointer>Home</a>
         </li>
         @if(currentRol == "paciente" || currentRol == "especialista"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('turnos/mis_turnos')">Mis Turnos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/mis_turnos')" appResaltar appCursorPointer>Mis Turnos</a>
           </li>
         }
         @if(currentRol == "admin"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('turnos/listar_turnos')">Listar Turnos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/listar_turnos')" appResaltar appCursorPointer>Listar Turnos</a>
           </li>
         }
         @if(currentRol == "admin" || currentRol == "paciente"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('turnos/solicitar')">Solicitar Turno</a>
+            <a class="nav-link" (click)="router.navigateByUrl('turnos/solicitar')" appResaltar appCursorPointer>Solicitar Turno</a>
           </li>
         }
         @if(currentRol == "admin"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('usuarios')">Usuarios</a>
+            <a class="nav-link" (click)="router.navigateByUrl('usuarios')" appResaltar appCursorPointer>Usuarios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('graficos')">Gráficos</a>
+            <a class="nav-link" (click)="router.navigateByUrl('graficos')" appResaltar appCursorPointer>Gráficos</a>
           </li>
         }
         @if(currentRol == "especialista"){
           <li class="nav-item">
-            <a class="nav-link" (click)="router.navigateByUrl('pacientes')">Pacientes</a>
+            <a class="nav-link" (click)="router.navigateByUrl('pacientes')" appResaltar appCursorPointer>Pacientes</a>
           </li>
         }
       </ul>
@@ -53,14 +53,14 @@
               <div class="mr-3">
                 <!-- Enlace al perfil del usuario -->
                 <span tooltip="Mi Perfil" placement="bottom" container="body">
-                  <a class="nav-link" (click)="router.navigateByUrl('mi_perfil')">
+                  <a class="nav-link" (click)="router.navigateByUrl('mi_perfil')" appCursorPointer>
                     <fa-icon [icon]="faUser" class="font-xs"></fa-icon>
                   </a>
                 </span>
               </div>
               <div class="btn-nav-end">
                 <!-- Cerrar sesión -->
-                <a class="btn btn-outline-danger rounded-circle" href="#" (click)="logOut()" tooltip="Cerrar Sesión" placement="bottom" container="body">
+                <a class="btn btn-outline-danger rounded-circle" appCursorPointer href="#" (click)="logOut()" tooltip="Cerrar Sesión" placement="bottom" container="body">
                   <fa-icon [icon]="faPowerOff" class="font-xs"></fa-icon>
                 </a>
               </div>

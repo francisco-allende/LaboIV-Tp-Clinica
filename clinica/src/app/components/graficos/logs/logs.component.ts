@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../../services/login.service';
 import { MatIcon } from '@angular/material/icon';
-import { UserModel } from '../../../models/user';
 import * as FileSaver from 'file-saver';
+import { CursorPointerDirective } from '../../../directives/cursor-pointer.directive';
 
 @Component({
   selector: 'app-logs',
   standalone: true,
-  imports: [MatIcon],
+  imports: [MatIcon, CursorPointerDirective],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.css'
 })
