@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(
     )), 
     provideFirestore(() => getFirestore()), 
-    provideFirebaseApp(() => initializeApp(firebaseConfigBackup)), 
+    provideFirebaseApp(() => initializeApp(firebaseConfigMain)), 
     provideStorage(() => getStorage()), provideAnimationsAsync()
     ],
 };

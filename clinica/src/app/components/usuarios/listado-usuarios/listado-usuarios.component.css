@@ -1,5 +1,5 @@
 .container-fluid {
-  height: 145vh;
+  height: 150vh;
   background-color: rgb(106, 216, 212);
   background-image: url('../../../../assets/main_fondo.png'); 
   background-size: 250px 250px;
@@ -10,7 +10,7 @@
 
 .mt-4{
   background-color: lightblue;
-  height: 140vh;
+  height: 142vh;
 }
 
 

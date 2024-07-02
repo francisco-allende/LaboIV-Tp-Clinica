@@ -142,11 +142,11 @@ export class ListadoPacientesComponent {
   }
 
   showComentario(turno:TurnoModel){
-    let motivo = turno.comentario;
+    let calificacion = turno.comentario;
     if(turno.comentario != ""){
-      this.dialog.open(ShowMotivoDialogComponent, {
+      this.dialog.open(ShowCalificacionEncuestaDialogComponent, {
         width: '400px',
-        data: { motivo }
+        data: { calificacion }
       });
     }
   }

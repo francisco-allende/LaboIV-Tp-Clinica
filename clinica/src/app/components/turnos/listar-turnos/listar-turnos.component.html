@@ -47,11 +47,11 @@
                             <td (click)="setFilter('especialidad', turno.especialidad)" class="td-clickeable">{{ turno.especialidad }}</td>
                             <td>{{userMap[turno.pacienteId]}}</td>
                             <td style="width: 120px;">{{ turno.estado }}</td>
-                            <td>
+                            <td style="height: 55px;">
                               <div class="td-modify-state">
                                 @if(turno.estado == "pendiente"){
                                   <button class="btn btn-dark" (click)="changeState(turno, 'cancelado')"> Cancelar </button>
-                                }@else {
+                                }@else if(turno.estado == "cancelado" || turno.estado == "rechazado") {
                                   <button class="btn btn-secondary" (click)="showMotivo(turno.comentario)"> Ver motivo </button>
                                 }
                               </div>
